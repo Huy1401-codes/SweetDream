@@ -1,0 +1,109 @@
+﻿<div class="left-sidebar">
+	<div class="left-sidebar">
+		<h2>Search Products</h2>
+		<form method="get" action="/">
+			<input type="text" name="searchTerm" class="form-control" placeholder="Search..." value="@ViewData["SearchTerm"]">
+			<button type="submit" class="btn btn-primary mt-2">Search</button>
+		</form>
+	</div>
+
+	<h2>Category</h2>
+	<div class="panel-group category-products" id="accordian">
+		<!--category-productsr-->
+		<vc:categories>
+		</vc:categories>
+
+	</div>
+	<!--/category-products-->
+	<!--brands_products-->
+
+	<h2>Brands</h2>
+	<div class="panel-group category-products" id="accordian">
+		<vc:brands>
+		</vc:brands>
+	</div>
+	<!--/brands_products-->
+
+	<!--/price-range-->
+	<div class="price-range">
+		<h2>Price Range</h2>
+		<div class="well text-center">
+			<form method="get" action="/">
+				<input type="number" name="minPrice" class="form-control" placeholder="Min Price" value="@ViewData["MinPrice"]" min="0">
+				<input type="number" name="maxPrice" class="form-control mt-2" placeholder="Max Price" value="@ViewData["MaxPrice"]" min="0">
+				<button type="submit" class="btn btn-primary mt-2">Apply</button>
+			</form>
+		</div>
+	</div>
+	
+	<div>
+		<h2 class="title text-center">Sort by Price</h2>
+		<select id="sortSelect" class="form-control">
+		<option value="" selected="@(string.IsNullOrEmpty(ViewData["CurrentSort"]?.ToString()) ? "selected" : null)">Default</option>
+		<option value="price_asc" selected="@(ViewData["CurrentSort"]?.ToString() == "price_asc" ? "selected" : null)">Ascending Price</option>
+		<option value="price_desc" selected="@(ViewData["CurrentSort"]?.ToString() == "price_desc" ? "selected" : null)">Descending Price</option>
+	</select>
+	</div>
+	<div class="image-container">
+		<img src="~/images/Shipping.jpg" alt="Shipping" class="fixed-ratio">
+	</div>
+</div>
+
+
+
+<style>
+.image-container {
+    width: 265px; /* Điều chỉnh kích thước khung theo mong muốn */
+    height: 200px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fixed-ratio {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Đảm bảo ảnh giữ nguyên tỷ lệ và không bị cắt */
+}
+</style>
+
+
+
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		var sortSelect = document.getElementById("sortSelect");
+		if (sortSelect) {
+			sortSelect.addEventListener("change", function () {
+				var selectedValue = this.value;
+				var url = new URL(window.location.href);
+
+				// Giữ lại các tham số categoryId và brandId (nếu có)
+				var categoryId = url.searchParams.get("categoryId");
+				var brandId = url.searchParams.get("brandId");
+
+				url.searchParams.set("sortOrder", selectedValue);
+
+				// Nếu categoryId và brandId tồn tại, thêm lại vào URL
+				if (categoryId) {
+					url.searchParams.set("categoryId", categoryId);
+				}
+				if (brandId) {
+					url.searchParams.set("brandId", brandId);
+				}
+
+				window.location.href = url.toString();
+			});
+		}
+	});
+</script>
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		var minPriceInput = document.querySelector("input[name='minPrice']");
+		var maxPriceInput = document.querySelector("input[name='maxPrice']");
+
+		minPriceInput.value = new URLSearchParams(window.location.search).get("minPrice") || "";
+		maxPriceInput.value = new URLSearchParams(window.location.search).get("maxPrice") || "";
+	});
+</script>

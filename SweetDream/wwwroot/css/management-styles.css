@@ -1,0 +1,80 @@
+﻿/* ==========================
+   Global Styles
+   ========================== */
+.btn-create {
+    margin-bottom: 20px; /* Điều chỉnh khoảng cách giữa nút và bảng */
+}
+
+
+.card {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+
+.table {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table-orange th {
+    background-color: #FFA500;
+    color: white;
+    text-transform: uppercase;
+}
+
+.badge {
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+.btn {
+    border-radius: 8px;
+    font-size: 14px;
+    padding: 8px 12px;
+    transition: all 0.3s;
+}
+
+.btn-warning:hover {
+    background-color: #d39e00;
+}
+
+.btn-info:hover {
+    background-color: #117a8b;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* ==========================
+   Category & Brand Table Styles
+   ========================== */
+.table td, .table th {
+    vertical-align: middle;
+}
+
+tbody tr:hover {
+    background-color: #fff3cd !important;
+}
+
+/* ==========================
+   Banner Image Styles
+   ========================== */
+.banner-image {
+    width: 120px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    transition: transform 0.3s;
+}
+
+    .banner-image:hover {
+        transform: scale(1.1);
+        border-color: #FFA500;
+    }

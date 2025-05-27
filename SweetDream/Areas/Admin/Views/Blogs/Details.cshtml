@@ -1,0 +1,56 @@
+﻿@model SweetDream.Models.Blog
+
+@{
+    ViewData["Title"] = "Blog Details";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-primary text-white text-center">
+            <h1 class="title">Chi tiết bài viết</h1>
+        </div>
+
+        <div class="card-body">
+            <!-- Ảnh Blog -->
+            <div class="text-center mb-4">
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="@Model.ImageUrl" alt="Blog Image" class="img-fluid border p-2" style="max-height: 400px;">
+                }
+                else
+                {
+                    <p class="text-muted">Không có hình ảnh</p>
+                }
+            </div>
+
+            <!-- Thông tin chi tiết -->
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Tiêu đề:</strong> @Model.Title</li>
+                <li class="list-group-item"><strong>Trạng thái:</strong> @Model.Status</li>
+                <li class="list-group-item"><strong>Danh mục:</strong> @Model.BlogCategory?.Name</li>
+                <li class="list-group-item"><strong>Tác giả:</strong> @Model.Author?.FirstName @Model.Author?.LastName</li>
+                <li class="list-group-item"><strong>Ngày tạo:</strong> @Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</li>
+                @if (Model.UpdatedAt != null)
+                {
+                    <li class="list-group-item"><strong>Cập nhật lần cuối:</strong> @Model.UpdatedAt?.ToString("dd/MM/yyyy HH:mm")</li>
+                }
+                <li class="list-group-item">
+                    <strong>Nội dung:</strong>
+                    <div class="mt-2">@Html.Raw(Model.Content)</div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card-footer text-center">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning px-4">
+                <i class="fas fa-edit"></i> Chỉnh sửa
+            </a>
+            <a asp-action="Index" class="btn btn-dark px-4">
+                <i class="fas fa-arrow-left"></i> Quay lại danh sách
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- FontAwesome cho icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">

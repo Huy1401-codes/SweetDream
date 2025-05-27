@@ -1,0 +1,14 @@
+﻿@model IEnumerable<SweetDream.Models.Category>
+
+@foreach (var item in Model.Where(c => !c.Disable))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a asp-action="Search" asp-controller="Categories" asp-route-id="@item.CategoryId">
+                    @item.CategoryName
+                </a>
+            </h4>
+        </div>
+    </div>
+}

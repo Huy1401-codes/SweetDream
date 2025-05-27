@@ -1,0 +1,63 @@
+﻿@{
+    var activePage = ViewData["ActivePage"] as string;
+}
+
+<div class="d-flex justify-content-center align-items-center mb-4" style="display: flex; justify-content: center; gap: 50px;">
+    <h2 class="fw-bold mb-0">
+        <a asp-action="Index" asp-controller="Profiles"
+           class="text-decoration-none @(activePage == "Profile" ? "current-page" : "title-link")">Profile</a>
+    </h2>
+    <h2 class="fw-bold mb-0">
+        <a asp-action="Orders" asp-controller="Profiles"
+           class="text-decoration-none @(activePage == "Orders" ? "current-page" : "title-link")">My Orders</a>
+    </h2>
+    <h2 class="fw-bold mb-0">
+        <a asp-action="ChangePassword" asp-controller="Profiles"
+           class="text-decoration-none @(activePage == "ChangePassword" ? "current-page" : "title-link")">Change Password</a>
+    </h2>
+</div>
+
+<style>
+    .title-link {
+        color: #FE980F;
+        font-size: 2rem;
+        font-weight: bold;
+        transition: text-decoration 0.3s ease-in-out;
+        padding: 8px 16px; /* Giảm padding */
+        border-radius: 10px;
+    }
+
+        .title-link:hover {
+            text-decoration: underline;
+        }
+
+    .current-page {
+        color: #fff;
+        font-size: 2rem; /* Giảm từ 2.5rem xuống 2rem */
+        font-weight: bold;
+        text-decoration: none;
+        background-color: #D3D3D3;
+        padding: 8px 16px; /* Giảm padding */
+        border-radius: 10px; /* Giảm bo góc */
+    }
+
+</style>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const links = document.querySelectorAll(".title-link, .current-page");
+
+        links.forEach(link => {
+            link.addEventListener("click", function () {
+                // Xóa class "current-page" của tất cả nút
+                links.forEach(l => {
+                    l.classList.remove("current-page");
+                    l.classList.add("title-link");
+                });
+
+                // Thêm class "current-page" vào nút được nhấn
+                this.classList.remove("title-link");
+                this.classList.add("current-page");
+            });
+        });
+    });
+</script>

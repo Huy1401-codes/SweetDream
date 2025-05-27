@@ -1,0 +1,86 @@
+﻿@model SweetDream.Models.Banner
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1 class ="title text-center">Edit</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Subtitle" class="control-label"></label>
+                <input asp-for="Subtitle" class="form-control" />
+                <span asp-validation-for="Subtitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <!-- Hiển thị ảnh hiện tại -->
+            <div class="form-group">
+                <label class="control-label">Current Image</label>
+                <br />
+                <img id="currentImage" src="@(Model.Image != null ? "/images/" + Model.Image : "#")"
+                     alt="No Image" style="max-width: 100%; height: auto; display: @(Model.Image != null ? "block" : "none"); margin-bottom: 10px;" />
+            </div>
+
+            <!-- Upload ảnh mới -->
+            <div class="form-group">
+                <label class="control-label">New Image</label>
+                <input type="file" name="ImageFile" class="form-control" id="imageInput" onchange="previewImage(event)" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+
+            <!-- Hiển thị ảnh xem trước khi chọn file -->
+            <div class="form-group">
+                <img id="imagePreview" src="#" alt="New Image Preview"
+                     style="max-width: 100%; height: auto; display: none; margin-top: 10px;" />
+            </div>
+            <div class="form-group">
+                <label asp-for="LinkUrl" class="control-label">Button Link</label>
+                <input asp-for="LinkUrl" class="form-control" placeholder="Enter URL for Get it now button" />
+                <span asp-validation-for="LinkUrl" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        function previewImage(event) {
+            var input = event.target;
+            var reader = new FileReader();
+            reader.onload = function () {
+                var imgElement = document.getElementById("imagePreview");
+                imgElement.src = reader.result;
+                imgElement.style.display = "block"; // Hiển thị ảnh mới
+            };
+            if (input.files && input.files[0]) {
+                reader.readAsDataURL(input.files[0]); // Đọc file ảnh mới
+            }
+        }
+    </script>
+}

@@ -1,0 +1,97 @@
+﻿@model SweetDream.Models.Category
+
+<div class="row">
+    <div class="col-sm-9 padding-right">
+        <div class="features_items">
+            <h2 class="title text-center">@Model.CategoryName</h2>
+
+            @if (Model.Products.Any())
+            {
+                @foreach (var item in Model.Products)
+                {
+                    <div class="col-sm-4">
+                        <div class="product-image-wrapper">
+                            <div class="single-products">
+                                <a asp-action="Details" asp-controller="Home" asp-route-id="@item.ProductId">
+                                    <div class="productinfo text-center">
+                                        <img src="~/images/@item.Image" alt="@item.ProductName" />
+                                        <h2>$@item.Price</h2>
+                                        <p>@item.ProductName</p>
+                                    </div>
+                                </a>
+                                <a asp-action="Details" asp-controller="Home" asp-route-id="@item.ProductId">
+                                    <div class="product-overlay">
+                                        <div class="overlay-content">
+                                            <h2>Sale: @item.Discount%</h2>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="choose">
+                                <ul class="nav nav-pills nav-justified">
+                                    <li><a href="#"><i class="fa fa-plus-square"></i> Favorite</a></li>
+                                    <li><a href="#"><i class="fa fa-plus-square"></i> Compare</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-center">No products available in this category.</p>
+            }
+        </div>
+
+        <div class="recommended_items">
+            <h2 class="title text-center">Recommended Products</h2>
+
+            <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <div class="col-sm-4">
+                            <div class="product-image-wrapper">
+                                <div class="single-products">
+                                    <div class="productinfo text-center">
+                                        <img src="images/home/recommend1.jpg" alt="" />
+                                        <h2>$56</h2>
+                                        <p>Easy Polo Black Edition</p>
+                                        <a href="#" class="btn btn-default add-to-cart">
+                                            <i class="fa fa-shopping-cart"></i> Add to cart
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="col-sm-4">
+                            <div class="product-image-wrapper">
+                                <div class="single-products">
+                                    <div class="productinfo text-center">
+                                        <img src="images/home/recommend2.jpg" alt="" />
+                                        <h2>$56</h2>
+                                        <p>Easy Polo Black Edition</p>
+                                        <a href="#" class="btn btn-default add-to-cart">
+                                            <i class="fa fa-shopping-cart"></i> Add to cart
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        @Html.Partial("_SidebarPartial")
+    </div>
+</div>

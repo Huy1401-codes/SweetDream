@@ -1,0 +1,63 @@
+﻿@model SweetDream.Models.Product
+
+@{
+    ViewData["Title"] = "Product Details";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-warning text-white text-center">
+            <h1 class="title text-center">Product Details</h1>
+        </div>
+
+        <div class="card-body row">
+            <!-- Cột trái: Ảnh sản phẩm -->
+            <div class="col-md-5 text-center">
+                <div class="product-image-container">
+                    @if (!string.IsNullOrEmpty(Model.Image))
+                    {
+                        <img src="~/img/@Model.Image" alt="Product Image" class="product-image">
+                    }
+                    else
+                    {
+                        <p class="text-muted">No image available</p>
+                    }
+                </div>
+            </div>
+
+            <!-- Cột phải: Thông tin sản phẩm -->
+            <div class="col-md-7">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Name:</strong> @Model.ProductName</li>
+                    <li class="list-group-item"><strong>Quantity:</strong> @Model.Quantity</li>
+                    <li class="list-group-item"><strong>Price:</strong> $@Model.Price</li>
+                    <li class="list-group-item"><strong>Material:</strong> @Model.Material</li>
+                    <li class="list-group-item"><strong>Size:</strong> @Model.Size</li>
+                    <li class="list-group-item"><strong>Discount:</strong> @Model.Discount%</li>
+                    <li class="list-group-item">
+                        <strong>Status:</strong>
+                        <span class="badge @(Model.Status == "Available" ? "bg-success" : "bg-danger")">
+                            @Model.Status
+                        </span>
+                    </li>
+                    <li class="list-group-item"><strong>Brand:</strong> @Model.Brand.BrandName</li>
+                    <li class="list-group-item"><strong>Category:</strong> @Model.Category.CategoryName</li>
+                    <li class="list-group-item"><strong>Description:</strong> @Model.Description</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card-footer text-center">
+            <a asp-action="Edit" asp-route-id="@Model?.ProductId" class="btn btn-warning px-4">
+                <i class="fas fa-edit"></i> Edit
+            </a>
+            <a asp-action="Index" class="btn btn-dark px-4">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Import FontAwesome để hiển thị icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link rel="stylesheet" href="~/css/product-details-admin.css" />

@@ -1,0 +1,78 @@
+﻿@model Order
+
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <h1 class="title text-center" style="font-weight: bold;">Order Confirmation</h1>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                Swal.fire({
+                    title: "Success!",
+                    text: "@TempData["Success"]",
+                    icon: "success",
+                    confirmButtonText: "OK"
+                });
+            });
+        </script>
+    }
+
+    <div class="card p-4 shadow-sm mb-4">
+        <p class="text-center" style="font-size: 18px; font-weight: bold;">
+            Thank you for your order! We appreciate your support and are processing your order with care.
+            If you need any assistance, feel free to reach out. We hope you enjoy your purchase!
+        </p>
+    </div>
+
+    <div class="card p-4 shadow-sm mb-4">
+        <h2 class="title text-center">Shipping Information</h2>
+        <ul class="list-unstyled">
+            <li><strong>Shipping Address:</strong> @Model.ShippingAddress</li>
+            <li><strong>Phone Number:</strong> @Model.PhoneNumber</li>
+        </ul>
+    </div>
+
+    <div class="card p-4 shadow-sm">
+        <h2 class="title text-center">Order Products</h2>
+        <table class="table table-hover text-center">
+            <thead class="bg-warning text-white">
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Discount</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderDetails)
+                {
+                    <tr>
+                        <td>
+                            <img src="~/images/@item.Product.Image" alt="@item.Product.ProductName"
+                                 class="img-thumbnail" style="width: 80px; height: 80px;">
+                            <br>
+                            @item.Product.ProductName
+                        </td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Price.ToString("C")</td>
+                        <td>@(item.Discount > 0 ? $"-{item.Discount:C}" : "No Discount")</td>
+                        <td>@((item.Quantity * (item.Price - item.Discount)).ToString("C"))</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-end my-4">
+        <h3 class="fw-bold" style="color: #E2171A;">Total: @Model.OrderDetails.Sum(od => od.Quantity * (od.Price - od.Discount)).ToString("C")</h3>
+    </div>
+
+    <div class="text-center">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary" style="border-radius: 5px; font-size: 18px;">
+            Continue Shopping
+        </a>
+    </div>
+</div>

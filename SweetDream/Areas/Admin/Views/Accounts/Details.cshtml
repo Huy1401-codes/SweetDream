@@ -1,0 +1,56 @@
+﻿@model SweetDream.Models.Account
+
+@{
+    ViewData["Title"] = "Account Details";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-primary text-white text-center">
+            <h2 class="title text-center">Account Details</h2>
+        </div>
+
+        <div class="card-body row">
+            <!-- Cột trái: Ảnh đại diện -->
+            <div class="col-md-6 text-center d-flex align-items-center justify-content-center">
+                <div class="account-image-container">
+                    <img src="@(string.IsNullOrEmpty(Model.AccountImage) ? "https://via.placeholder.com/200" : Url.Content("~/images/" + Model.AccountImage))"
+                         class="account-image" alt="User Avatar">
+                </div>
+            </div>
+
+            <!-- Cột phải: Thông tin tài khoản -->
+            <div class="col-md-6">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Full Name:</strong> @Model.FirstName @Model.LastName</li>
+                    <li class="list-group-item"><strong>Username:</strong> @Model.UserName</li>
+                    <li class="list-group-item"><strong>Email:</strong> @(string.IsNullOrEmpty(Model.Email) ? "N/A" : Model.Email)</li>
+                    <li class="list-group-item"><strong>Phone Number:</strong> @(string.IsNullOrEmpty(Model.PhoneNumber) ? "N/A" : Model.PhoneNumber)</li>
+                    <li class="list-group-item"><strong>Address:</strong> @(string.IsNullOrEmpty(Model.Address) ? "N/A" : Model.Address)</li>
+                    <li class="list-group-item"><strong>Gender:</strong> @(string.IsNullOrEmpty(Model.Gender) ? "N/A" : Model.Gender)</li>
+                    <li class="list-group-item"><strong>Date of Birth:</strong> @(string.IsNullOrEmpty(Model.DateOfBirth) ? "N/A" : Model.DateOfBirth)</li>
+                    <li class="list-group-item"><strong>Account Created:</strong> @Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</li>
+                    <li class="list-group-item">
+                        <strong>Status:</strong>
+                        <span class="badge @(Model.Active.HasValue && Model.Active.Value ? "bg-success" : "bg-danger")">
+                            @(Model.Active.HasValue && Model.Active.Value ? "Active" : "Inactive")
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card-footer text-center">
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary px-4">
+                <i class="fas fa-edit"></i> Edit
+            </a>
+            <a asp-action="Index" class="btn btn-dark px-4">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Import FontAwesome để hiển thị icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link rel="stylesheet" href="~/css/account-details.css" />

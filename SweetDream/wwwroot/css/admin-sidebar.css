@@ -1,0 +1,113 @@
+﻿/* Layout chung */
+.admin-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar */
+.admin-sidebar {
+    width: 300px; 
+    background: #FE980F; 
+    color: white;
+    padding-top: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    overflow-y: auto;
+}
+
+/* Tiêu đề Sidebar */
+.sidebar-header {
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    padding: 20px 0;
+    background: #E87C00;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: relative;
+}
+
+    /* Hiệu ứng gạch dưới tiêu đề */
+    .sidebar-header::after {
+        content: "";
+        display: block;
+        width: 50px;
+        height: 3px;
+        background: white;
+        margin: 8px auto 0;
+        border-radius: 5px;
+    }
+
+    /* Font chữ tiêu đề */
+    .sidebar-header h3 {
+        font-family: "Poppins", sans-serif;
+        font-weight: bold;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+/* Menu Sidebar */
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+    /* Cải tiến các mục menu */
+    .sidebar-menu li {
+        padding: 12px 25px;
+        border-radius: 8px; /* Bo góc */
+        margin: 5px 15px; /* Tạo khoảng cách */
+        transition: all 0.3s ease-in-out;
+        position: relative;
+    }
+
+        /* Tạo hiệu ứng bóng mờ khi hover */
+        .sidebar-menu li:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* Khi click vào menu, sẽ có hiệu ứng */
+        .sidebar-menu li:active {
+            transform: scale(0.95);
+        }
+
+        /* Link trong menu */
+        .sidebar-menu li a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            transition: all 0.3s;
+            padding: 10px;
+        }
+
+            /* Icon trong menu */
+            .sidebar-menu li a i {
+                margin-right: 12px;
+                font-size: 18px;
+                transition: transform 0.3s ease-in-out;
+            }
+
+        /* Khi hover icon sẽ rung nhẹ */
+        .sidebar-menu li:hover a i {
+            transform: rotate(10deg);
+        }
+
+        /* Khi hover menu, chữ sẽ sáng hơn */
+        .sidebar-menu li a:hover {
+            color: #212529;
+            font-weight: bold;
+        }
+
+/* Giảm kích thước nội dung chính */
+.content {
+    margin-left: 300px; /* Điều chỉnh theo sidebar */
+    width: calc(100% - 300px);
+    padding: 20px;
+    overflow-y: auto;
+}

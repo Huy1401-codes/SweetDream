@@ -1,0 +1,95 @@
+﻿@model X.PagedList.IPagedList<SweetDream.Models.Order>
+@using X.PagedList.Mvc.Core
+
+<h2 class="title text-center">Order List</h2>
+
+<form method="get" asp-action="Index" class="mb-3">
+    <div class="row">
+        <div class="col-md-3">
+            <label for="searchName">Customer Name</label>
+            <input type="text" name="searchName" class="form-control"
+                   value="@Context.Request.Query["searchName"]" placeholder="Enter customer name" />
+        </div>
+        <div class="col-md-3">
+            <label for="startDate">Start Date</label>
+            <input type="date" name="startDate" class="form-control" value="@Context.Request.Query["startDate"]" />
+        </div>
+        <div class="col-md-3">
+            <label for="endDate">End Date</label>
+            <input type="date" name="endDate" class="form-control" value="@Context.Request.Query["endDate"]" />
+        </div>
+        <style>
+            .btn-float {
+                background-color: #ff5722;
+                color: white;
+                border-radius: 50px;
+                padding: 12px 18px;
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+                transition: 0.3s;
+                margin-top: 20px;
+            }
+
+                .btn-float:hover {
+                    background-color: #e64a19;
+                    box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.3);
+                }
+        </style>
+
+        <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-float">
+                <i class="fas fa-search"></i> Search
+            </button>
+        </div>
+
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Customer</th>
+            <th>Order Date</th>
+            <th>Total Amount</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            var imagePath = string.IsNullOrEmpty(order.Account?.AccountImage)
+            ? "/images/default-avatar.png"
+            : Url.Content("~/images/" + order.Account.AccountImage);
+
+            <tr>
+                <td>@order.OId</td>
+                <td style="display: flex; align-items: center;">
+                    <img src="@imagePath" alt="Profile Picture" width="40" height="40"
+                         style="border-radius: 50%; object-fit: cover; margin-right: 10px;" />
+                    <span>
+                        @(order.Account != null ? $"{order.Account.FirstName} {order.Account.LastName}" : "Unknown")
+                    </span>
+                </td>
+                <td>
+                    @{
+                        var orderDate = order.OrderDetails.Any()
+                        ? order.OrderDetails.Min(od => od.OrderDate)
+                        : DateTime.MinValue;
+                    }
+                    @(orderDate != DateTime.MinValue ? orderDate.ToString("dd/MM/yyyy HH:mm") : "No Order Date")
+                </td>
+                <td>
+                    $@(order.OrderDetails.Sum(d => d.Price * d.Quantity * (1 - d.Discount / 100.0)))
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@order.OId" class="btn btn-info">View Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Hiển thị phân trang -->
+<div class="pagination-container">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchName = Context.Request.Query["searchName"], startDate = Context.Request.Query["startDate"], endDate = Context.Request.Query["endDate"] }))
+</div>

@@ -1,0 +1,143 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<SweetDream.Models.Blog>
+
+@{
+    ViewData["Title"] = "Blogs Management";
+}
+<link rel="stylesheet" href="~/css/management-styles.css" asp-append-version="true">
+
+<div class="container mt-4">
+    <div class="card shadow-lg">
+        <div class="card-header bg-warning text-white text-center">
+            <h1 class="title">BLogs Management</h1>
+        </div>
+        <div class="card-body">
+            <form asp-action="Index" method="get" class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <input type="text" name="searchString" class="form-control" placeholder="Search blogs name..." value="@Context.Request.Query["searchString"]" />
+                </div>
+                <div class="col-md-4">
+                    <select name="statusFilter" class="form-select">
+                        <option value="">-- All Status --</option>
+                        <option value="0" selected="@(ViewBag.StatusFilter == BlogStatus.Draft ? "selected" : null)">Bản nháp</option>
+                        <option value="1" selected="@(ViewBag.StatusFilter == BlogStatus.Published ? "selected" : null)">Xuất bản</option>
+                        <option value="2" selected="@(ViewBag.StatusFilter == BlogStatus.Expired ? "selected" : null)">Hết hạn</option>
+
+                    </select>
+                </div>
+                <div class="col-md-2 d-grid">
+                    <button type="submit" class="btn btn-warning">Search</button>
+                </div>
+            </form>
+
+            <div class="text-end btn-create mb-3">
+                <a asp-action="Create" class="btn btn-success">
+                    <i class="fas fa-plus-circle"></i> Add New Blog
+                </a>
+            </div>
+
+            @if (!Model.Any())
+            {
+                <div class="alert alert-warning text-center">No products found!</div>
+            }
+            else
+            {
+                <table class="table table-hover table-bordered text-center align-middle">
+                    <thead class="table-orange">
+                        <tr>
+                            <th>Blog Title</th>
+                            <th>Image</th>
+                            <th>Created At</th>
+                            <th>Updated At</th>
+                            <th>Blog Category</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td style="color: #FE980F; font-weight: 700;">@item.Title</td>
+                                <td>
+                                    <img src="@item.ImageUrl" alt="@item.Title" class="img-thumbnail" style="max-width: 100px; max-height: 80px;" />
+                                </td>
+                                <td>@item.CreatedAt.ToString("dd/MM/yyyy")</td>
+                                <td>@item.UpdatedAt?.ToString("dd/MM/yyyy")</td>
+                   
+                                <td>@item.BlogCategory?.Name</td>
+                                <td>
+                                    <span class="badge bg-@(
+                        item.Status == SweetDream.Models.BlogStatus.Published ? "success" :
+                        item.Status == SweetDream.Models.BlogStatus.Draft ? "secondary" :
+                        item.Status == SweetDream.Models.BlogStatus.Expired ? "danger" : "warning")">
+                                        @item.Status
+                                    </span>
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">
+                                        <i class="fas fa-info-circle"></i> Details
+                                    </a>
+                                    <form id="delete-form-@item.Id" asp-action="Delete" method="post" style="display:inline;">
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete(@item.Id)">
+                                            <i class="fas fa-trash-alt"></i> Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div id="pagination" class="text-center">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new
+                        {
+                            page,
+                            searchString = Context.Request.Query["searchString"],
+                            statusFilter = Context.Request.Query["statusFilter"]
+                        }))
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var successMessage = "@TempData["SuccessMessage"]";
+        if (successMessage) {
+            Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: successMessage,
+                showConfirmButton: false,
+                timer: 2000 // Ẩn sau 2 giây
+            });
+        }
+    });
+</script>
+<script>
+    function confirmDelete(Id) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This BLogs will be deleted.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Delete",
+            cancelButtonText: "Cancel"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`delete-form-${Id}`).submit();
+            }
+        });
+    }
+</script>
