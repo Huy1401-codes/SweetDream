@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Sweet Dream</title>
+    <link rel="icon" href="~/img/favicon.png" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" asp-append-version="true" />
+    <!-- animate CSS -->
+    <link rel="stylesheet" href="~/css/animate.css" asp-append-version="true" />
+    <!-- owl carousel CSS -->
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css" asp-append-version="true" />
+    <!-- font awesome CSS -->
+    <link rel="stylesheet" href="~/css/all.css" asp-append-version="true" />
+    <!-- flaticon CSS -->
+    <link rel="stylesheet" href="~/css/flaticon.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/themify-icons.css" asp-append-version="true" />
+    <!-- magnific popup CSS -->
+    <link rel="stylesheet" href="~/css/magnific-popup.css" asp-append-version="true" />
+    <!-- slick CSS -->
+    <link rel="stylesheet" href="~/css/slick.css" asp-append-version="true" />
+    <!-- main style CSS -->
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+
+</head>
+<body>
+    <!-- header part start -->
+  
+    @Html.Partial("_Header")
+
+    <!-- Content Body -->
+    @RenderBody()
+
+
+    <!-- footer part -->
+    @Html.Partial("_Footer")
+
+    <!-- Scripts -->
+    <script src="~/js/jquery-1.12.1.min.js" asp-append-version="true"></script>
+    <script src="~/js/popper.min.js" asp-append-version="true"></script>
+    <script src="~/js/bootstrap.min.js" asp-append-version="true"></script>
+    <script src="~/js/jquery.magnific-popup.js" asp-append-version="true"></script>
+    <script src="~/js/swiper.min.js" asp-append-version="true"></script>
+    <script src="~/js/mixitup.min.js" asp-append-version="true"></script>
+    <script src="~/js/owl.carousel.min.js" asp-append-version="true"></script>
+    <script src="~/js/jquery.nice-select.min.js" asp-append-version="true"></script>
+    <script src="~/js/slick.min.js" asp-append-version="true"></script>
+    <script src="~/js/jquery.counterup.min.js" asp-append-version="true"></script>
+    <script src="~/js/waypoints.min.js" asp-append-version="true"></script>
+    <script src="~/js/contact.js" asp-append-version="true"></script>
+    <script src="~/js/jquery.ajaxchimp.min.js" asp-append-version="true"></script>
+    <script src="~/js/jquery.form.js" asp-append-version="true"></script>
+    <script src="~/js/jquery.validate.min.js" asp-append-version="true"></script>
+    <script src="~/js/mail-script.js" asp-append-version="true"></script>
+    <script src="~/js/custom.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+﻿@model IEnumerable<SweetDream.Models.Brand>
+
+@foreach (var item in Model)
+{
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a asp-action="Index" asp-controller="Brand" asp-route-id="@item.BrandId">
+					@item.BrandName
+				</a>
+			</h4>
+		</div>
+	</div>
+}

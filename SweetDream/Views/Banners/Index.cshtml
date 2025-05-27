@@ -1,0 +1,65 @@
+﻿@model IEnumerable<SweetDream.Models.Banner>
+
+@{
+    ViewData["Title"] = "Banner List";
+}
+
+<link rel="stylesheet" href="~/css/management-styles.css" asp-append-version="true">
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-warning text-white text-center">
+            <h1 class="title text-center">Banner List</h1>
+        </div>
+
+        <div class="card-body">
+            <div class="text-end btn-create">
+                <a asp-action="Create" class="btn btn-success">
+                    <i class="fas fa-plus-circle"></i> Create New
+                </a>
+            </div>
+            <table class="table table-hover table-bordered text-center align-middle">
+                <thead class="table-orange">
+                    <tr>
+                        <th>Title</th>
+                        <th>Subtitle</th>
+                        <th>Description</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Subtitle)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.Image))
+                                {
+                                    <img src="~/images/@item.Image" alt="Banner Image" class="banner-image">
+                                }
+                                else
+                                {
+                                    <span class="text-muted">No Image</span>
+                                }
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">
+                                    <i class="fas fa-trash"></i> Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Import FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">

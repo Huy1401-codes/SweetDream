@@ -1,0 +1,119 @@
+﻿@model List<SweetDream.Models.OrderDetail>
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<partial name="_ProfileNavigation" />
+
+<h2 class="title text-center">Order Details</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<div class="row">
+    @foreach (var detail in Model)
+    {
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white text-center">
+                    <strong>Order ID: @detail.OId</strong>
+                </div>
+                <div class="card-body">
+                    <!-- Product Image -->
+                    <div class="text-center mb-3">
+                        <img src="~/images/@detail.Product.Image"
+                             alt="Product Image"
+                             class="img-thumbnail"
+                             style="width: 120px; height: 120px; object-fit: cover;" />
+                    </div>
+
+                    <!-- Product Information -->
+                    <h5 class="card-title text-center">@detail.Product.ProductName</h5>
+                    <p class="text-center text-muted">Price: <strong>$@detail.Price</strong></p>
+                    <p class="text-center">Quantity: <strong>@detail.Quantity</strong></p>
+                    <p class="text-center">Discount: <strong>@detail.Discount%</strong></p>
+                    <p class="text-center text-success">
+                        Total: <strong>$@(detail.Price * detail.Quantity * (1 - detail.Discount / 100.0))</strong>
+                    </p>
+                    <p class="text-center">Receive Date: <strong>@(detail.ReceiveDate?.ToString("yyyy-MM-dd HH:mm:ss") ?? "Not received")</strong></p>
+
+                    <!-- Order Status -->
+                    <div class="text-center mb-3">
+                        <span class="badge @(detail.Status == "Processing" ? "bg-primary" : detail.Status == "Success" ? "bg-success" : detail.Status == "Disabled" ? "bg-danger" : "bg-warning text-dark")">
+                            @detail.Status
+                        </span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="d-flex justify-content-center gap-2">
+                        <!-- Cancel Order Button -->
+                        @if (detail.Status == "Processing")
+                        {
+                            <form id="cancelOrderForm-@detail.DetailId" asp-action="CancelOrder" method="post" class="d-inline">
+                                <input type="hidden" name="detailId" value="@detail.DetailId" />
+                                <button type="button" class="btn btn-danger btn-sm" onclick="confirmCancel(@detail.DetailId)">
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                            </form>
+                        }
+                        else if (detail.Status == "Disabled")
+                        {
+                            <p class="text-muted">Cancelled</p>
+                        }
+
+                        <!-- Review Button -->
+                        @if (detail.Status == "Success")
+                        {
+                            if (!detail.IsReviewed)
+                            {
+                                <a href="@Url.Action("Create", "Feedbacks", new { detailId = detail.DetailId })"
+                                   class="btn btn-primary btn-sm">
+                                    <i class="fas fa-comment"></i> Leave Feedback
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Feedback", "Feedbacks", new { detailId = detail.DetailId })"
+                                   class="btn btn-info btn-sm">
+                                    <i class="fas fa-eye"></i> View Review
+                                </a>
+                            }
+                        }
+                        else
+                        {
+                            <button class="btn btn-secondary btn-sm" disabled>
+                                <i class="fas fa-clock"></i> Waiting for Delivery
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    function confirmCancel(detailId) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Do you really want to cancel this order item?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, cancel it!",
+            cancelButtonText: "No, keep it"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById("cancelOrderForm-" + detailId).submit();
+            }
+        });
+    }
+</script>

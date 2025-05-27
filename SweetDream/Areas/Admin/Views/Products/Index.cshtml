@@ -1,0 +1,150 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<SweetDream.Models.Product>
+
+@{
+    ViewData["Title"] = "Product Management";
+}
+@{
+    Layout = "/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/management-styles.css" asp-append-version="true">
+
+<div class="container mt-4">
+    <div class="card shadow-lg">
+        <div class="card-header bg-warning text-white text-center">
+            <h1 class="title">Product Management</h1>
+        </div>
+        <div class="card-body">
+            <form asp-action="Index" method="get" class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <input type="text" name="searchString" class="form-control" placeholder="Search product name..." value="@Context.Request.Query["searchString"]" />
+                </div>
+                <div class="col-md-4">
+                    <select name="statusFilter" class="form-select">
+                        <option value="">-- All Status --</option>
+                        <option value="Available" selected="@(ViewBag.StatusFilter == "Available" ? "selected" : null)">Available</option>
+                        <option value="Sold out" selected="@(ViewBag.StatusFilter == "Sold out" ? "selected" : null)">Sold out</option>
+                    </select>
+                </div>
+                <div class="col-md-2 d-grid">
+                    <button type="submit" class="btn btn-warning">Search</button>
+                </div>
+            </form>
+
+            <div class="text-end btn-create mb-3">
+                <a asp-action="Create" class="btn btn-success">
+                    <i class="fas fa-plus-circle"></i> Add New Product
+                </a>
+            </div>
+
+            @if (!Model.Any())
+            {
+                <div class="alert alert-warning text-center">No products found!</div>
+            }
+            else
+            {
+                <table class="table table-hover table-bordered text-center align-middle">
+                    <thead class="table-orange">
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Image</th>
+                            <th>Discount</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td style="color: #FE980F; font-weight: 700;">@item.ProductName</td>
+                                <td>@item.Quantity</td>
+                                <td class="text-success fw-bold">$@item.Price</td>
+                                <td>
+                                    <img src="@Url.Content("~/img/" + item.Image)" class="img-thumbnail banner-image" />
+                                </td>
+                                <td class="text-danger fw-bold">@item.Discount%</td>
+                                <td>
+                                    <span class="badge bg-@(item.Status == "Available" ? "success" : "secondary")">@item.Status</span>
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn btn-warning btn-sm">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    <a asp-action="Details" asp-route-id="@item.ProductId" class="btn btn-info btn-sm">
+                                        <i class="fas fa-info-circle"></i> Details
+                                    </a>
+                                    <form id="delete-form-@item.ProductId" asp-action="Delete" method="post" style="display:inline;">
+                                        <input type="hidden" name="id" value="@item.ProductId" />
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete(@item.ProductId)">
+                                            <i class="fas fa-trash-alt"></i> Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div id="pagination" class="text-center">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new
+                        {
+                            page,
+                            searchString = Context.Request.Query["searchString"],
+                            statusFilter = Context.Request.Query["statusFilter"]
+                        }))
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/productHub")
+        .build();
+
+    connection.start().catch(err => console.error(err));
+    connection.on("ReceiveProductUpdate", function () {
+        location.reload();
+    });
+</script>
+
+<script>
+    function confirmDelete(productId) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This product will be deleted.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Delete",
+            cancelButtonText: "Cancel"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`delete-form-${productId}`).submit();
+            }
+        });
+    }
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var successMessage = "@TempData["SuccessMessage"]";
+        if (successMessage) {
+            Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: successMessage,
+                showConfirmButton: false,
+                timer: 2000 // Ẩn sau 2 giây
+            });
+        }
+    });
+</script>

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<SweetDream.Models.Order>
+
+@{
+    ViewData["Title"] = "Unassigned Orders";
+}
+<a asp-action="MyShipping" asp-controller="Shippers" class="btn btn-default get">View My Shipping</a>
+
+<h2 class="title text-center">Unassigned Orders</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Order Date</th>
+            <th>Shipping Address</th>
+            <th>Phone Number</th>
+            <th>Customer Note</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.OId</td>
+                <td>@order.OrderDate.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>@order.ShippingAddress</td>
+                <td>@order.PhoneNumber</td>
+                <td>@order.CustomerNote</td>
+                <td>
+                    <form asp-action="AcceptOrder" asp-controller="Shippers" method="post">
+                        <input type="hidden" name="orderId" value="@order.OId" />
+                        <button type="submit" class="btn btn-primary">Accept</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<SweetDream.Models.Order>
+
+@{
+    ViewData["Title"] = "My Shipping";
+}
+<a asp-action="UnassignedOrders" asp-controller="Shippers" class="btn btn-default get">View Unassigned Orders</a>
+
+<h2 class="title text-center">My Shipping</h2>
+
+@foreach (var order in Model)
+{
+    <div class="card mb-3">
+        <div class="card-header">
+            <h5>Order ID: @order.OId</h5>
+            <p>Shipping Address: @order.ShippingAddress</p>
+            <p>Phone: @order.PhoneNumber</p>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th>Update Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var detail in order.OrderDetails)
+                    {
+                        <tr>
+                            <td>
+                                <img src="~/images/@detail.Product.Image" style="width: 50px; height: 50px; object-fit: cover;" />
+                            </td>
+                            <td>@detail.Product.ProductName</td>
+                            <td>@detail.Quantity</td>
+                            <td>@detail.Price</td>
+                            <td>@detail.Status</td>
+                            <td>
+                                <form asp-action="UpdateOrderDetailStatus" asp-controller="Shippers" method="post">
+                                    <input type="hidden" name="detailId" value="@detail.DetailId" />
+                                    <select name="status" class="form-select">
+                                        <option value="Pending" selected="@(detail.Status == "Pending" ? "selected" : null)">Pending</option>
+                                        <option value="Shipping" selected="@(detail.Status == "Shipping" ? "selected" : null)">Shipping</option>
+                                        <option value="Success" selected="@(detail.Status == "Success" ? "selected" : null)">Success</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+}

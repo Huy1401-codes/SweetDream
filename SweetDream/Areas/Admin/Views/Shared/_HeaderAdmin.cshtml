@@ -1,0 +1,105 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using SweetDream.Models
+@inject UserManager<Account> UserManager
+
+
+
+<header id="header">
+    <!--header-->
+    <div class="header_top">
+        <!--header_top-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="contactinfo">
+                        <ul class="nav nav-pills">
+                            <li><a href="#"><i class="fa fa-phone"></i> 0912393759</a></li>
+                            <li><a href="#"><i class="fa fa-envelope"></i> clothershop@fpt.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="social-icons pull-right">
+                        <ul class="nav navbar-nav">
+                            <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                            <li><a href="#"><i class="fab fa-dribbble"></i></a></li>
+                            <li><a href="#"><i class="fab fa-google-plus"></i></a></li>
+                        </ul>   
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/header_top-->
+
+    <div class="header-middle">
+        <!--header-middle-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="logo pull-left">
+                        <a asp-area="" asp-controller="Home" asp-action="Index">
+                            <img src="~/images/LogoHeader.jpg" alt="Logo" asp-append-version="true" />
+                        </a>
+                    </div>
+
+                </div>
+                <div class="col-sm-8">
+                    <div class="shop-menu pull-right">
+                        <ul class="nav navbar-nav">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                var user = await UserManager.GetUserAsync(User);
+                                var imageUrl = !string.IsNullOrEmpty(user?.AccountImage)
+                                ? $"/images/{user.AccountImage}"
+                                : "/images/default-avatar.png";
+
+                                <li class="nav-item">
+                                    <img src="@imageUrl" alt="User Avatar" class="user-avatar">
+                                </li>
+                            }
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Profiles" asp-action="Index">Profile</a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
+                            <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+                            <li><a asp-area="" asp-controller="ShoppingCart" asp-action="Index"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+                            <li>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <a href="@Url.Action("Logout", "Authentication", new { area = "" })">
+                                        <i class="fa fa-sign-out"></i> Logout
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Login", "Authentication", new { area = "" })">
+                                        <i class="fa fa-lock"></i> Login
+                                    </a>
+                                }
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/header-middle-->
+</header>
+
+<style>
+    .logo img {
+        max-width: 20%;
+        height: auto;
+        display: block;
+    }
+
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #ddd;
+        margin-right: 10px;
+    }
+</style>

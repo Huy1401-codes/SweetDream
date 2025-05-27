@@ -1,0 +1,40 @@
+﻿@model Order
+<h2 class="title text-center">Checkout</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderDetails)
+        {
+            <tr>
+                <td>@item.Product.ProductName</td>
+                <td>@item.Quantity</td>
+                <td>@item.Price.ToString("C")</td>
+                <td>@(item.Quantity * item.Price) </td>
+                <input type="hidden" name="selectedProducts" value="@item.ProductId" />
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Total: @Model.OrderDetails.Sum(od => od.Quantity * od.Price).ToString("C")</h3>
+
+<form method="post" asp-action="Checkout">
+    <input type="hidden" name="ShippingAddress" value="@Model.ShippingAddress" />
+    <input type="hidden" name="PhoneNumber" value="@Model.PhoneNumber" />
+    <input type="hidden" name="CustomerNote" value="@Model.CustomerNote" />
+
+    <button type="submit" class="btn btn-success">Confirm Order</button>
+</form>

@@ -1,0 +1,103 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<SweetDream.Models.Account>
+
+@{
+    ViewData["Title"] = "Account List";
+    var userRoles = ViewBag.UserRoles as Dictionary<string, string>;
+}
+
+<link rel="stylesheet" href="~/css/management-styles.css" asp-append-version="true" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<div class="container mt-4">
+    <div class="card shadow-lg">
+        <div class="card-header bg-warning text-white text-center">
+            <h1 class="title text-center">Manage Accounts</h1>
+        </div>
+
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <input type="text" id="searchBox" class="form-control" placeholder="Search by User Name..." />
+                </div>
+                <div class="col-md-6">
+                    <select id="statusFilter" class="form-select">
+                        <option value="all">All</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="text-end btn-create mb-3">
+                <a asp-action="Create" class="btn btn-success">
+                    <i class="fas fa-plus-circle"></i> Create New Account
+                </a>
+            </div>
+
+            <table class="table table-hover table-bordered text-center align-middle">
+                <thead class="table-orange">
+                    <tr>
+                        <th>Image</th>
+                        <th>Full Name</th>
+                        <th>User Name</th>
+                        <th>Role</th>
+                        <th>Active</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="account-row" data-username="@item.UserName.ToLower()" data-status="@(item.Active.HasValue && item.Active.Value ? "active" : "inactive")">
+                            <td>
+                                <img src="@Url.Content(string.IsNullOrEmpty(item.AccountImage) ? "~/img/accountImg.png" : "~/images/" + item.AccountImage)"
+                                     class="profile-img banner-image" />
+                            </td>
+                            <td>@(item.FirstName + " " + item.LastName)</td>
+                            <td>@item.UserName</td>
+                            <td>
+                                @if (userRoles != null && userRoles.ContainsKey(item.Id.ToString()))
+                                {
+                                    <span class="badge bg-info">@userRoles[item.Id.ToString()]</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">No Role</span>
+                                }
+                            </td>
+                            <td>
+                                <input type="checkbox" class="toggle-active form-check-input" data-id="@item.Id" @(item.Active == true ? "checked" : "") />
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">
+                                    <i class="fas fa-info-circle"></i> Details
+                                </a>
+                                <button class="btn btn-sm btn-danger delete-account" data-id="@item.Id">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div id="pagination" class="text-center">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CSRF Token -->
+<form id="deleteAccountForm">
+    @Html.AntiForgeryToken()
+</form>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/js/account-list.js"></script>

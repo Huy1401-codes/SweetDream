@@ -1,0 +1,30 @@
+﻿@{
+    Layout = null; 
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Confirmation</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            Swal.fire({
+                title: "Success!",
+                text: "Account registration successful.",
+                icon: "success",
+                confirmButtonText: "OK",
+                allowOutsideClick: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '@Url.Action("Login", "Authentication")';
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

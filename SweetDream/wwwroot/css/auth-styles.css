@@ -1,0 +1,70 @@
+﻿/* Căn giữa form */
+.auth-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    background-color: #ffffff;
+}
+
+/* Thiết lập màu nền cho form */
+.auth-container {
+    width: 400px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Định nghĩa riêng cho từng loại form */
+.forgot-password-wrapper, .login-wrapper, .register-wrapper, .reset-password-wrapper {
+    @extend .auth-wrapper;
+}
+
+/* Điều chỉnh chiều cao riêng */
+.forgot-password-wrapper {
+    min-height: 60vh;
+}
+
+.login-wrapper {
+    min-height: 50vh;
+}
+
+.register-wrapper {
+    min-height: 110vh;
+}
+
+.reset-password-wrapper {
+    min-height: 40vh;
+}
+
+/* Điều chỉnh kích thước riêng */
+.register-container {
+    width: 450px;
+}
+
+/* Nút bấm */
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+.auth-wrapper {
+    background: url('/images/Login.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-container {
+    background: rgba(255, 255, 255, 0.9); /* Làm mờ form để dễ nhìn */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}

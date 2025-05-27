@@ -1,0 +1,61 @@
+﻿/* wwwroot/css/product-details.css */
+.product-name-hover {
+    display: inline-block;
+    transition: transform 0.3s ease-in-out;
+}
+
+    .product-name-hover:hover {
+        transform: scale(1.2);
+        color: #ff8000; /* Đổi màu khi hover */
+    }
+/* Tổng quan khối feedback */
+.feedback-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Mỗi feedback */
+.feedback-item {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+    .feedback-item:hover {
+        transform: translateY(-3px);
+    }
+
+/* Header phần feedback */
+.feedback-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+/* Avatar người dùng */
+.feedback-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+}
+
+
+/* Nội dung feedback */
+.feedback-content {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+/* Rating */
+.feedback-rating {
+    font-size: 16px;
+}

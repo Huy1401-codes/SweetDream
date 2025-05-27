@@ -1,0 +1,85 @@
+﻿@model IEnumerable<SweetDream.Models.Category>
+
+@{
+    ViewData["Title"] = "Manage Categories";
+}
+
+<link rel="stylesheet" href="~/css/management-styles.css" asp-append-version="true">
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white text-center">
+            <h1 class="title text-center">Manage Categories</h1>
+        </div>
+
+        <div class="card-body">
+            <div class="text-end btn-create">
+                <a asp-action="Create" class="btn btn-success">
+                    <i class="fas fa-plus-circle"></i> Create New Category
+                </a>
+            </div>
+            <table class="table table-hover table-bordered text-center align-middle">
+                <thead class="table-orange">
+                    <tr>
+                        <th>Category Name</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.CategoryName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                            <td>
+                                <form id="deleteForm-@item.CategoryId" asp-action="SoftDelete" asp-route-id="@item.CategoryId" method="post" style="display:inline;">
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete(@item.CategoryId)">
+                                        <i class="fas fa-trash-alt"></i> Delete
+                                    </button>
+                                </form>
+                                <a asp-action="Edit" asp-route-id="@item.CategoryId" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Import FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var successMessage = "@TempData["SuccessMessage"]";
+        if (successMessage) {
+            Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: successMessage,
+                showConfirmButton: false,
+                timer: 2000 // Ẩn sau 2 giây
+            });
+        }
+    });
+</script>
+<script>
+    function confirmDelete(categoryId) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This category will be deleted!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById("deleteForm-" + categoryId).submit();
+            }
+        });
+    }
+</script>

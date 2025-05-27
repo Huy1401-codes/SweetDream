@@ -1,0 +1,50 @@
+﻿@model SweetDream.Models.Feedback
+
+@{
+    ViewData["Title"] = "View Review";
+}
+
+<div class="container py-4">
+    <div class="card shadow-lg p-4">
+        <h2 class="title text-center">Customer Review</h2>
+
+        @if (Model != null)
+        {
+            <div class="card-body">
+                <h4 class="card-title text-dark">Product: <span class="text-primary">@Model.Product.ProductName</span></h4>
+                <p class="card-text"><strong>Content:</strong> @Model.Content</p>
+                <p>
+                    <strong>Rating:</strong>
+                    @for (int i = 0; i < Model.Rating; i++)
+                    {
+                        <i class="fa fa-star text-warning"></i>
+                    }
+                    @for (int i = Model.Rating; i < 5; i++)
+                    {
+                        <i class="fa fa-star text-secondary"></i>
+                    }
+                </p>
+                <p><strong>Review Date:</strong> @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</p>
+            </div>
+        }
+        else
+        {
+            <p class="text-muted text-center">No reviews available.</p>
+        }
+
+        <div class="text-center mt-3">
+            <a href="@Url.Action("OrderDetails", "Profiles", new { id = ViewData["OrderId"] })" class="btn btn-default get">Back</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 12px;
+        border: none;
+    }
+
+    .fa-star {
+        font-size: 24px;
+    }
+</style>

@@ -1,0 +1,61 @@
+﻿@model X.PagedList.IPagedList<SweetDream.Models.Product>
+@using X.PagedList.Mvc.Core
+
+@{
+    var category = ViewData["Category"] as SweetDream.Models.Category;
+    var currentSort = ViewData["CurrentSort"]?.ToString();
+}
+
+<div class="row">
+    <div class="col-sm-9 padding-right">
+        <div class="features_items">
+            <h2 class="title text-center">@category?.CategoryName</h2>
+
+            @if (Model.Any())
+            {
+                @foreach (var item in Model)
+                {
+                    <div class="col-sm-4">
+                        <div class="product-image-wrapper">
+                            <div class="single-products">
+                                <a asp-action="Details" asp-controller="Home" asp-route-id="@item.ProductId">
+                                    <div class="productinfo text-center">
+                                        <img src="~/images/@item.Image" alt="@item.ProductName" />
+                                        <h2>$@item.Price</h2>
+                                        <p>@item.ProductName</p>
+                                    </div>
+                                </a>
+                                <a asp-action="Details" asp-controller="Home" asp-route-id="@item.ProductId">
+                                    <div class="product-overlay">
+                                        <div class="overlay-content">
+                                            <h2>Sale: @item.Discount%</h2>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="choose">
+                                <ul class="nav nav-pills nav-justified">
+                                    <li><a href="#"><i class="fa fa-plus-square"></i> Favorite</a></li>
+                                    <li><a href="#"><i class="fa fa-plus-square"></i> Compare</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <!-- Phân trang -->
+                <div class="pagination-container">
+                    @Html.PagedListPager(Model, page => Url.Action("Search", new { id = category?.CategoryId, page, sortOrder = currentSort }))
+                </div>
+            }
+            else
+            {
+                <p class="text-center">No products available in this category.</p>
+            }
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        @Html.Partial("_SidebarPartial")
+    </div>
+</div>

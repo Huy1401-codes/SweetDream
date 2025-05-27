@@ -1,0 +1,116 @@
+﻿@model PaginatedList<SweetDream.Models.OrderDetail>
+
+@{
+    ViewData["Title"] = "My Orders";
+    string currentSort = ViewData["CurrentSort"] as string ?? "newest";
+}
+
+<partial name="_ProfileNavigation" />
+
+<!-- Form tìm kiếm -->
+<form id="filterForm" method="get" asp-action="Orders">
+    <div class="row">
+        <input type="hidden" name="pageNumber" id="pageNumber" value="1" /> 
+
+        <div class="col-md-3">
+            <label for="startDate">From:</label>
+            <input type="date" name="startDate" id="startDate" class="form-control" value="@ViewData["StartDate"]" />
+        </div>
+        <div class="col-md-3">
+            <label for="endDate">To:</label>
+            <input type="date" name="endDate" id="endDate" class="form-control" value="@ViewData["EndDate"]" />
+        </div>
+        <div class="col-md-3">
+            <label for="sortOrder">Sort by Order Date:</label>
+            <select name="sortOrder" id="sortOrder" class="form-control">
+                <option value="newest" selected="@(currentSort == "newest" ? "selected" : null)">Newest</option>
+                <option value="oldest" selected="@(currentSort == "oldest" ? "selected" : null)">Oldest</option>
+            </select>
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+            <a asp-action="Orders" class="btn btn-primary">Reset</a>
+        </div>
+    </div>
+</form>
+
+@if (!Model.Any())
+{
+    <p>You have not placed any orders yet.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Order Date</th>
+                <th>Total Price</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var group in Model.GroupBy(o => o.OId))
+            {
+                var firstDetail = group.First();
+                <tr>
+                    <td>@firstDetail.OId</td>
+                    <td>@firstDetail.OrderDate.ToString("yyyy-MM-dd")</td>
+                    <td>$@(group.Sum(d => d.Price * d.Quantity * (1 - d.Discount / 100.0)))</td>
+                    <td>
+                        <a asp-action="OrderDetails" asp-route-id="@firstDetail.OId" class="btn btn-info">View</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Phân trang -->
+    <nav>
+        <ul class="pagination">
+            @if (Model.HasPreviousPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="changePage(@(Model.PageIndex - 1))">Previous</a>
+                </li>
+            }
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                    <a class="page-link" href="#" onclick="changePage(@i)">@i</a>
+                </li>
+            }
+            @if (Model.HasNextPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="changePage(@(Model.PageIndex + 1))">Next</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const filterForm = document.getElementById("filterForm");
+
+        function submitForm() {
+            document.getElementById("pageNumber").value = "1"; // Reset về trang 1 khi lọc
+            filterForm.submit();
+        }
+
+        document.getElementById("startDate").addEventListener("change", submitForm);
+        document.getElementById("endDate").addEventListener("change", submitForm);
+        document.getElementById("sortOrder").addEventListener("change", submitForm);
+
+        document.getElementById("startDate").addEventListener("change", function () {
+            document.getElementById("endDate").min = this.value;
+        });
+        document.getElementById("endDate").addEventListener("change", function () {
+            document.getElementById("startDate").max = this.value;
+        });
+    });
+
+    function changePage(page) {
+        document.getElementById("pageNumber").value = page;
+        document.getElementById("filterForm").submit();
+    }
+</script>
