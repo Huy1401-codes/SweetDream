@@ -4,157 +4,84 @@
     ViewData["Title"] = "Product Details";
 }
 
-<h1 class="title text-center">Product Details</h1>
-
-<h3 class="text-center fw-bold mb-4 product-name-hover">@Model.ProductName</h3>
-
-<div class="card shadow-lg border-0 p-4">
-    <div class="card-body">
-        <div class="row">
             <!-- Cột hình ảnh -->
-            <div class="col-md-6 text-center">
-                <img src="~/images/@Model.Image" alt="@Model.ProductName" class="img-fluid rounded shadow"
-                     style="width: 100%; max-height: 400px; object-fit: cover;">
+                </div>
             </div>
 
-            <!-- Cột thông tin sản phẩm -->
-            <div class="col-md-6">
-                <table class="table table-striped">
-                    <tbody>
-                        <tr>
-                            <th>Category</th>
-                            <td>
-                                <a asp-controller="Categories" asp-action="Details" asp-route-id="@Model.CategoryId" class="text-decoration-none text-primary">
-                                    @ViewBag.CategoryName
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Brand</th>
-                            <td>
-                                <a asp-controller="Brands" asp-action="Details" asp-route-id="@Model.BrandId" class="text-decoration-none text-primary">
-                                    @ViewBag.BrandName
-                                </a>
-                            </td>
-                        </tr>
 
-                        <tr>
-                            <th>Price</th>
-                            <td class="text-danger fw-bold">@Model.Price.ToString("C")</td>
-                        </tr>
-                        <tr>
-                            <th>Stock</th>
-                            <td>@Model.Quantity</td>
-                        </tr>
-                        <tr>
-                            <th>Size</th>
-                            <td>@Model.Size</td>
-                        </tr>
-                        <tr>
-                            <th>Material</th>
-                            <td>@Model.Material</td>
-                        </tr>
-                        <tr>
-                            <th>Discount</th>
-                            <td>@(Model.Discount.HasValue ? Model.Discount + "%" : "No Discount")</td>
-                        </tr>
-                        <tr>
-                            <th>Status</th>
-                            <td>@Model.Status</td>
-                        </tr>
-                        <tr>
-                            <th>Description</th>
-                            <td>@Model.Description</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <!-- Nút điều hướng -->
-                <div class="d-flex justify-content-between mt-4">
-                    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary px-4">Back</a>
-                    <form method="post" action="@Url.Action("AddToCart", "ShoppingCart")">
-                        <input type="hidden" name="productId" value="@Model.ProductId" />
+                        <form method="post" action="@Url.Action("AddToCart", "ShoppingCart")">
+                            <input type="hidden" name="productId" value="@Model.ProductId" />
                         <input type="hidden" name="quantity" value="1" />
-                        <input type="hidden" name="redirectToCart" value="true" />
-                        <button type="submit" class="btn btn-default get">Add to Cart</button>
-                    </form>
+                            <input type="hidden" name="redirectToCart" value="true" />
+                        </form>
+                    </div>
+
+                    <div class="mt-4">
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Back</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Đường gạch ngang phân cách -->
-<hr class="my-5">
 
-<h2 class="title text-center">Customer Feedback</h2>
-
-<div class="text-center mb-3">
-    <span class="fw-bold">Average Rating: </span>
-    @if (ViewBag.TotalReviews > 0)
-    {
-        <span class="text-warning rating-stars">
-            @for (int i = 1; i <= 5; i++)
+            @if (ViewBag.TotalReviews > 0)
             {
-                if (i <= Math.Round((double)ViewBag.AverageRating))
-                {
-                    <i class="fas fa-star"></i>
-                }
-                else
-                {
-                    <i class="far fa-star"></i>
-                }
-            }
-        </span>
-        <span class="text-muted">(@ViewBag.TotalReviews reviews)</span>
-    }
-    else
-    {
-        <span class="text-muted">No ratings yet</span>
-    }
-</div>
-
-@if (ViewBag.Feedbacks != null && ViewBag.Feedbacks.Count > 0)
-{
-    <div class="feedback-container">
-        @foreach (var feedback in ViewBag.Feedbacks)
-        {
-            // Kiểm tra nếu user có hình ảnh, nếu không sẽ sử dụng ảnh mặc định
-            var userImage = !string.IsNullOrEmpty(feedback.Account?.AccountImage)
-            ? $"/images/{feedback.Account.AccountImage}"
-            : "/images/default-avatar.png";
-
-            <div class="feedback-item">
-                <div class="feedback-header">
-                    <img src="@userImage" alt="User Avatar" class="feedback-avatar">
-                    <div>
-                        <h5 class="mb-1">@feedback.Account?.UserName</h5>
-                        <small class="text-muted">@feedback.CreatedAt.ToString("dd/MM/yyyy HH:mm")</small>
-                    </div>
-                </div>
-                <p class="feedback-content">@feedback.Content</p>
-                <div class="feedback-rating">
+                <span class="text-warning rating-stars">
                     @for (int i = 1; i <= 5; i++)
                     {
-                        if (i <= feedback.Rating)
+                        if (i <= Math.Round((double)ViewBag.AverageRating))
                         {
-                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star"></i>
                         }
                         else
                         {
-                            <i class="far fa-star text-muted"></i>
+                            <i class="far fa-star"></i>
                         }
                     }
-                </div>
+                </span>
+                <span class="text-muted">(@ViewBag.TotalReviews reviews)</span>
+            }
+            else
+            {
+                <span class="text-muted">No ratings yet</span>
+            }
+        </div>
+
+        @if (ViewBag.Feedbacks != null && ViewBag.Feedbacks.Count > 0)
+        {
+            <div class="feedback-container">
+                @foreach (var feedback in ViewBag.Feedbacks)
+                {
+            // Kiểm tra nếu user có hình ảnh, nếu không sẽ sử dụng ảnh mặc định
+                    var userImage = !string.IsNullOrEmpty(feedback.Account?.AccountImage)
+                    ? $"/images/{feedback.Account.AccountImage}"
+                    : "/images/default-avatar.png";
+
+                            <div>
+                                <small class="text-muted">@feedback.CreatedAt.ToString("dd/MM/yyyy HH:mm")</small>
+                            </div>
+                        </div>
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                if (i <= feedback.Rating)
+                                {
+                                    <i class="fas fa-star text-warning"></i>
+                                }
+                                else
+                                {
+                                    <i class="far fa-star text-muted"></i>
+                                }
+                            }
+                        </div>
+                    </div>
+                }
             </div>
         }
-    </div>
-}
-else
-{
-    <p class="text-muted text-center">No feedback available for this product.</p>
-}
+        else
+        {
+            <p class="text-muted text-center">No feedback available for this product.</p>
+        }
 
-
-
+<!-- CSS của template -->
 <link rel="stylesheet" href="~/css/product-details.css" asp-append-version="true" />
 
