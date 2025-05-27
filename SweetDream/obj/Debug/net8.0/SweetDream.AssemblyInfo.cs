@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SweetDream")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1b23afbd4553ca45ff57a6c862bca4f8d858fedd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f895ad002d4e8ac99033181244e2c0e52243cd3e")]
 [assembly: System.Reflection.AssemblyProductAttribute("SweetDream")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SweetDream")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

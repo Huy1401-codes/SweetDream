@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "oYn4P0NUXg4HyTX1zBTEalYKCmtYt5nBWnaubG2kmFV4ACYiOh36IvPCxJpWQlcgxkhP1FhUBSyvl3e9X7q7SQ==",
+  "dgSpecHash": "U0+T8LTB0sxSVn6XBwFQlzY9S1rZl1oFe+N3iT1G30aIZ8K/Nok6wb3m6BSs4a/FDiChYrO1NTSrOeEWoW6RDA==",
   "success": true,
-  "projectFilePath": "D:\\EXE\\Project_v0\\EXE202\\SweetDream\\SweetDream.csproj",
+  "projectFilePath": "D:\\EXE\\Project_v0\\Version_v2\\SweetDream\\SweetDream.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\DELL\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

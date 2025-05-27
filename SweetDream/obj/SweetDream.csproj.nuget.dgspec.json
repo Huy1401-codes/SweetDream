@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\EXE\\Project_v0\\EXE202\\SweetDream\\SweetDream.csproj": {}
+    "D:\\EXE\\Project_v0\\Version_v2\\SweetDream\\SweetDream.csproj": {}
   },
   "projects": {
-    "D:\\EXE\\Project_v0\\EXE202\\SweetDream\\SweetDream.csproj": {
+    "D:\\EXE\\Project_v0\\Version_v2\\SweetDream\\SweetDream.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\EXE\\Project_v0\\EXE202\\SweetDream\\SweetDream.csproj",
+        "projectUniqueName": "D:\\EXE\\Project_v0\\Version_v2\\SweetDream\\SweetDream.csproj",
         "projectName": "SweetDream",
-        "projectPath": "D:\\EXE\\Project_v0\\EXE202\\SweetDream\\SweetDream.csproj",
+        "projectPath": "D:\\EXE\\Project_v0\\Version_v2\\SweetDream\\SweetDream.csproj",
         "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-        "outputPath": "D:\\EXE\\Project_v0\\EXE202\\SweetDream\\obj\\",
+        "outputPath": "D:\\EXE\\Project_v0\\Version_v2\\SweetDream\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
