@@ -54,13 +54,13 @@
                 {
             // Kiểm tra nếu user có hình ảnh, nếu không sẽ sử dụng ảnh mặc định
                     var userImage = !string.IsNullOrEmpty(feedback.Account?.AccountImage)
-                    ? $"/images/{feedback.Account.AccountImage}"
-                    : "/images/default-avatar.png";
+                    ? $"/img/{feedback.Account.AccountImage}"
+                    : "/img/default-avatar.png";
 
                             <div>
                                 <small class="text-muted">@feedback.CreatedAt.ToString("dd/MM/yyyy HH:mm")</small>
                             </div>
-                        </div>
+                        <div>
                             @for (int i = 1; i <= 5; i++)
                             {
                                 if (i <= feedback.Rating)
@@ -73,7 +73,6 @@
                                 }
                             }
                         </div>
-                    </div>
                 }
             </div>
         }
