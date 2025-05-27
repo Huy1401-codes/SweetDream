@@ -1,0 +1,122 @@
+﻿@model IEnumerable<SweetDream.Models.Product>
+
+@{
+    ViewData["Title"] = "Product List";
+}
+
+<!-- breadcrumb part start-->
+<section class="breadcrumb_part">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb_iner">
+                    <h2>product list</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- breadcrumb part end-->
+<!-- product list part start-->
+<section class="product_list section_padding">
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-4">
+                <div class="product_sidebar">
+                    <div class="single_sedebar">
+                        <form asp-controller="Product" asp-action="Index" method="get" class="d-flex">
+                            <input type="text"
+                                   name="search"
+                                   id="sidebar_search"
+                                   placeholder="Search keyword"
+                                   autocomplete="off"
+                                   onchange="filterProducts()"
+                                   onkeyup="filterProducts()"
+                                   class="form-control" />
+                            <button type="submit" class="btn btn-search ml-2"><i class="ti-search"></i></button>
+                        </form>
+                    </div>
+
+                    <div class="single_sedebar">
+                        <div class="select_option">
+                            <div class="select_option_list">Category <i class="right fas fa-caret-down"></i></div>
+                            <div class="select_option_dropdown">
+                                <!-- TODO: Replace static categories with dynamic ones -->
+                                <p><a href="#">Category 1</a></p>
+                                <p><a href="#">Category 2</a></p>
+                                <p><a href="#">Category 3</a></p>
+                                <p><a href="#">Category 4</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="single_sedebar">
+                        <div class="select_option">
+                            <div class="select_option_list">Size <i class="right fas fa-caret-down"></i></div>
+                            <div class="select_option_dropdown">
+                                <!-- TODO: Replace static sizes with dynamic ones -->
+                                <p><a href="#">Size 1</a></p>
+                                <p><a href="#">Size 2</a></p>
+                                <p><a href="#">Size 3</a></p>
+                                <p><a href="#">Size 4</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product List -->
+            <div class="col-md-8">
+                <div class="product_list">
+                    <div class="row" id="product_grid">
+                        @foreach (var item in Model)
+                        {
+                            <div class="col-lg-4 col-sm-6 mb-4 single_product_item" data-title="@item.ProductName.ToLower()">
+                                <div>
+                                    <a asp-controller="Home" asp-action="Details" asp-route-id="@item.ProductId">
+                                        <img src="~/img/product/@item.Image" alt="@item.ProductName" class="img-fluid" />
+                                    </a>
+                                    <h3>
+                                        <a asp-controller="Home" asp-action="Details" asp-route-id="@item.ProductId">
+                                            @item.ProductName
+                                        </a>
+                                    </h3>
+                                    <p>
+                                        From $@item.Price
+                                        @if (item.Discount.HasValue && item.Discount.Value > 0)
+                                        {
+                                            <span class="text-danger ml-2">(-@item.Discount%)</span>
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Load More Button -->
+                    <div class="load_more_btn text-center mt-4">
+                        <a href="#" class="btn_3">Load More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- product list part end-->
+
+<script>
+    // Filter function (same as template)
+    function filterProducts() {
+        const searchTerm = (document.getElementById('sidebar_search').value || '').toLowerCase();
+        const products = document.querySelectorAll('.single_product_item');
+        products.forEach(prod => {
+            const title = prod.getAttribute('data-title');
+            if (title.includes(searchTerm)) {
+                prod.style.display = '';
+            } else {
+                prod.style.display = 'none';
+            }
+        });
+    }
+</script>

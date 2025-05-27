@@ -84,12 +84,18 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
 
-// **13. Cấu hình route cho Areas (Admin)**
+// 13. Cấu hình route cho Areas (Admin)
 app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
 
-// **14. Cấu hình route mặc định**
+// 14. Route riêng cho Product
+app.MapControllerRoute(
+    name: "product",
+    pattern: "Product",
+    defaults: new { controller = "Home", action = "Product" });
+
+// 15. Cấu hình route mặc định
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
