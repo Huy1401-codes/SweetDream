@@ -4,15 +4,51 @@
     ViewData["Title"] = "Product Details";
 }
 
+<!--================Single Product Area =================-->
+<section class="single_product_area section_padding">
+    <div class="container">
+        <div class="row s_product_inner justify-content-between">
             <!-- Cột hình ảnh -->
+            <div class="col-lg-6">
+                <div class="s_product_img">
+@*                     <img class="img-fluid" src="~/img/product/@Model.Image" alt="@Model.ProductName" style="width:100%; object-fit:cover; max-height:500px;" />
+ *@                    <img src="@Model.Image" alt="@Model.ProductName" class="img-fluid" />
+
                 </div>
             </div>
 
+            <!-- Cột chi tiết sản phẩm -->
+            <div class="col-lg-5">
+                <div class="s_product_text">
+                    <h3>@Model.ProductName</h3>
+                    <h2 class="text-danger">@Model.Price.ToString("C")</h2>
+                    <ul class="list">
+                        <li><span>Category</span>: <a asp-controller="Categories" asp-action="Details" asp-route-id="@Model.CategoryId">@ViewBag.CategoryName</a></li>
+                        <li><span>Brand</span>: <a asp-controller="Brands" asp-action="Details" asp-route-id="@Model.BrandId">@ViewBag.BrandName</a></li>
+                        <li><span>Size</span>: @Model.Size</li>
+                        <li><span>Material</span>: @Model.Material</li>
+                        <li><span>Discount</span>: @(Model.Discount.HasValue ? Model.Discount + "%" : "No Discount")</li>
+                        <li><span>Status</span>: @Model.Status</li>
+                        <li><span>Stock</span>: @Model.Quantity</li>
+                    </ul>
+                    <p>@Model.Description</p>
 
+                    <div class="card_area">
                         <form method="post" action="@Url.Action("AddToCart", "ShoppingCart")">
                             <input type="hidden" name="productId" value="@Model.ProductId" />
-                        <input type="hidden" name="quantity" value="1" />
                             <input type="hidden" name="redirectToCart" value="true" />
+
+                            <div class="product_count_area">
+                                <p>Quantity</p>
+                                <div class="product_count d-inline-block">
+                                    <span class="product_count_item inumber-decrement"> <i class="ti-minus"></i></span>
+                                    <input name="quantity" class="product_count_item input-number" type="text" value="1" min="1" max="@Model.Quantity">
+                                    <span class="product_count_item number-increment"> <i class="ti-plus"></i></span>
+                                </div>
+                            </div>
+                            <div class="add_to_cart mt-3">
+                                <button type="submit" class="btn_3">Add to cart</button>
+                            </div>
                         </form>
                     </div>
 
@@ -23,7 +59,15 @@
             </div>
         </div>
     </div>
+</section>
+<!--================End Single Product Area =================-->
+<!--================ Feedback Section =================-->
+<section class="product_description_area">
+    <div class="container">
+        <h2 class="text-center mb-4">Customer Feedback</h2>
 
+        <div class="text-center mb-4">
+            <span class="fw-bold">Average Rating:</span>
             @if (ViewBag.TotalReviews > 0)
             {
                 <span class="text-warning rating-stars">
@@ -52,14 +96,20 @@
             <div class="feedback-container">
                 @foreach (var feedback in ViewBag.Feedbacks)
                 {
-            // Kiểm tra nếu user có hình ảnh, nếu không sẽ sử dụng ảnh mặc định
                     var userImage = !string.IsNullOrEmpty(feedback.Account?.AccountImage)
                     ? $"/img/{feedback.Account.AccountImage}"
                     : "/img/default-avatar.png";
 
+                    <div class="feedback-item border p-3 rounded mb-3">
+                        <div class="d-flex align-items-center mb-2">
+                            <img src="@userImage" alt="Avatar" class="rounded-circle me-3" style="width:50px; height:50px;">
+                            
                             <div>
+                                <h6 class="mb-0">@feedback.Account?.UserName</h6>
                                 <small class="text-muted">@feedback.CreatedAt.ToString("dd/MM/yyyy HH:mm")</small>
                             </div>
+                        </div>
+                        <p class="mb-1">@feedback.Content</p>
                         <div>
                             @for (int i = 1; i <= 5; i++)
                             {
@@ -73,6 +123,7 @@
                                 }
                             }
                         </div>
+                    </div>
                 }
             </div>
         }
@@ -80,7 +131,8 @@
         {
             <p class="text-muted text-center">No feedback available for this product.</p>
         }
+    </div>
+</section>
 
 <!-- CSS của template -->
 <link rel="stylesheet" href="~/css/product-details.css" asp-append-version="true" />
-

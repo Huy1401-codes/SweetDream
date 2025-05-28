@@ -33,8 +33,4 @@
     <PackageReference Include="X.PagedList.Mvc.Core" Version="8.0.7" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Blogs\" />
-  </ItemGroup>
-
 </Project>

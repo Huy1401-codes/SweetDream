@@ -51,7 +51,9 @@
                             <div class="col-lg-4 col-sm-6 mb-4 single_product_item" data-title="@item.ProductName.ToLower()">
                                 <div>
                                     <a asp-controller="Home" asp-action="Details" asp-route-id="@item.ProductId">
-                                        <img src="~/img/product/@item.Image" alt="@item.ProductName" class="img-fluid" />
+                                        @* <img src="~/img/product/@item.Image" alt="@item.ProductName" class="img-fluid" /> *@
+                                        <img src="@item.Image" alt="@item.ProductName" class="img-fluid" />
+
                                     </a>
                                     <h3>
                                         <a asp-controller="Home" asp-action="Details" asp-route-id="@item.ProductId">
