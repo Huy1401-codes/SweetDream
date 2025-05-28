@@ -120,9 +120,9 @@ namespace SweetDream.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public async Task<IActionResult> Product(string? search, int page = 1)
+        public async Task<IActionResult> Product(string? search, int? minPrice, int? maxPrice, int page = 1)
         {
-            int pageSize = 12; // Số sản phẩm mỗi trang
+            int pageSize = 12;
 
             var products = _dataContext.Products
                 .Include(p => p.Category)
@@ -133,21 +133,32 @@ namespace SweetDream.Controllers
                             && !p.Brand.Disable
                             && !p.Disable);
 
-            // Nếu có từ khóa tìm kiếm, lọc theo ProductName chứa chuỗi search (không phân biệt hoa thường)
             if (!string.IsNullOrEmpty(search))
             {
                 products = products.Where(p => p.ProductName.ToLower().Contains(search.ToLower()));
+            }
+
+            if (minPrice.HasValue)
+            {
+                products = products.Where(p => p.Price >= minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                products = products.Where(p => p.Price <= maxPrice.Value);
             }
 
             products = products.OrderBy(p => p.ProductId);
 
             var pagedProducts = await products.ToPagedListAsync(page, pageSize);
 
-            // Truyền thêm search vào ViewBag hoặc ViewData để giữ giá trị trong view (nếu cần)
             ViewBag.Search = search;
+            ViewBag.MinPrice = minPrice;
+            ViewBag.MaxPrice = maxPrice;
 
             return View(pagedProducts);
         }
+
 
     }
 }
