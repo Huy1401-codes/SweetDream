@@ -17,7 +17,7 @@
             <div class="card shadow-lg border-0 rounded-4 p-4">
                 <form asp-controller="Profiles" asp-action="UpdateProfileImage" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="AccountId" value="@Model.Id" />
-                    <div class="position-relative p-3" style="border: 4px solid #FE980F; border-radius: 10px; display: inline-block;">
+                    <div class="position-relative p-3" style="border: 4px solid #B08EAD; border-radius: 10px; display: inline-block;">
                         <label for="profileImageInput" class="image-upload-label d-block">
                             <img id="profilePreview"
                                  src="@(string.IsNullOrEmpty(Model.AccountImage) ? "/images/default.png" : "/images/" + Model.AccountImage)"
@@ -40,53 +40,50 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label asp-for="FirstName" class="fw-bold" style="color: #FE980F;"></label>
+                            <label asp-for="FirstName" class="fw-bold" style="color: #B08EAD;"></label>
                             <input asp-for="FirstName" class="form-control rounded-3 border-primary" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label asp-for="LastName" class="fw-bold" style="color: #FE980F;"></label>
+                            <label asp-for="LastName" class="fw-bold" style="color: #B08EAD;"></label>
                             <input asp-for="LastName" class="form-control rounded-3 border-primary" />
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group mt-3">
-                    <label asp-for="Email" class="fw-bold" style="color: #FE980F;"></label>
+                    <label asp-for="Email" class="fw-bold" style="color: #B08EAD;"></label>
                     <input asp-for="Email" class="form-control rounded-3 border-primary bg-light" readonly />
                 </div>
 
                 <div class="form-group mt-3">
-                    <label asp-for="PhoneNumber" class="fw-bold" style="color: #FE980F;"></label>
+                    <label asp-for="PhoneNumber" class="fw-bold" style="color: #B08EAD;"></label>
                     <input asp-for="PhoneNumber" class="form-control rounded-3 border-primary" />
                 </div>
 
                 <div class="form-group mt-3">
-                    <label asp-for="Address" class="fw-bold" style="color: #FE980F;"></label>
+                    <label asp-for="Address" class="fw-bold" style="color: #B08EAD;"></label>
                     <input asp-for="Address" class="form-control rounded-3 border-primary" />
                 </div>
 
                 <div class="row mt-3">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label asp-for="Gender" class="fw-bold" style="color: #FE980F;"></label>
-                            <select asp-for="Gender" class="form-control rounded-3 border-primary">
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                            </select>
+                            <input asp-for="Gender" placeholder="Enter gender (e.g. Male, Female)" class="form-control rounded-3 border-primary" />
+
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label asp-for="DateOfBirth" class="fw-bold" style="color: #FE980F;"></label>
+                            <label asp-for="DateOfBirth" class="fw-bold" style="color: #B08EAD;"></label>
                             <input asp-for="DateOfBirth" type="date" class="form-control rounded-3 border-primary" />
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group mt-3">
-                    <label asp-for="Description" class="fw-bold" style="color: #FE980F;"></label>
+                    <label asp-for="Description" class="fw-bold" style="color: #B08EAD;"></label>
                     <textarea asp-for="Description" class="form-control rounded-3 border-primary" rows="3"></textarea>
                 </div>
 

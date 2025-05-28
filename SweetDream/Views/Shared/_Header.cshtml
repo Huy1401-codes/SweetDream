@@ -48,21 +48,20 @@
                     border-radius: 6px;
                     transition: background-color 0.3s ease, color 0.3s ease;
                 }
-                    /* Highlight current hovered nav item */
+
                     .my-nav > li:hover,
                     .my-nav > li > a:hover {
                         background-color: #007bff;
                         color: white !important;
                     }
 
-                /* Dropdown arrow */
                 .my-nav > li.has-dropdown > a::after {
                     content: " ▼";
                     font-size: 0.65em;
                     margin-left: 5px;
                     transition: transform 0.3s ease;
                 }
-                /* Arrow rotate on hover */
+
                 .my-nav > li.has-dropdown:hover > a::after {
                     transform: rotate(180deg);
                 }
@@ -70,7 +69,7 @@
         /* Dropdown menu */
         .my-dropdown {
             position: absolute;
-            top: 52px; /* khoảng cách top dropdown */
+            top: 52px;
             left: 0;
             background: white;
             border: 1px solid #ddd;
@@ -99,7 +98,6 @@
                     color: white;
                 }
 
-        /* Hiện dropdown khi hover vào li cha */
         .my-nav > li.has-dropdown:hover .my-dropdown {
             display: flex;
         }
@@ -119,11 +117,19 @@
                 color: inherit;
                 cursor: pointer;
                 transition: color 0.3s ease;
+                display: flex;
+                align-items: center;
             }
 
                 .my-icons a:hover {
                     color: #007bff;
                 }
+
+            .my-icons svg {
+                width: 22px;
+                height: 22px;
+                fill: currentColor;
+            }
 
         /* Search box styles */
         #search_box {
@@ -195,13 +201,14 @@
         <!-- Navigation menu -->
         <ul class="my-nav">
             <li><a href="/">Home</a></li>
-           
-
             <li class="my-nav">
+<<<<<<< HEAD
                 <a href="/Home/Product">Product</a>
                
+=======
+                <a href="/Authentication/Product">Product</a>
+>>>>>>> origin/master
             </li>
-
             <li class="has-dropdown">
                 <a href="#">Pages</a>
                 <div class="my-dropdown">
@@ -211,23 +218,36 @@
                     <a href="elements.html">Elements</a>
                 </div>
             </li>
-
             <li class="my-nav">
                 <a href="/Authentication/Blogs">Blog</a>
-                
             </li>
-
             <li><a href="/Authentication/Login">Login</a></li>
         </ul>
 
         <!-- Icons -->
         <div class="my-icons">
-            <a href="javascript:void(0)" id="search_icon" title="Search">🔍</a>
-            <a href="cart.html" title="Cart">🛒</a>
-            <a href="profile.html" title="Profile">👤</a>
+            <a href="javascript:void(0)" id="search_icon" title="Search" aria-label="Search">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none" />
+                    <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </a>    
+            <a href="ShoppingCart" title="Cart" aria-label="Cart">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M6 6h15l-1.5 9h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                    <circle cx="9" cy="21" r="1" fill="currentColor" />
+                    <circle cx="18" cy="21" r="1" fill="currentColor" />
+                </svg>
+            </a>
+            <a href="Profiles" title="Profile" aria-label="Profile">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" fill="none" />
+                    <path d="M6 21v-2a6 6 0 0 1 12 0v2" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                </svg>
+            </a>
         </div>
-        
     </div>
+
     <div id="search_box">
         <form action="#" method="get">
             <input type="text" placeholder="Search here..." name="q" />
@@ -235,18 +255,16 @@
             <span id="search_close" title="Close Search">×</span>
         </form>
     </div>
+
     <script>
-        // Lấy element
         const searchIcon = document.getElementById('search_icon');
         const searchBox = document.getElementById('search_box');
         const searchClose = document.getElementById('search_close');
 
-        // Bật hiện search box khi click icon search
         searchIcon.addEventListener('click', () => {
             searchBox.classList.add('active');
         });
 
-        // Ẩn search box khi click dấu x
         searchClose.addEventListener('click', () => {
             searchBox.classList.remove('active');
         });

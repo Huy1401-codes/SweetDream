@@ -1,4 +1,5 @@
-﻿@model IEnumerable<SweetDream.Models.Product>
+﻿@model X.PagedList.IPagedList<SweetDream.Models.Product>
+@using X.PagedList
 
 @{
     ViewData["Title"] = "Product List";
@@ -25,43 +26,18 @@
             <div class="col-md-4">
                 <div class="product_sidebar">
                     <div class="single_sedebar">
-                        <form asp-controller="Product" asp-action="Index" method="get" class="d-flex">
-                            <input type="text"
-                                   name="search"
-                                   id="sidebar_search"
-                                   placeholder="Search keyword"
-                                   autocomplete="off"
-                                   onchange="filterProducts()"
-                                   onkeyup="filterProducts()"
-                                   class="form-control" />
-                            <button type="submit" class="btn btn-search ml-2"><i class="ti-search"></i></button>
+                        <form asp-controller="Home" asp-action="Product" method="get">
+                            <input type="text" name="search" class="form-control mb-2" placeholder="Search keyword"
+                                   value="@ViewBag.Search" />
+
+                            <input type="number" name="minPrice" class="form-control mb-2" placeholder="Min Price"
+                                   value="@(ViewBag.MinPrice ?? "")" min="0" />
+
+                            <input type="number" name="maxPrice" class="form-control mb-2" placeholder="Max Price"
+                                   value="@(ViewBag.MaxPrice ?? "")" min="0" />
+
+                            <button type="submit" class="btn_3 btn-block">Search</button>
                         </form>
-                    </div>
-
-                    <div class="single_sedebar">
-                        <div class="select_option">
-                            <div class="select_option_list">Category <i class="right fas fa-caret-down"></i></div>
-                            <div class="select_option_dropdown">
-                                <!-- TODO: Replace static categories with dynamic ones -->
-                                <p><a href="#">Category 1</a></p>
-                                <p><a href="#">Category 2</a></p>
-                                <p><a href="#">Category 3</a></p>
-                                <p><a href="#">Category 4</a></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="single_sedebar">
-                        <div class="select_option">
-                            <div class="select_option_list">Size <i class="right fas fa-caret-down"></i></div>
-                            <div class="select_option_dropdown">
-                                <!-- TODO: Replace static sizes with dynamic ones -->
-                                <p><a href="#">Size 1</a></p>
-                                <p><a href="#">Size 2</a></p>
-                                <p><a href="#">Size 3</a></p>
-                                <p><a href="#">Size 4</a></p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -94,9 +70,49 @@
                         }
                     </div>
 
-                    <!-- Load More Button -->
-                    <div class="load_more_btn text-center mt-4">
-                        <a href="#" class="btn_3">Load More</a>
+                    <!-- Pagination -->
+                    <div class="pagination_area text-center mt-4">
+                        <nav>
+                            <ul class="pagination justify-content-center">
+                                @if (Model.HasPreviousPage)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("Product", new { page = Model.PageNumber - 1, search = ViewBag.Search })">Previous</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                                }
+
+                                @for (int i = 1; i <= Model.PageCount; i++)
+                                {
+                                    if (i == Model.PageNumber)
+                                    {
+                                        <li class="page-item active">
+                                            <span class="page-link">@i</span>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item">
+                                            <a class="page-link" href="@Url.Action("Product", new { page = i, search = ViewBag.Search })">@i</a>
+                                        </li>
+                                    }
+                                }
+
+                                @if (Model.HasNextPage)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("Product", new { page = Model.PageNumber + 1, search = ViewBag.Search })">Next</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="page-item disabled"><span class="page-link">Next</span></li>
+                                }
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -106,7 +122,6 @@
 <!-- product list part end-->
 
 <script>
-    // Filter function (same as template)
     function filterProducts() {
         const searchTerm = (document.getElementById('sidebar_search').value || '').toLowerCase();
         const products = document.querySelectorAll('.single_product_item');
