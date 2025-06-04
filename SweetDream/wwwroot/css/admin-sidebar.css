@@ -6,8 +6,8 @@
 
 /* Sidebar */
 .admin-sidebar {
-    width: 300px; 
-    background: #FE980F; 
+    width: 300px;
+    background: #B08EAD; /* Màu chủ đạo */
     color: white;
     padding-top: 20px;
     position: fixed;
@@ -23,7 +23,7 @@
     font-size: 26px;
     font-weight: bold;
     padding: 20px 0;
-    background: #E87C00;
+    background: #9C7A99; /* Màu tối hơn của màu chủ đạo */
     letter-spacing: 2px;
     text-transform: uppercase;
     position: relative;
@@ -55,27 +55,23 @@
     margin: 0;
 }
 
-    /* Cải tiến các mục menu */
     .sidebar-menu li {
         padding: 12px 25px;
-        border-radius: 8px; /* Bo góc */
-        margin: 5px 15px; /* Tạo khoảng cách */
+        border-radius: 8px;
+        margin: 5px 15px;
         transition: all 0.3s ease-in-out;
         position: relative;
     }
 
-        /* Tạo hiệu ứng bóng mờ khi hover */
         .sidebar-menu li:hover {
             background: rgba(255, 255, 255, 0.2);
             transform: scale(1.05);
         }
 
-        /* Khi click vào menu, sẽ có hiệu ứng */
         .sidebar-menu li:active {
             transform: scale(0.95);
         }
 
-        /* Link trong menu */
         .sidebar-menu li a {
             color: white;
             text-decoration: none;
@@ -86,28 +82,26 @@
             padding: 10px;
         }
 
-            /* Icon trong menu */
             .sidebar-menu li a i {
                 margin-right: 12px;
                 font-size: 18px;
                 transition: transform 0.3s ease-in-out;
             }
 
-        /* Khi hover icon sẽ rung nhẹ */
         .sidebar-menu li:hover a i {
             transform: rotate(10deg);
         }
 
-        /* Khi hover menu, chữ sẽ sáng hơn */
         .sidebar-menu li a:hover {
-            color: #212529;
+            color: #fffbe7; /* Sáng nhẹ hơn */
             font-weight: bold;
         }
 
-/* Giảm kích thước nội dung chính */
+/* Nội dung chính */
 .content {
-    margin-left: 300px; /* Điều chỉnh theo sidebar */
+    margin-left: 300px;
     width: calc(100% - 300px);
     padding: 20px;
     overflow-y: auto;
+    background-color: #F4F0F5; /* Màu nền nhạt cho vùng content */
 }
