@@ -1,30 +1,10 @@
-﻿<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>pillloMart</title>
-    <link rel="icon" href="img/favicon.png">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- animate CSS -->
-    <link rel="stylesheet" href="css/animate.css">
-    <!-- owl carousel CSS -->
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <!-- font awesome CSS -->
-    <link rel="stylesheet" href="css/all.css">
-    <!-- flaticon CSS -->
-    <link rel="stylesheet" href="css/flaticon.css">
-    <link rel="stylesheet" href="css/themify-icons.css">
-    <!-- font awesome CSS -->
-    <link rel="stylesheet" href="css/magnific-popup.css">
-    <!-- swiper CSS -->
-    <link rel="stylesheet" href="css/slick.css">
-    <!-- style CSS -->
-    <link rel="stylesheet" href="css/style.css">
-</head>
+﻿@model X.PagedList.IPagedList<SweetDream.Models.Blog>
+@using X.PagedList
+
+@{
+    ViewData["Title"] = "Blog List";
+}
 <body>
-    <!--::header part start::-->
-   
     <!-- breadcrumb part start-->
     <section class="breadcrumb_part">
         <div class="container">
@@ -39,210 +19,174 @@
     </section>
     <!-- breadcrumb part end-->
     <!--================Blog Area =================-->
-    <section class="blog_area section_padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mb-5 mb-lg-0">
-                    <div class="blog_left_sidebar">
-                        <article class="blog_item">
-                            <div class="blog_item_img">
-                                <img class="card-img rounded-0" src="~/img/product/product_list_2.png" alt="">
-                                <a href="#" class="blog_item_date">
-                                    <h3>15</h3>
-                                    <p>Jan</p>
-                                </a>
-                            </div>
+<section class="blog_area section_padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mb-5 mb-lg-0">
+                <div class="blog_left_sidebar">
 
-                            <div class="blog_details">
-                                <a class="d-inline-block" href="single-blog.html">
-                                    <h2>Google inks pact for new 35-storey office</h2>
-                                </a>
-                                <p>
-                                    That dominion stars lights dominion divide years for fourth have don't stars is that
-                                    he earth it first without heaven in place seed it second morning saying.
-                                </p>
-                                <ul class="blog-info-link">
-                                    <li><a href="#"><i class="far fa-user"></i> Travel, Lifestyle</a></li>
-                                    <li><a href="#"><i class="far fa-comments"></i> 03 Comments</a></li>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                            @foreach (var blog in Model)
+                            {
+                                <article class="blog_item">
+                                    <div class="blog_item_img">
+                                        <img class="card-img rounded-0" src="@(blog.ImageUrl ?? "~/img/default.jpg")" alt="">
+                                        <a href="#" class="blog_item_date">
+                                            <h3>@blog.CreatedAt.Day</h3>
+                                            <p>@blog.CreatedAt.ToString("MMM")</p>
+                                        </a>
+                                    </div>
+
+                                    <div class="blog_details">
+                                        <a class="d-inline-block" href="/Blogs/Details/@blog.Id">
+                                            <h2>@blog.Title</h2>
+                                        </a>
+                                        <p>@(blog.Content.Length > 150 ? blog.Content.Substring(0, 150) + "..." : blog.Content)</p>
+                                        <ul class="blog-info-link">
+                                            <li>
+                                                <a href="#"><i class="far fa-user"></i> @blog.Author?.FirstName</a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="far fa-folder"></i> @blog.BlogCategory?.Name</a>
+                                            </li>
+                                        
+                                        </ul>
+                                    </div>
+                                </article>
+                            }
+
+                    }
+                    else
+                    {
+                        <p>No blog posts found.</p>
+                    }
+
+
+                        <div class="pagination_area text-center mt-4">
+                            <nav>
+                                <ul class="pagination justify-content-center">
+                                    @if (Model.HasPreviousPage)
+                                    {
+                                        <li class="page-item">
+                                            <a class="page-link" href="@Url.Action("Index", "Blogs", new { page = Model.PageNumber - 1, search = ViewBag.Search })">Previous</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                                    }
+
+                                    @for (int i = 1; i <= Model.PageCount; i++)
+                                    {
+                                        if (i == Model.PageNumber)
+                                        {
+                                            <li class="page-item active"><span class="page-link">@i</span></li>
+                                        }
+                                        else
+                                        {
+                                            <li class="page-item">
+                                                <a class="page-link" href="@Url.Action("Index", "Blogs", new { page = i, search = ViewBag.Search })">@i</a>
+                                            </li>
+                                        }
+                                    }
+
+                                    @if (Model.HasNextPage)
+                                    {
+                                        <li class="page-item">
+                                            <a class="page-link" href="@Url.Action("Index", "Blogs", new { page = Model.PageNumber + 1, search = ViewBag.Search })">Next</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item disabled"><span class="page-link">Next</span></li>
+                                    }
                                 </ul>
-                            </div>
-                        </article>
+                            </nav>
+                        </div>
 
-                        <article class="blog_item">
-                            <div class="blog_item_img">
-                                <img class="card-img rounded-0" src="~/img/product/product_list_2.png" alt="">
-                                <a href="#" class="blog_item_date">
-                                    <h3>15</h3>
-                                    <p>Jan</p>
-                                </a>
-                            </div>
-
-                            <div class="blog_details">
-                                <a class="d-inline-block" href="single-blog.html">
-                                    <h2>Google inks pact for new 35-storey office</h2>
-                                </a>
-                                <p>
-                                    That dominion stars lights dominion divide years for fourth have don't stars is that
-                                    he earth it first without heaven in place seed it second morning saying.
-                                </p>
-                                <ul class="blog-info-link">
-                                    <li><a href="#"><i class="far fa-user"></i> Travel, Lifestyle</a></li>
-                                    <li><a href="#"><i class="far fa-comments"></i> 03 Comments</a></li>
-                                </ul>
-                            </div>
-                        </article>
-
-                        <article class="blog_item">
-                            <div class="blog_item_img">
-                                <img class="card-img rounded-0" src="~/img/product/product_list_2.png" alt="">
-                                <a href="#" class="blog_item_date">
-                                    <h3>15</h3>
-                                    <p>Jan</p>
-                                </a>
-                            </div>
-
-                            <div class="blog_details">
-                                <a class="d-inline-block" href="single-blog.html">
-                                    <h2>Google inks pact for new 35-storey office</h2>
-                                </a>
-                                <p>
-                                    That dominion stars lights dominion divide years for fourth have don't stars is that
-                                    he earth it first without heaven in place seed it second morning saying.
-                                </p>
-                                <ul class="blog-info-link">
-                                    <li><a href="#"><i class="far fa-user"></i> Travel, Lifestyle</a></li>
-                                    <li><a href="#"><i class="far fa-comments"></i> 03 Comments</a></li>
-                                </ul>
-                            </div>
-                        </article>
-
-                        <article class="blog_item">
-                            <div class="blog_item_img">
-                                <img class="card-img rounded-0" src="~/img/product/product_list_2.png" alt="">
-                                <a href="#" class="blog_item_date">
-                                    <h3>15</h3>
-                                    <p>Jan</p>
-                                </a>
-                            </div>
-
-                            <div class="blog_details">
-                                <a class="d-inline-block" href="single-blog.html">
-                                    <h2>Google inks pact for new 35-storey office</h2>
-                                </a>
-                                <p>
-                                    That dominion stars lights dominion divide years for fourth have don't stars is that
-                                    he earth it first without heaven in place seed it second morning saying.
-                                </p>
-                                <ul class="blog-info-link">
-                                    <li><a href="#"><i class="far fa-user"></i> Travel, Lifestyle</a></li>
-                                    <li><a href="#"><i class="far fa-comments"></i> 03 Comments</a></li>
-                                </ul>
-                            </div>
-                        </article>
-
-                        <article class="blog_item">
-                            <div class="blog_item_img">
-                                <img class="card-img rounded-0" src="~/img/product/product_list_2.png" alt="">
-                                <a href="#" class="blog_item_date">
-                                    <h3>15</h3>
-                                    <p>Jan</p>
-                                </a>
-                            </div>
-
-                            <div class="blog_details">
-                                <a class="d-inline-block" href="single-blog.html">
-                                    <h2>Google inks pact for new 35-storey office</h2>
-                                </a>
-                                <p>
-                                    That dominion stars lights dominion divide years for fourth have don't stars is that
-                                    he earth it first without heaven in place seed it second morning saying.
-                                </p>
-                                <ul class="blog-info-link">
-                                    <li><a href="#"><i class="far fa-user"></i> Travel, Lifestyle</a></li>
-                                    <li><a href="#"><i class="far fa-comments"></i> 03 Comments</a></li>
-                                </ul>
-                            </div>
-                        </article>
-
-                        <nav class="blog-pagination justify-content-center d-flex">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Previous">
-                                        <i class="ti-angle-left"></i>
-                                    </a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">1</a>
-                                </li>
-                                <li class="page-item active">
-                                    <a href="#" class="page-link">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Next">
-                                        <i class="ti-angle-right"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
                 </div>
+            </div>
+       
+  
+
+                <!--= Sibar Right =-->
                 <div class="col-lg-4">
                     <div class="blog_right_sidebar">
                         <aside class="single_sidebar_widget search_widget">
-                            <form action="#">
-                                <div class="form-group">
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="Search Keyword" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Keyword'">
-                                        <div class="input-group-append">
-                                            <button class="btn" type="button"><i class="ti-search"></i></button>
-                                        </div>
-                                    </div>
+                            <style>
+                                .search-box {
+                                    position: relative;
+                                    width: 100%;
+                                }
+
+                                    .search-box input[type="text"] {
+                                        width: 100%;
+                                        padding: 12px 45px 12px 16px;
+                                        border: 1px solid #ccc;
+                                        border-radius: 25px;
+                                        font-size: 16px;
+                                        outline: none;
+                                        transition: 0.3s ease;
+                                    }
+
+                                        .search-box input[type="text"]::placeholder {
+                                            color: #aaa;
+                                        }
+
+                                        .search-box input[type="text"]:focus {
+                                            border-color: #6c63ff;
+                                            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+                                        }
+
+                                    .search-box button {
+                                        position: absolute;
+                                        right: 10px;
+                                        top: 50%;
+                                        transform: translateY(-50%);
+                                        background: transparent;
+                                        border: none;
+                                        color: #6c63ff;
+                                        font-size: 18px;
+                                        cursor: pointer;
+                                    }
+
+                                        .search-box button:hover {
+                                            color: #4b43d2;
+                                        }
+                            </style>
+
+                            <form method="get" asp-controller="Blogs" asp-action="Index">
+                                <div class="search-box">
+                                    <input type="text" name="searchString"
+                                           placeholder="Search blog..."
+                                           value="@ViewBag.Search" />
+                                    <button type="submit"><i class="ti-search"></i></button>
                                 </div>
-                                <button class="button rounded-0 primary-bg text-white w-100 btn_1" type="submit">Search</button>
                             </form>
                         </aside>
+
+                        
+
+
+
 
                         <aside class="single_sidebar_widget post_category_widget">
                             <h4 class="widget_title">Category</h4>
                             <ul class="list cat-list">
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Resaurant food</p>
-                                        <p>(37)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Travel news</p>
-                                        <p>(10)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Modern technology</p>
-                                        <p>(03)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Product</p>
-                                        <p>(11)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Inspiration</p>
-                                        <p>21</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Health Care (21)</p>
-                                        <p>09</p>
-                                    </a>
-                                </li>
+                                @foreach (var category in ViewBag.Categories)
+                                {
+                                    <li>
+                                        <a asp-controller="Blogs" asp-action="Index" asp-route-category="@category.Name" class="d-flex">
+                                            <p>@category.Name</p>
+                                            <p>(@category.Count)</p>
+                                        </a>
+                                    </li>
+                                }
                             </ul>
                         </aside>
+
+
 
                         <aside class="single_sidebar_widget popular_post_widget">
                             <h3 class="widget_title">Recent Post</h3>
@@ -283,35 +227,7 @@
                                 </div>
                             </div>
                         </aside>
-                        <aside class="single_sidebar_widget tag_cloud_widget">
-                            <h4 class="widget_title">Tag Clouds</h4>
-                            <ul class="list">
-                                <li>
-                                    <a href="#">project</a>
-                                </li>
-                                <li>
-                                    <a href="#">love</a>
-                                </li>
-                                <li>
-                                    <a href="#">technology</a>
-                                </li>
-                                <li>
-                                    <a href="#">travel</a>
-                                </li>
-                                <li>
-                                    <a href="#">restaurant</a>
-                                </li>
-                                <li>
-                                    <a href="#">life style</a>
-                                </li>
-                                <li>
-                                    <a href="#">design</a>
-                                </li>
-                                <li>
-                                    <a href="#">illustration</a>
-                                </li>
-                            </ul>
-                        </aside>
+                        
 
 
                         <aside class="single_sidebar_widget instagram_feeds">
@@ -367,33 +283,5 @@
         </div>
     </section>
     <!--================Blog Area =================-->
-  
-    <!-- jquery plugins here-->
-    <script src="js/jquery-1.12.1.min.js"></script>
-    <!-- popper js -->
-    <script src="js/popper.min.js"></script>
-    <!-- bootstrap js -->
-    <script src="js/bootstrap.min.js"></script>
-    <!-- easing js -->
-    <script src="js/jquery.magnific-popup.js"></script>
-    <!-- swiper js -->
-    <script src="js/swiper.min.js"></script>
-    <!-- swiper js -->
-    <script src="js/mixitup.min.js"></script>
-    <!-- particles js -->
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
-    <!-- slick js -->
-    <script src="js/slick.min.js"></script>
-    <script src="js/jquery.counterup.min.js"></script>
-    <script src="js/waypoints.min.js"></script>
-    <script src="js/contact.js"></script>
-    <script src="js/jquery.ajaxchimp.min.js"></script>
-    <script src="js/jquery.form.js"></script>
-    <script src="js/jquery.validate.min.js"></script>
-    <script src="js/mail-script.js"></script>
-    <!-- custom js -->
-    <script src="js/custom.js"></script>
-
-
+   
 </body>

@@ -181,6 +181,18 @@
       "PackagePath": "staticwebassets\\fonts\\themify.woff"
     },
     {
+      "Id": "D:\\EXE\\Demo\\SweetDream\\SweetDream\\wwwroot\\images\\3c514fda-0f64-4923-ae9b-57e3b0e89b0c.png",
+      "PackagePath": "staticwebassets\\images\\3c514fda-0f64-4923-ae9b-57e3b0e89b0c.png"
+    },
+    {
+      "Id": "D:\\EXE\\Demo\\SweetDream\\SweetDream\\wwwroot\\images\\8d04f1f2-8fd4-47c8-bf1a-8dc541ffa221.jpg",
+      "PackagePath": "staticwebassets\\images\\8d04f1f2-8fd4-47c8-bf1a-8dc541ffa221.jpg"
+    },
+    {
+      "Id": "D:\\EXE\\Demo\\SweetDream\\SweetDream\\wwwroot\\images\\a625ac0d-4bc1-4fb0-a83b-19bf90ebb5af.png",
+      "PackagePath": "staticwebassets\\images\\a625ac0d-4bc1-4fb0-a83b-19bf90ebb5af.png"
+    },
+    {
       "Id": "D:\\EXE\\Demo\\SweetDream\\SweetDream\\wwwroot\\img\\60167520-d52e-4599-b476-72c4a79da43d.png",
       "PackagePath": "staticwebassets\\img\\60167520-d52e-4599-b476-72c4a79da43d.png"
     },

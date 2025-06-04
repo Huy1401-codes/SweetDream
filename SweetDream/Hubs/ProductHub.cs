@@ -9,5 +9,10 @@ namespace SweetDream.Hubs
         {
             await Clients.All.SendAsync("ReceiveProductUpdate");
         }
+
+        public async Task SendUpdateBlog()
+        {
+            await Clients.All.SendAsync("ReceiveBlogUpdate");
+        }
     }
 }
