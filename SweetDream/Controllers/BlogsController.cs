@@ -48,14 +48,58 @@ namespace SweetDream.Controllers
                 .ToListAsync();
 
             ViewBag.Categories = categories;
+            // Lấy top 4 blog nhiều like nhất
+            var topLiked = _context.Blogs
+                .OrderByDescending(b => b.LikeCount)
+                .Take(4)
+                .ToList();
 
+            ViewBag.TopLikedBlogs = topLiked;
             return View(pagedList);
         }
-        
-        public IActionResult Details(int id)
+
+        public async Task<IActionResult> Details(int id)
         {
-            return View();
+            var blog = await _context.Blogs
+                .Include(b => b.Author)
+                .Include(b => b.BlogCategory)
+                .FirstOrDefaultAsync(b => b.Id == id && b.Status == BlogStatus.Published);
+
+            if (blog == null)
+                return NotFound();
+
+            // Tìm blog trước đó (Id nhỏ hơn hiện tại)
+            var previousBlog = await _context.Blogs
+                .Where(b => b.Id < id && b.Status == BlogStatus.Published)
+                .OrderByDescending(b => b.Id)
+                .FirstOrDefaultAsync();
+
+            // Tìm blog sau đó (Id lớn hơn hiện tại)
+            var nextBlog = await _context.Blogs
+                .Where(b => b.Id > id && b.Status == BlogStatus.Published)
+                .OrderBy(b => b.Id)
+                .FirstOrDefaultAsync();
+
+            ViewBag.PreviousBlog = previousBlog;
+            ViewBag.NextBlog = nextBlog;
+
+            return View(blog);
+
         }
+        [HttpPost]
+        public async Task<IActionResult> Like(int id)
+        {
+            var blog = await _context.Blogs.FindAsync(id);
+            if (blog == null)
+                return NotFound();
+
+            blog.LikeCount++;
+            await _context.SaveChangesAsync();
+
+            return Json(new { likeCount = blog.LikeCount });
+        }
+
+
 
 
     }

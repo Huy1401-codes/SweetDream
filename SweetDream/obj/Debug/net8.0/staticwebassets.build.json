@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "zyXR2VJA7IVR4NcY/r8fJWpmzlijzF1IaLcSptfYyaU=",
+  "Hash": "RJkCBWhFN2YRkaCNduZJ301mgjqilQAucmfda4OdMgQ=",
   "Source": "SweetDream",
   "BasePath": "_content/SweetDream",
   "Mode": "Default",
@@ -1269,6 +1269,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\b3.jpg"
+    },
+    {
+      "Identity": "D:\\EXE\\Demo\\SweetDream\\SweetDream\\wwwroot\\img\\b3754e5c-e0b0-4eec-beb3-1aea3579f5f9.png",
+      "SourceId": "SweetDream",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\EXE\\Demo\\SweetDream\\SweetDream\\wwwroot\\",
+      "BasePath": "_content/SweetDream",
+      "RelativePath": "img/b3754e5c-e0b0-4eec-beb3-1aea3579f5f9.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\b3754e5c-e0b0-4eec-beb3-1aea3579f5f9.png"
     },
     {
       "Identity": "D:\\EXE\\Demo\\SweetDream\\SweetDream\\wwwroot\\img\\banner.png",
@@ -4081,6 +4100,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\q14-b3.png"
+    },
+    {
+      "Identity": "D:\\EXE\\Demo\\SweetDream\\SweetDream\\wwwroot\\img\\Screenshot 2025-06-03 034114.jpg",
+      "SourceId": "SweetDream",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\EXE\\Demo\\SweetDream\\SweetDream\\wwwroot\\",
+      "BasePath": "_content/SweetDream",
+      "RelativePath": "img/Screenshot 2025-06-03 034114.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\Screenshot 2025-06-03 034114.jpg"
     },
     {
       "Identity": "D:\\EXE\\Demo\\SweetDream\\SweetDream\\wwwroot\\img\\single_product_1.png",

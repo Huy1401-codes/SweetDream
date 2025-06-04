@@ -42,7 +42,7 @@
                                         <a class="d-inline-block" href="/Blogs/Details/@blog.Id">
                                             <h2>@blog.Title</h2>
                                         </a>
-                                        <p>@(blog.Content.Length > 150 ? blog.Content.Substring(0, 150) + "..." : blog.Content)</p>
+                                        <p>@(blog.Content.Length > 150 ? blog.Content.Substring(0, 150) + "..." : blog.ShortDescription)</p>
                                         <ul class="blog-info-link">
                                             <li>
                                                 <a href="#"><i class="far fa-user"></i> @blog.Author?.FirstName</a>
@@ -189,82 +189,27 @@
 
 
                         <aside class="single_sidebar_widget popular_post_widget">
-                            <h3 class="widget_title">Recent Post</h3>
-                            <div class="media post_item">
-                                <img src="img/post/post_1.png" alt="post">
-                                <div class="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>From life was you fish...</h3>
-                                    </a>
-                                    <p>January 12, 2019</p>
+                            <h3 class="widget_title">Bài viết được yêu thích</h3>
+
+                            @foreach (var blog in ViewBag.TopLikedBlogs as List<SweetDream.Models.Blog>)
+                            {
+                                <div class="media post_item mb-3">
+                                    <img src="@blog.ImageUrl" alt="post" style="width: 80px; height: 60px; object-fit: cover;" />
+                                    <div class="media-body ps-2">
+                                        <a href="@Url.Action("Details", "Blogs", new { id = blog.Id })">
+                                            <h6 class="fw-bold text-dark">@blog.Title</h6>
+                                        </a>
+                                        <small class="text-muted">
+                                            ❤️ @blog.LikeCount lượt thích – @blog.CreatedAt.ToString("dd/MM/yyyy")
+                                        </small>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="media post_item">
-                                <img src="img/post/post_2.png" alt="post">
-                                <div class="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>The Amazing Hubble</h3>
-                                    </a>
-                                    <p>02 Hours ago</p>
-                                </div>
-                            </div>
-                            <div class="media post_item">
-                                <img src="img/post/post_3.png" alt="post">
-                                <div class="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>Astronomy Or Astrology</h3>
-                                    </a>
-                                    <p>03 Hours ago</p>
-                                </div>
-                            </div>
-                            <div class="media post_item">
-                                <img src="img/post/post_4.png" alt="post">
-                                <div class="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>Asteroids telescope</h3>
-                                    </a>
-                                    <p>01 Hours ago</p>
-                                </div>
-                            </div>
+                            }
                         </aside>
+
                         
 
 
-                        <aside class="single_sidebar_widget instagram_feeds">
-                            <h4 class="widget_title">Instagram Feeds</h4>
-                            <ul class="instagram_row flex-wrap">
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="img/post/post_5.png" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="img/post/post_6.png" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="img/post/post_7.png" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="img/post/post_8.png" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="img/post/post_9.png" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="img/post/post_10.png" alt="">
-                                    </a>
-                                </li>
-                            </ul>
-                        </aside>
 
 
                         <aside class="single_sidebar_widget newsletter_widget">

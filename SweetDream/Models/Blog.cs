@@ -20,6 +20,9 @@
 
         public DateTime? UpdatedAt { get; set; }
 
+        public int LikeCount { get; set; } = 0;
+        public string? ShortDescription { get; set; } 
+
         //// Foreign keys
         [Required]
         public int AuthorId { get; set; }
