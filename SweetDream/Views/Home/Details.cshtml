@@ -1,142 +1,142 @@
 ﻿<!-- breadcrumb part start-->
 <section class="breadcrumb_part">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="breadcrumb_iner">
-          <h2>Product Details</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb_iner">
+                    <h2>Product Details</h2>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </section>
 <!-- breadcrumb part end-->
-
 <!--================Single Product Area =================-->
 <section class="single_product_area section_padding">
-  <div class="container">
-    <div class="row s_product_inner justify-content-between">
-      @model SweetDream.Models.Order
-      <!-- Cột hình ảnh -->
-      <div class="col-lg-6">
-        <div class="s_product_img">
-          <img src="@Model.Image" alt="@Model.ProductName" class="img-fluid" style="width: 100%; object-fit: cover; max-height: 500px;" />
-        </div>
-      </div>
-
-      <!-- Cột chi tiết sản phẩm -->
-      <div class="col-lg-5">
-        <div class="s_product_text">
-          <h3>@Model.ProductName</h3>
-          <h2 class="text-danger">
-            @Model.Price.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))
-          </h2>
-          <ul class="list">
-            <li><span>Category</span>: <a asp-controller="Categories" asp-action="Details" asp-route-id="@Model.CategoryId">@ViewBag.CategoryName</a></li>
-            <li><span>Brand</span>: <a asp-controller="Brands" asp-action="Details" asp-route-id="@Model.BrandId">@ViewBag.BrandName</a></li>
-            <li><span>Size</span>: @Model.Size</li>
-            <li><span>Material</span>: @Model.Material</li>
-            <li><span>Discount</span>: @(Model.Discount.HasValue ? Model.Discount + "%" : "No Discount")</li>
-            <li><span>Status</span>: @Model.Status</li>
-            <li><span>Stock</span>: @Model.Quantity</li>
-          </ul>
-          <p>@Model.Description</p>
-          <div class="card_area">
-            <form method="post" action="@Url.Action("AddToCart", "ShoppingCart")" class="contact_form">
-              <input type="hidden" name="productId" value="@Model.ProductId" />
-              <input type="hidden" name="redirectToCart" value="true" />
-              <div class="product_count_area mb-3">
-                <label for="quantity" class="form-label">Quantity</label>
-                <div class="product_count d-flex align-items-center">
-                  <button type="button" class="btn_3 btn-sm inumber-decrement"><i class="ti-minus"></i></button>
-                  <input name="quantity" class="form-control input-number mx-2" id="quantity" type="text" value="1" min="1" max="@Model.Quantity" style="width: 70px;" />
-                  <button type="button" class="btn_3 btn-sm number-increment"><i class="ti-plus"></i></button>
+    <div class="container">
+        <div class="row s_product_inner justify-content-between">
+            @model SweetDream.Models.Product
+            @{
+                ViewData["Title"] = "Product Details";
+            }
+            <!-- Cột hình ảnh -->
+            <div class="col-lg-6">
+                <div class="s_product_img">
+                    <img class="img-fluid" src="~/img/product/@Model.Image" alt="@Model.ProductName" style="width:100%; object-fit:cover; max-height:500px;" />
                 </div>
-              </div>
-              <div class="add_to_cart mt-3">
-                <button type="submit" class="btn_3">Add to Cart</button>
-              </div>
-            </form>
-          </div>
-          <div class="mt-4">
-            <a asp-controller="Home" asp-action="Index" class="btn_3">Back</a>
-          </div>
+            </div>
+
+            <!-- Cột chi tiết sản phẩm -->
+            <div class="col-lg-5">
+                <div class="s_product_text">
+                    <h3>@Model.ProductName</h3>
+                    <h2 class="text-danger">
+                        @Model.Price.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))
+                    </h2>
+                    <ul class="list">
+                        <li><span>Category</span>: <a asp-controller="Categories" asp-action="Details" asp-route-id="@Model.CategoryId">@ViewBag.CategoryName</a></li>
+                        <li><span>Brand</span>: <a asp-controller="Brands" asp-action="Details" asp-route-id="@Model.BrandId">@ViewBag.BrandName</a></li>
+                        <li><span>Size</span>: @Model.Size</li>
+                        <li><span>Material</span>: @Model.Material</li>
+                        <li><span>Discount</span>: @(Model.Discount.HasValue ? Model.Discount + "%" : "No Discount")</li>
+                        <li><span>Status</span>: @Model.Status</li>
+                        <li><span>Stock</span>: @Model.Quantity</li>
+                    </ul>
+                    <p>@Model.Description</p>
+                    <div class="card_area">
+                        <form method="post" action="@Url.Action("AddToCart", "ShoppingCart")" class="contact_form">
+                            <input type="hidden" name="productId" value="@Model.ProductId" />
+                            <input type="hidden" name="redirectToCart" value="true" />
+                            <div class="product_count_area mb-3">
+                                <label for="quantity" class="form-label">Quantity</label>
+                                <div class="product_count d-flex align-items-center">
+                                    <span class="product_count_item inumber-decrement btn_3 btn-sm"><i class="ti-minus"></i></span>
+                                    <input name="quantity" class="product_count_item input-number form-control mx-2" type="text" value="1" min="1" max="@Model.Quantity" style="width: 70px;" />
+                                    <span class="product_count_item number-increment btn_3 btn-sm"><i class="ti-plus"></i></span>
+                                </div>
+                            </div>
+                            <div class="add_to_cart mt-3">
+                                <button type="submit" class="btn_3">Add to Cart</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="mt-4">
+                        <a asp-controller="Home" asp-action="Index" class="btn_3">Back</a>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </section>
 <!--================End Single Product Area =================-->
-
 <!--================Feedback Section =================-->
 <section class="product_description_area section_padding">
-  <div class="container">
-    <h3 class="mb-4">Customer Feedback</h3>
-    <div class="text-center mb-4">
-      <span class="fw-bold">Average Rating:</span>
-      @if (ViewBag.TotalReviews > 0)
-      {
-        <span class="text-warning rating-stars">
-          @for (int i = 1; i <= 5; i++)
-          {
-            if (i <= Math.Round((double)ViewBag.AverageRating))
+    <div class="container">
+        <h3 class="mb-4">Customer Feedback</h3>
+        <div class="text-center mb-4">
+            <span class="fw-bold">Average Rating:</span>
+            @if (ViewBag.TotalReviews > 0)
             {
-              <i class="fas fa-star"></i>
+                <span class="text-warning rating-stars">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        if (i <= Math.Round((double)ViewBag.AverageRating))
+                        {
+                            <i class="fas fa-star"></i>
+                        }
+                        else
+                        {
+                            <i class="far fa-star"></i>
+                        }
+                    }
+                </span>
+                <span class="text-muted">(@ViewBag.TotalReviews reviews)</span>
             }
             else
             {
-              <i class="far fa-star"></i>
+                <span class="text-muted">No ratings yet</span>
             }
-          }
-        </span>
-        <span class="text-muted">(@ViewBag.TotalReviews reviews)</span>
-      }
-      else
-      {
-        <span class="text-muted">No ratings yet</span>
-      }
-    </div>
-    @if (ViewBag.Feedbacks != null && ViewBag.Feedbacks.Count > 0)
-    {
-      <div class="feedback-container">
-        @foreach (var feedback in ViewBag.Feedbacks)
+        </div>
+        @if (ViewBag.Feedbacks != null && ViewBag.Feedbacks.Count > 0)
         {
-          var userImage = !string.IsNullOrEmpty(feedback.Account?.AccountImage)
-            ? $"/img/{feedback.Account.AccountImage}"
-            : "/img/default-avatar.png";
-          <div class="feedback-item border p-3 rounded mb-3">
-            <div class="d-flex align-items-center mb-2">
-              <img src="@userImage" alt="Avatar" class="rounded-circle me-3" style="width: 50px; height: 50px;" />
-              <div>
-                <h6 class="mb-0">@feedback.Account?.UserName</h6>
-                <small class="text-muted">@feedback.CreatedAt.ToString("dd/MM/yyyy HH:mm")</small>
-              </div>
-            </div>
-            <p class="mb-1">@feedback.Content</p>
-            <div>
-              @for (int i = 1; i <= 5; i++)
-              {
-                if (i <= feedback.Rating)
+            <div class="feedback-container">
+                @foreach (var feedback in ViewBag.Feedbacks)
                 {
-                  <i class="fas fa-star text-warning"></i>
+                    var userImage = !string.IsNullOrEmpty(feedback.Account?.AccountImage)
+                    ? $"/img/@feedback.Account.AccountImage"
+                    : "/img/default-avatar.png";
+                    <div class="feedback-item border p-3 rounded mb-3">
+                        <div class="d-flex align-items-center mb-2">
+                            <img src="@userImage" alt="Avatar" class="rounded-circle me-3" style="width:50px; height:50px;" />
+                            <div>
+                                <h6 class="mb-0">@feedback.Account?.UserName</h6>
+                                <small class="text-muted">@feedback.CreatedAt.ToString("dd/MM/yyyy HH:mm")</small>
+                            </div>
+                        </div>
+                        <p class="mb-1">@feedback.Content</p>
+                        <div>
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                if (i <= feedback.Rating)
+                                {
+                                    <i class="fas fa-star text-warning"></i>
+                                }
+                                else
+                                {
+                                    <i class="far fa-star text-muted"></i>
+                                }
+                            }
+                        </div>
+                    </div>
                 }
-                else
-                {
-                  <i class="far fa-star text-muted"></i>
-                }
-              }
             </div>
-          </div>
         }
-      </div>
-    }
-    else
-    {
-      <p class="text-muted text-center">No feedback available for this product.</p>
-    }
-  </div>
+        else
+        {
+            <p class="text-muted text-center">No feedback available for this product.</p>
+        }
+    </div>
 </section>
 <!--================End Feedback Section =================-->
-
 <!-- CSS của template -->
-<link rel="stylesheet" href="~/css/product-details.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/product-details.css" asp-append-version="true" />    
