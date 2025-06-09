@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.CodeModifier.CodeChange;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -16,13 +17,15 @@ namespace SweetDream.Controllers
         private readonly DataContext _dataContext;
         private readonly IVnPayService _vnPayService;
         private readonly EmailService _emailService;
-
-        public CheckoutController(IVnPayService vnPayService, DataContext dataContext, EmailService emailService)
+        private readonly UserManager<Account> _userManager;
+        public CheckoutController(IVnPayService vnPayService,
+            DataContext dataContext, EmailService emailService, UserManager<Account> userManager)
         {
 
             _vnPayService = vnPayService;
             _dataContext = dataContext;
             _emailService = emailService;
+            _userManager = userManager;
         }
 
 
@@ -30,26 +33,34 @@ namespace SweetDream.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> OrderSubmitted(Order order)
         {
-            if (!ModelState.IsValid)
+            var account = await _userManager.GetUserAsync(User);
+            if (account == null || string.IsNullOrEmpty(account.Email))
+            {
+                TempData["Error"] = "Không lấy được email người dùng.";
                 return View(order);
+            }
 
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!int.TryParse(userIdString, out int userId))
+            {
+                TempData["Error"] = "Bạn chưa đăng nhập hoặc phiên đăng nhập đã hết hạn.";
+                return RedirectToAction("Login", "Authentication");
+            }
 
-            // Lấy đơn hàng mới nhất của user (IsCart = false)
             var latestOrder = await _dataContext.Orders
-                .Where(o => o.AccountId == userId && o.IsCart == false)
-                .OrderByDescending(o => o.OrderDetails.Max(od => od.OrderDate))
+                .Where(o => o.AccountId == userId && !o.IsCart)
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.Product)
+                .OrderByDescending(o => o.OId)
                 .FirstOrDefaultAsync();
 
             if (latestOrder == null || latestOrder.OrderDetails == null || !latestOrder.OrderDetails.Any())
             {
-                TempData["Error"] = "Không tìm thấy đơn hàng để xử lý!";
-                return RedirectToAction("ShoppingCart", "Cart");
+                TempData["Error"] = "Không tìm thấy đơn hàng hợp lệ để xử lý.";
+                return View(order);
             }
 
-            // Cập nhật thông tin đơn hàng từ form nhập
+            // Cập nhật đơn hàng với dữ liệu gửi lên từ form
             latestOrder.ShippingAddress = order.ShippingAddress;
             latestOrder.PhoneNumber = order.PhoneNumber;
             latestOrder.CustomerNote = order.CustomerNote;
@@ -57,56 +68,74 @@ namespace SweetDream.Controllers
             _dataContext.Orders.Update(latestOrder);
             await _dataContext.SaveChangesAsync();
 
-            // Tính tổng tiền đơn hàng
             var cultureVN = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
             var totalAmount = latestOrder.OrderDetails.Sum(od => od.Quantity * (od.Price - od.Discount));
 
-            // Tạo link xác nhận đơn hàng
-            var token = Guid.NewGuid().ToString();
-            TempData[$"confirm_order_{token}"] = latestOrder.OId;
-            var confirmLink = Url.Action("ConfirmOrder", "Checkout", new { token = token }, Request.Scheme);
+            // Tạo chuỗi chi tiết đơn hàng
+            string orderDetailsHtml = "<ul>";
+            foreach (var item in latestOrder.OrderDetails)
+            {
+                orderDetailsHtml += $"<li>{item.Product.ProductName} - Số lượng: {item.Quantity} - Giá: {item.Price.ToString("C0", cultureVN)}</li>";
+            }
+            orderDetailsHtml += "</ul>";
 
-            // Lấy thông tin user để gửi mail
-            var account = await _dataContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            // Tạo link xác nhận thanh toán
+            var confirmLink = Url.Action("OrderConfirmed", "Checkout", null, protocol: Request.Scheme);
 
             string body = $@"
-        <h3>SweetDream - Xác nhận đơn hàng</h3>
-        <p>Xin chào <strong>{account.LastName} {account.FirstName}</strong>,</p>
-        <p>Bạn đã đặt đơn hàng với tổng giá trị: <strong>{totalAmount.ToString("C0", cultureVN)}</strong>.</p>
-        <p>Vui lòng <a href='{confirmLink}'>nhấn vào đây để xác nhận đơn hàng</a>.</p>
-    ";
+    <h3>SweetDream - Xác nhận đơn hàng</h3>
+    <p>Xin chào <strong>{account.UserName} {account.FirstName}</strong>,</p>
+    <p>Bạn đã đặt đơn hàng với tổng giá trị: <strong>{totalAmount.ToString("C0", cultureVN)}</strong>.</p>
+    <p>Chi tiết đơn hàng:</p>
+    {orderDetailsHtml}
+    <p>Địa chỉ giao hàng: {latestOrder.ShippingAddress}</p>
+    <p>Số điện thoại liên hệ: {latestOrder.PhoneNumber}</p>
+    <p>Ghi chú: {latestOrder.CustomerNote}</p>
+    
+    <p style='font-size: 16px; font-weight: bold;'>✅ Xác nhận đã thanh toán đơn hàng mã <span style='color: #E2171A;'>#{latestOrder.OId}</span></p>
+    
+    <p>Vui lòng ấn vào link bên dưới để xác nhận:</p>
 
-            await _emailService.SendEmailAsync(account.Email, "Xác nhận đơn hàng SweetDream", body);
+    <p>
+        <a href='{confirmLink}' style='display: inline-block; background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>
+            Xác nhận đơn hàng
+        </a>
+    </p>
 
-            TempData["Success"] = "Đơn hàng đã được tạo. Vui lòng kiểm tra email để xác nhận.";
-            return RedirectToAction("ConfirmOrder", new { id = latestOrder.OId });
+    <p>Trân trọng,<br>SweetDream Team</p>";
+
+
+            try
+            {
+                var emailSent = await _emailService.SendEmailAsync(account.Email, "Xác nhận đơn hàng SweetDream", body);
+                if (emailSent)
+                {
+                    TempData["Success"] = "Mail gửi thành công.";
+                    return View("OrderSubmitted");
+                }
+                else
+                {
+                    TempData["Error"] = "Gửi mail thất bại.";
+                    return View(order);
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "Lỗi gửi mail: " + ex.Message;
+                return View(order);
+            }
         }
-
 
 
 
 
 
         [HttpGet]
-        public async Task<IActionResult> ConfirmOrder(string token)
+        public IActionResult OrderConfirmed()
         {
-            if (!TempData.TryGetValue($"confirm_order_{token}", out var orderIdObj))
-                return NotFound();
-
-            int orderId = (int)orderIdObj;
-
-            var order = await _dataContext.Orders
-                .Include(o => o.OrderDetails)
-                .Include(o => o.Account)
-                .FirstOrDefaultAsync(o => o.OId == orderId);
-
-            if (order == null)
-                return NotFound();
-
-            TempData["Success"] = "Xác nhận đơn hàng thành công!";
-
-            return RedirectToAction("OrderSubmitted", new { id = orderId });
+            return View("OrderConfirmed");
         }
+
 
 
 
@@ -134,7 +163,7 @@ namespace SweetDream.Controllers
 
                 _dataContext.Add(newVnpayInsert);
 
-                await _dataContext.SaveChangesAsync();            
+                await _dataContext.SaveChangesAsync();
 
             }
             else

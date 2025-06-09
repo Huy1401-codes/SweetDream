@@ -131,11 +131,15 @@
         <p style="font-weight: bold; color: green;">Số tiền: @totalAmount.ToString("C0", cultureVN)</p>
     </div>
         <form method="post" asp-action="OrderSubmitted" asp-controller="Checkout" asp-antiforgery="true">
-            <input type="hidden" name="orderId" value="@Model.OId" />
+            <input type="hidden" name="OId" value="@Model.OId" />
+            <input type="hidden" name="ShippingAddress" value="@Model.ShippingAddress" />
+            <input type="hidden" name="PhoneNumber" value="@Model.PhoneNumber" />
+            <input type="hidden" name="CustomerNote" value="@Model.CustomerNote" />
             <button type="submit" class="btn btn-warning mt-3" style="font-size: 18px; padding: 10px 30px;">
                 ✅ Tôi đã thanh toán
             </button>
         </form>
+
     @section Scripts {
         <script>
             document.getElementById("showQrBtn").addEventListener("click", function () {

@@ -1,20 +1,14 @@
 ﻿@{
     ViewData["Title"] = "Đơn hàng đã được gửi";
 }
-@{
-    ViewBag.Title = "Đặt hàng thành công";
-}
-<h2>🎉 Cảm ơn bạn đã đặt hàng!</h2>
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">@TempData["Success"]</div>
-}
-else if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger">@TempData["Error"]</div>
-}
-else
-{
-    <p>Vui lòng kiểm tra email để xác nhận đơn hàng.</p>
-}
+
+<div class="d-flex flex-column justify-content-center align-items-center" style="height: 70vh; text-align: center;">
+    <h2 class="text-success mb-4">🎉 Cảm ơn bạn đã đặt hàng!</h2>
+
+    <p class="lead">Vui lòng kiểm tra email để xác nhận đơn hàng.</p>
+
+    <a href="@(Url.Action("Index", "Home"))" class="btn btn-primary mt-3 px-4 py-2">
+        Quay về trang chủ
+    </a>
+</div>
