@@ -6,4 +6,8 @@
 bin/
 obj/
 .vs/
+*.bin
+*.obj
+
+
 
