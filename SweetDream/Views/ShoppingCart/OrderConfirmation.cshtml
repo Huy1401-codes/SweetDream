@@ -118,6 +118,13 @@
         <p style="font-weight: bold; color: green;">Số tiền: @totalAmount.ToString("C0", cultureVN)</p>
     </div>
 
+    <form method="post" asp-action="OrderSubmitted" asp-controller="Checkout" asp-antiforgery="true">
+        <input type="hidden" name="orderId" value="@Model.OId" />
+        <button type="submit" class="btn btn-warning mt-3" style="font-size: 18px; padding: 10px 30px;">
+            ✅ Tôi đã thanh toán
+        </button>
+    </form>
+
     @section Scripts {
         <script>
             document.getElementById("showQrBtn").addEventListener("click", function () {

@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.CodeModifier.CodeChange;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using SweetDream.Models;
 using SweetDream.Repositories;
+using SweetDream.Services;
 using SweetDream.Services.VnPay;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -13,122 +15,100 @@ namespace SweetDream.Controllers
     {
         private readonly DataContext _dataContext;
         private readonly IVnPayService _vnPayService;
-        public CheckoutController(IVnPayService vnPayService, DataContext dataContext)
+        private readonly EmailService _emailService;
+
+        public CheckoutController(IVnPayService vnPayService, DataContext dataContext, EmailService emailService)
         {
 
             _vnPayService = vnPayService;
             _dataContext = dataContext;
+            _emailService = emailService;
         }
 
 
-        //public async Task<IActionResult> Checkout(string PaymentMethod, string PaymentId)
-        //{
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> OrderSubmitted(Order order)
+        {
+            if (!ModelState.IsValid)
+                return View(order);
 
-        //    var userEmail = User.FindFirstValue(ClaimTypes.Email);
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-        //    if (userEmail == null)
-        //    {
-        //        return RedirectToAction("Login", "Account");
-        //    }
+            // Lấy đơn hàng mới nhất của user (IsCart = false)
+            var latestOrder = await _dataContext.Orders
+                .Where(o => o.AccountId == userId && o.IsCart == false)
+                .OrderByDescending(o => o.OrderDetails.Max(od => od.OrderDate))
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Product)
+                .FirstOrDefaultAsync();
 
-        //    else
+            if (latestOrder == null || latestOrder.OrderDetails == null || !latestOrder.OrderDetails.Any())
+            {
+                TempData["Error"] = "Không tìm thấy đơn hàng để xử lý!";
+                return RedirectToAction("ShoppingCart", "Cart");
+            }
 
-        //    {
+            // Cập nhật thông tin đơn hàng từ form nhập
+            latestOrder.ShippingAddress = order.ShippingAddress;
+            latestOrder.PhoneNumber = order.PhoneNumber;
+            latestOrder.CustomerNote = order.CustomerNote;
 
-        //        var ordercode = Guid.NewGuid().ToString();
+            _dataContext.Orders.Update(latestOrder);
+            await _dataContext.SaveChangesAsync();
 
-        //        var orderItem = new OrderModel();
+            // Tính tổng tiền đơn hàng
+            var cultureVN = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+            var totalAmount = latestOrder.OrderDetails.Sum(od => od.Quantity * (od.Price - od.Discount));
 
-        //        orderItem.OrderCode = ordercode;
+            // Tạo link xác nhận đơn hàng
+            var token = Guid.NewGuid().ToString();
+            TempData[$"confirm_order_{token}"] = latestOrder.OId;
+            var confirmLink = Url.Action("ConfirmOrder", "Checkout", new { token = token }, Request.Scheme);
 
-        //        // Get shipping price from cookie
+            // Lấy thông tin user để gửi mail
+            var account = await _dataContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
-        //        var shippingPriceCookie = Request.Cookies["ShippingPrice"];
+            string body = $@"
+        <h3>SweetDream - Xác nhận đơn hàng</h3>
+        <p>Xin chào <strong>{account.LastName} {account.FirstName}</strong>,</p>
+        <p>Bạn đã đặt đơn hàng với tổng giá trị: <strong>{totalAmount.ToString("C0", cultureVN)}</strong>.</p>
+        <p>Vui lòng <a href='{confirmLink}'>nhấn vào đây để xác nhận đơn hàng</a>.</p>
+    ";
 
-        //        decimal shippingPrice = 0;
+            await _emailService.SendEmailAsync(account.Email, "Xác nhận đơn hàng SweetDream", body);
 
-        //        //Get Coupon code from cookie
-
-        //        var coupon_code = Request.Cookies["CouponTitle"];
-
-        //        if (shippingPriceCookie != null)
-        //        {
-        //            var shippingPriceJson = shippingPriceCookie;
-
-        //            shippingPrice = JsonConvert.DeserializeObject<decimal>(shippingPriceJson);
+            TempData["Success"] = "Đơn hàng đã được tạo. Vui lòng kiểm tra email để xác nhận.";
+            return RedirectToAction("ConfirmOrder", new { id = latestOrder.OId });
+        }
 
 
-        //        }
-        //        else
-        //        {
-        //            shippingPrice = 0;
-        //        }
 
-        //        orderItem.ShippingCost = shippingPrice;
-        //        orderItem.CouponCode = coupon_code;
-        //        orderItem.UserName = userEmail;
-        //        if (PaymentMethod == "COD")
-        //        {
-        //            orderItem.PaymentMethod = PaymentMethod;
-        //        }
-        //        else if (PaymentMethod == "VnPay")
-        //        {
-        //            orderItem.PaymentMethod = "VnPay" + PaymentId;
-        //        }
-        //        orderItem.Status = 1;
-        //        orderItem.CreatedDate = DateTime.Now;
-        //        _dataContext.Add(orderItem);
-        //        _dataContext.SaveChanges();
 
-        //        //List<CartItemModel> cartItems = HttpContext.Session.GetJson<List<CartItemModel>>
 
-        //        // foreach (var cart in cartItems)
 
-        //        //{
+        [HttpGet]
+        public async Task<IActionResult> ConfirmOrder(string token)
+        {
+            if (!TempData.TryGetValue($"confirm_order_{token}", out var orderIdObj))
+                return NotFound();
 
-        //        //    var orderdetail = new OrderDetail();
+            int orderId = (int)orderIdObj;
 
-        //        //    orderdetail.UserName = userEmail;
+            var order = await _dataContext.Orders
+                .Include(o => o.OrderDetails)
+                .Include(o => o.Account)
+                .FirstOrDefaultAsync(o => o.OId == orderId);
 
-        //        //    orderdetail.OrderCode = ordercode;
+            if (order == null)
+                return NotFound();
 
-        //        //    orderdetail.ProductId = cart.ProductId;
+            TempData["Success"] = "Xác nhận đơn hàng thành công!";
 
-        //        //    orderdetail.Price = cart.Price;
+            return RedirectToAction("OrderSubmitted", new { id = orderId });
+        }
 
-        //        //    orderdetail.Quantity = cart.Quantity;
 
-        //        //    //update product quantity
-
-        //        //    var product = await _dataContext.Products.Where(p => p.ProductId == cart.ProductId);
-
-        //        //    product.Quantity -= cart.Quantity;
-
-        //        //    product.Sold += cart.Quantity;
-
-        //        //    _dataContext.Update(product);
-
-        //        //    //++update product quantity
-
-        //        //    _dataContext.Add(orderdetail);
-
-        //        //    _dataContext.SaveChanges();
-
-        //        //}
-
-        //        //HttpContext.Session.Remove("Cart");
-
-        //        ////Send mail order when success
-
-        //        //var receiver = userEmail;
-
-        //        //var subject = "Order successful";
-
-        //        //var message = "Order successful, enjoy the service.";
-
-        //        //await _emailSender.SendEmailAsync(receiver, subject, message);
-        //    }
-        //}
 
         [HttpGet]
         public async Task<IActionResult> PaymentCallbackVnpay()
@@ -154,11 +134,7 @@ namespace SweetDream.Controllers
 
                 _dataContext.Add(newVnpayInsert);
 
-                await _dataContext.SaveChangesAsync();
-
-                //Proceed to place order when momo payment is successful
-
-                //await Checkout();
+                await _dataContext.SaveChangesAsync();            
 
             }
             else
