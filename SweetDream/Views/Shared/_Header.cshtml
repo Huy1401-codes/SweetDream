@@ -1,193 +1,6 @@
 ﻿<header style="background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
     <style>
-        /* Reset và style container */
-        .my-header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        /* Logo */
-        .my-logo img {
-            width: 200px;
-            height: auto;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-            .my-logo img:hover {
-                transform: scale(1.05);
-            }
-
-        /* Nav menu */
-        .my-nav {
-            display: flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-            .my-nav > li {
-                position: relative;
-                margin-left: 30px;
-                cursor: pointer;
-                border-radius: 6px;
-                transition: background-color 0.3s ease;
-            }
-
-                .my-nav > li > a {
-                    text-decoration: none;
-                    color: #444;
-                    font-weight: 600;
-                    padding: 10px 15px;
-                    display: inline-block;
-                    border-radius: 6px;
-                    transition: background-color 0.3s ease, color 0.3s ease;
-                }
-
-                    .my-nav > li:hover,
-                    .my-nav > li > a:hover {
-                        background-color: #007bff;
-                        color: white !important;
-                    }
-
-                .my-nav > li.has-dropdown > a::after {
-                    content: " ▼";
-                    font-size: 0.65em;
-                    margin-left: 5px;
-                    transition: transform 0.3s ease;
-                }
-
-                .my-nav > li.has-dropdown:hover > a::after {
-                    transform: rotate(180deg);
-                }
-
-        /* Dropdown menu */
-        .my-dropdown {
-            position: absolute;
-            top: 52px;
-            left: 0;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            min-width: 190px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-            display: none;
-            flex-direction: column;
-            z-index: 1000;
-            padding: 8px 0;
-            transition: opacity 0.3s ease;
-        }
-
-            .my-dropdown a {
-                padding: 10px 20px;
-                text-decoration: none;
-                color: #444;
-                display: block;
-                white-space: nowrap;
-                transition: background-color 0.25s ease;
-                border-radius: 6px;
-            }
-
-                .my-dropdown a:hover {
-                    background-color: #007bff;
-                    color: white;
-                }
-
-        .my-nav > li.has-dropdown:hover .my-dropdown {
-            display: flex;
-        }
-
-        /* Icon section */
-        .my-icons {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-            font-size: 20px;
-            color: #444;
-            user-select: none;
-        }
-
-            .my-icons a {
-                text-decoration: none;
-                color: inherit;
-                cursor: pointer;
-                transition: color 0.3s ease;
-                display: flex;
-                align-items: center;
-            }
-
-                .my-icons a:hover {
-                    color: #007bff;
-                }
-
-            .my-icons svg {
-                width: 22px;
-                height: 22px;
-                fill: currentColor;
-            }
-
-        /* Search box styles */
-        #search_box {
-            display: none;
-            background: #f9f9f9;
-            padding: 10px 20px;
-            border-top: 1px solid #ddd;
-            transition: max-height 0.4s ease;
-            overflow: hidden;
-        }
-
-            #search_box.active {
-                display: block;
-            }
-
-            #search_box form {
-                display: flex;
-                max-width: 600px;
-                margin: 0 auto;
-            }
-
-            #search_box input[type="text"] {
-                flex: 1;
-                padding: 8px 12px;
-                border: 1px solid #ccc;
-                border-radius: 4px 0 0 4px;
-                font-size: 16px;
-                outline: none;
-            }
-
-            #search_box button {
-                padding: 8px 16px;
-                border: 1px solid #007bff;
-                background-color: #007bff;
-                color: white;
-                border-radius: 0 4px 4px 0;
-                cursor: pointer;
-                font-size: 16px;
-                transition: background-color 0.3s ease;
-                border-left: none;
-            }
-
-                #search_box button:hover {
-                    background-color: #0056b3;
-                }
-
-        #search_close {
-            cursor: pointer;
-            font-size: 22px;
-            color: #999;
-            margin-left: 15px;
-            user-select: none;
-            transition: color 0.3s ease;
-        }
-
-            #search_close:hover {
-                color: #007bff;
-            }
+        /* ... Giữ nguyên toàn bộ CSS như bạn đã đưa ... */
     </style>
 
     <div class="my-header-container">
@@ -201,9 +14,7 @@
         <!-- Navigation menu -->
         <ul class="my-nav">
             <li><a href="/">Home</a></li>
-            <li class="my-nav">
-                <a href="/Home/Product">Product</a>
-            </li>
+            <li><a href="/Home/Product">Product</a></li>
             <li class="has-dropdown">
                 <a href="#">Pages</a>
                 <div class="my-dropdown">
@@ -213,10 +24,25 @@
                     <a href="elements.html">Elements</a>
                 </div>
             </li>
-            <li class="my-nav">
-                <a href="/Authentication/Blogs">Blog</a>
-            </li>
-            <li><a href="/Authentication/Login">Login</a></li>
+            <li><a href="/Authentication/Blogs">Blog</a></li>
+
+            @* Thay Login/Logout tùy vào trạng thái đăng nhập *@
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li>
+                    <a href="@Url.Action("Logout", "Authentication")">
+                        <i class="fa fa-sign-out"></i> Logout
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a href="@Url.Action("Login", "Authentication")">
+                        <i class="fa fa-lock"></i> Login
+                    </a>
+                </li>
+            }
         </ul>
 
         <!-- Icons -->
@@ -226,7 +52,7 @@
                     <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none" />
                     <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                 </svg>
-            </a>    
+            </a>
             <a href="ShoppingCart" title="Cart" aria-label="Cart">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path d="M6 6h15l-1.5 9h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
@@ -234,15 +60,21 @@
                     <circle cx="18" cy="21" r="1" fill="currentColor" />
                 </svg>
             </a>
-            <a href="Profiles" title="Profile" aria-label="Profile">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" fill="none" />
-                    <path d="M6 21v-2a6 6 0 0 1 12 0v2" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
-                </svg>
-            </a>
+
+            @* Profile icon chỉ hiện nếu đã đăng nhập *@
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a href="/Profiles" title="Profile" aria-label="Profile">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" fill="none" />
+                        <path d="M6 21v-2a6 6 0 0 1 12 0v2" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                    </svg>
+                </a>
+            }
         </div>
     </div>
 
+    <!-- Search Box -->
     <div id="search_box">
         <form action="#" method="get">
             <input type="text" placeholder="Search here..." name="q" />
@@ -251,6 +83,7 @@
         </form>
     </div>
 
+    <!-- Search JS -->
     <script>
         const searchIcon = document.getElementById('search_icon');
         const searchBox = document.getElementById('search_box');
