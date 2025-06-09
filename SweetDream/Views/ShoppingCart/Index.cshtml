@@ -1,71 +1,140 @@
 ﻿@model SweetDream.Models.Order
 
-<h2 class="title text-center">Shopping Cart</h2>
+@{
+    var cultureVN = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
 
-@if (Model.OrderDetails != null && Model.OrderDetails.Any())
-{
-    <form id="cartForm" method="post" action="@Url.Action("ConfirmOrder", "ShoppingCart")">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Select</th>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Discount</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.OrderDetails)
-                {
-                    <tr data-product-id="@item.ProductId">
-                        <td>
-                            <input type="checkbox" name="selectedProducts" value="@item.ProductId"
-                                   class="product-checkbox" data-disable="@item.Product.Disable.ToString().ToLower()">
-                        </td>
-                        <td>
-                            <img src="~/img/product/@item.Product.Image" alt="@item.Product.ProductName"
-                                 class="img-thumbnail" style="width: 80px; height: 80px;">
-                            <br>
-                            @item.Product.ProductName
-                        </td>
-                        <td>@item.Price.ToString("C")</td>
-                        <td>@(item.Discount > 0 ? $"-{item.Discount:C}" : "No Discount")</td>
-                        <td>
-                            <input type="number" class="quantity-input" data-product-id="@item.ProductId"
-                                   value="@item.Quantity" min="1" max="@item.Product.Quantity">
-                        </td>
-                        <td class="total-price" data-product-id="@item.ProductId">
-                            @((item.Quantity * (item.Price - item.Discount)).ToString("C"))
-                        </td>
-                        <td>
-                            <a href="@Url.Action("RemoveFromCart", "ShoppingCart", new { productId = item.ProductId })"
-                               class="btn btn-danger remove-item">Remove</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+<div class="cart-container my-5">
+    <h2 class="text-center mb-4">🛒 Your Shopping Cart</h2>
 
-        <div class="d-flex justify-content-between">
-            <div>
-                <a href="@Url.Action("ClearCart", "ShoppingCart")" class="btn btn-default get">Clear Cart</a>
-                <button type="submit" class="btn btn-default get">Confirm Order</button>
-                <a href="@Url.Action("Index", "Home")" class="btn btn-default get">Continue Shopping</a>
+    @if (Model.OrderDetails != null && Model.OrderDetails.Any())
+    {
+        <form id="cartForm" method="post" action="@Url.Action("ConfirmOrder", "ShoppingCart")">
+            <div class="table-responsive shadow-sm rounded bg-white p-3">
+                <table class="table align-middle text-center table-bordered small-table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Select</th>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Discount</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.OrderDetails)
+                        {
+                            var isDisabled = item.Product.Disable;
+                            <tr data-product-id="@item.ProductId" class="@(isDisabled ? "table-warning" : "")">
+                                <td>
+                                    <input type="checkbox" name="selectedProducts" value="@item.ProductId"
+                                           class="form-check-input product-checkbox"
+                                           data-disable="@isDisabled.ToString().ToLower()"
+                                    @(isDisabled ? "disabled" : "") />
+                                </td>
+                                <td style="min-width: 160px;">
+                                    <img src="~/img/product/@item.Product.Image" alt="@item.Product.ProductName"
+                                         class="img-thumbnail mb-1" style="width: 60px; height: 60px;">
+                                    <div class="fw-semibold mt-1">@item.Product.ProductName</div>
+                                </td>
+                                <td>@item.Price.ToString("C", cultureVN)</td>
+                                <td class="text-danger">
+                                    @(item.Discount > 0 ? $"-{item.Discount.ToString("C", cultureVN)}" : "No Discount")
+                                </td>
+                                <td style="min-width: 100px;">
+                                    <input type="number" class="form-control quantity-input"
+                                           data-product-id="@item.ProductId"
+                                           value="@item.Quantity" min="1" max="@item.Product.Quantity"
+                                           style="width: 70px; margin: auto;" />
+                                </td>
+                                <td class="total-price fw-bold text-success" data-product-id="@item.ProductId">
+                                    @((item.Quantity * (item.Price - item.Discount)).ToString("C", cultureVN))
+                                </td>
+
+                                <td>
+                                    <a href="@Url.Action("RemoveFromCart", "ShoppingCart", new { productId = item.ProductId })"
+                                       class="btn btn-sm btn-outline-danger remove-item">
+                                        <i class="bi bi-trash"></i> Remove
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
+
+            <div class="text-end mt-3 me-2">
+                @{
+                    var total = Model.OrderDetails.Sum(x => x.Quantity * (x.Price - x.Discount));
+                }
+                <h5 class="fw-bold">
+                    Tổng cộng: @total.ToString("C", cultureVN)
+                </h5>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+                <div>
+                    <a href="@Url.Action("ClearCart", "ShoppingCart")" class="btn btn-outline-secondary">
+                        🗑 Clear Cart
+                    </a>
+                    <a href="@Url.Action("Index", "Home")" class="btn btn-outline-info">
+                        🛍 Continue Shopping
+                    </a>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-success">
+                        ✅ Confirm Order
+                    </button>
+                </div>
+            </div>
+        </form>
+    }
+    else
+    {
+        <div class="text-center mt-5">
+            <img src="~/images/EmptyCart.jpg" alt="Empty Cart" class="img-fluid mb-3" style="max-width: 300px;">
+            <h4 class="mb-3">Your cart is empty.</h4>
+            <a href="@Url.Action("Index", "Home")" class="btn btn-primary">🛍 Shopping Now</a>
         </div>
-    </form>
-}
-else
-{
-    <div class="text-center">
-        <img src="~/images/EmptyCart.jpg" alt="Empty Cart" class="img-fluid" style="max-width: 400px;">
-        <p>Your cart is empty.</p>
-        <a href="@Url.Action("Index", "Home")" class="btn btn-default get">Shopping Now</a>
-    </div>
-}
+    }
+</div>
+
+<!-- Inline CSS -->
+<style>
+    .cart-container {
+        max-width: 1100px;
+        margin: auto;
+        padding: 15px;
+    }
+
+    .small-table td,
+    .small-table th {
+        font-size: 0.95rem;
+        padding: 10px 6px;
+    }
+
+    .img-thumbnail {
+        border-radius: 8px;
+    }
+
+    .table-responsive {
+        border: 1px solid #dee2e6;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f1f1f1;
+        transition: background-color 0.3s;
+    }
+
+    .btn-outline-secondary:hover,
+    .btn-outline-info:hover {
+        transform: scale(1.02);
+        transition: 0.2s ease;
+    }
+</style>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="~/js/shopping-cart.js"></script>

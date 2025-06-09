@@ -124,6 +124,16 @@
     });
 </script>
 <script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/productHub")
+        .build();
+
+    connection.start().catch(err => console.error(err));
+    connection.on("ReceiveBlogUpdate", function () {
+        location.reload();
+    });
+</script>
+<script>
     function confirmDelete(Id) {
         Swal.fire({
             title: "Are you sure?",

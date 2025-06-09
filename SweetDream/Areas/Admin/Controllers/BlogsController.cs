@@ -108,9 +108,9 @@ namespace SweetDream.Areas.Admin.Controllers
 
                 _context.Add(blog);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Blog Create successfully!";
 
                 await _hubContext.Clients.All.SendAsync("ReceiveBlogUpdate");
-                TempData["SuccessMessage"] = "Blog Create successfully!";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -185,6 +185,9 @@ namespace SweetDream.Areas.Admin.Controllers
 
                     _context.Update(model);
                     await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Blog Update successfully!";
+                    await _hubContext.Clients.All.SendAsync("ReceiveBlogUpdate");
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -196,7 +199,6 @@ namespace SweetDream.Areas.Admin.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            TempData["SuccessMessage"] = "Blog Update successfully!";
             PrepareViewBagForEdit(model);
             return View(model);
         }
@@ -260,7 +262,8 @@ namespace SweetDream.Areas.Admin.Controllers
                     _context.Blogs.Remove(blog);
                     await _context.SaveChangesAsync();
                     TempData["SuccessMessage"] = "Blog deleted successfully!";
-                    await _hubContext.Clients.All.SendAsync("ReceiveProductUpdate");
+                    await _hubContext.Clients.All.SendAsync("ReceiveBlogUpdate");
+
                 }
                 else
                 {

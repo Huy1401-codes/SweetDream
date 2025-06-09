@@ -22,6 +22,7 @@ namespace SweetDream.Repositories
         public DbSet<BlogCategory> BlogCategories { get; set; } = default!;
         public DbSet<Account> Accounts { get; set; }
 
+        public DbSet<VnpayModel> VnInfos { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

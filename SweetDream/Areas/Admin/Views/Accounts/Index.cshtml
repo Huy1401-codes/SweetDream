@@ -52,7 +52,7 @@
                     {
                         <tr class="account-row" data-username="@item.UserName.ToLower()" data-status="@(item.Active.HasValue && item.Active.Value ? "active" : "inactive")">
                             <td>
-                                <img src="@Url.Content(string.IsNullOrEmpty(item.AccountImage) ? "~/img/accountImg.png" : "~/images/" + item.AccountImage)"
+                                <img src="@Url.Content(string.IsNullOrEmpty(item.AccountImage) ? "~/img/accountImg.png" : "~/img/" + item.AccountImage)"
                                      class="profile-img banner-image" />
                             </td>
                             <td>@(item.FirstName + " " + item.LastName)</td>

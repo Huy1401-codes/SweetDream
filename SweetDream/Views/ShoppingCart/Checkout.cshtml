@@ -1,4 +1,4 @@
-﻿@model Order
+﻿@model SweetDream.Models.Order
 <h2 class="title text-center">Checkout</h2>
 
 @if (TempData["Error"] != null)
@@ -15,21 +15,25 @@
             <th>Total</th>
         </tr>
     </thead>
+    @{
+        var cultureVN = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+    }
     <tbody>
         @foreach (var item in Model.OrderDetails)
         {
             <tr>
                 <td>@item.Product.ProductName</td>
                 <td>@item.Quantity</td>
-                <td>@item.Price.ToString("C")</td>
-                <td>@(item.Quantity * item.Price) </td>
-                <input type="hidden" name="selectedProducts" value="@item.ProductId" />
+                <td>@item.Price.ToString("C", cultureVN)</td>
+                <td>@((item.Quantity * item.Price).ToString("C", cultureVN))</td>
             </tr>
+            <input type="hidden" name="selectedProducts" value="@item.ProductId" />
         }
     </tbody>
+
 </table>
 
-<h3>Total: @Model.OrderDetails.Sum(od => od.Quantity * od.Price).ToString("C")</h3>
+<h3>Total: @Model.OrderDetails.Sum(od => od.Quantity * od.Price).ToString("C", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))</h3>
 
 <form method="post" asp-action="Checkout">
     <input type="hidden" name="ShippingAddress" value="@Model.ShippingAddress" />

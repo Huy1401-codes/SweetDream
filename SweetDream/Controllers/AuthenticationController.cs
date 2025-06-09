@@ -70,6 +70,7 @@ namespace SweetDream.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register([Bind("UserName,FirstName,LastName,Email,PhoneNumber,Address,DateOfBirth,PasswordHash")] Account account, string roleName, string ConfirmPassword)
         {
+
             if (account.PasswordHash != ConfirmPassword)
             {
                 ViewData["ConfirmPasswordError"] = "Passwords do not match.";

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using SweetDream.Services;
 using SweetDream.Hubs;
+using SweetDream.Services.VnPay;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,6 +52,10 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("CustomerOnly", policy => policy.RequireRole("Customer"));
 });
 
+//Dang ki VnPay
+builder.Services.AddScoped<IVnPayService, VnPayService>();
+
+
 // **8. Xây dựng ứng dụng**
 var app = builder.Build();
 
@@ -84,18 +89,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
 
-// 13. Cấu hình route cho Areas (Admin)
 app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
 
-// 14. Route riêng cho Product
-app.MapControllerRoute(
-    name: "product",
-    pattern: "Product",
-    defaults: new { controller = "Home", action = "Product" });
-
-// 15. Cấu hình route mặc định
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

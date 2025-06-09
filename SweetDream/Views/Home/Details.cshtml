@@ -11,7 +11,9 @@
             <!-- Cột hình ảnh -->
             <div class="col-lg-6">
                 <div class="s_product_img">
-                    <img class="img-fluid" src="~/img/product/@Model.Image" alt="@Model.ProductName" style="width:100%; object-fit:cover; max-height:500px;" />
+@*                     <img class="img-fluid" src="~/img/product/@Model.Image" alt="@Model.ProductName" style="width:100%; object-fit:cover; max-height:500px;" />
+ *@                    <img src="@Model.Image" alt="@Model.ProductName" class="img-fluid" />
+
                 </div>
             </div>
 
@@ -19,7 +21,10 @@
             <div class="col-lg-5">
                 <div class="s_product_text">
                     <h3>@Model.ProductName</h3>
-                    <h2 class="text-danger">@Model.Price.ToString("C")</h2>
+                    <h2 class="text-danger">
+                        @Model.Price.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))
+                    </h2>
+
                     <ul class="list">
                         <li><span>Category</span>: <a asp-controller="Categories" asp-action="Details" asp-route-id="@Model.CategoryId">@ViewBag.CategoryName</a></li>
                         <li><span>Brand</span>: <a asp-controller="Brands" asp-action="Details" asp-route-id="@Model.BrandId">@ViewBag.BrandName</a></li>
@@ -39,7 +44,7 @@
                             <div class="product_count_area">
                                 <p>Quantity</p>
                                 <div class="product_count d-inline-block">
-                                    <span class="product_count_item inumber-decrement"> <i class="ti-minus"></i></span>
+                                    <span class="product_count_item inumber-decrement"> <i class="ti-minus"></ispan>
                                     <input name="quantity" class="product_count_item input-number" type="text" value="1" min="1" max="@Model.Quantity">
                                     <span class="product_count_item number-increment"> <i class="ti-plus"></i></span>
                                 </div>
@@ -58,7 +63,7 @@
         </div>
     </div>
 </section>
-<!--================End Single Product Area =================-->
+<!--================End Single Product Area =================-->></
 <!--================ Feedback Section =================-->
 <section class="product_description_area">
     <div class="container">
@@ -95,12 +100,13 @@
                 @foreach (var feedback in ViewBag.Feedbacks)
                 {
                     var userImage = !string.IsNullOrEmpty(feedback.Account?.AccountImage)
-                    ? $"/images/{feedback.Account.AccountImage}"
-                    : "/images/default-avatar.png";
+                    ? $"/img/{feedback.Account.AccountImage}"
+                    : "/img/default-avatar.png";
 
                     <div class="feedback-item border p-3 rounded mb-3">
                         <div class="d-flex align-items-center mb-2">
                             <img src="@userImage" alt="Avatar" class="rounded-circle me-3" style="width:50px; height:50px;">
+                            
                             <div>
                                 <h6 class="mb-0">@feedback.Account?.UserName</h6>
                                 <small class="text-muted">@feedback.CreatedAt.ToString("dd/MM/yyyy HH:mm")</small>
