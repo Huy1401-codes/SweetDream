@@ -29,6 +29,9 @@
                 <th>Total</th>
             </tr>
         </thead>
+        @{
+            var cultureVN = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+        }
         <tbody>
             @foreach (var item in Model.OrderDetails)
             {
@@ -39,16 +42,19 @@
                     <td>
                         <img src="~/img/product/@item.Product.Image" alt="@item.Product.ProductName"
                              class="img-thumbnail" style="width: 80px; height: 80px;">
-                        <br>
+                        <br />
                         @item.Product.ProductName
                     </td>
-                    <td>@item.Price.ToString("C")</td>
+                    <td>@item.Price.ToString("C", cultureVN)</td>
                     <td>@item.Quantity</td>
-                    <td>@((item.Quantity * item.Price).ToString("C"))</td>
+                    <td>@((item.Quantity * item.Price).ToString("C", cultureVN))</td>
                 </tr>
             }
         </tbody>
+
     </table>
     <button type="submit" class="btn btn-default get">Place Order</button>
     <a href="@Url.Action("Index", "ShoppingCart")" class="btn btn-default get">Back to Cart</a>
 </form>
+
+

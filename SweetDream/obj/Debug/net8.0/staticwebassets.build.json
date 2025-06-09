@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "RJkCBWhFN2YRkaCNduZJ301mgjqilQAucmfda4OdMgQ=",
+  "Hash": "ymYojEMHk77xfUrwZHdaP5z6KQ0mSAqKQrbXQ0qI7zc=",
   "Source": "SweetDream",
   "BasePath": "_content/SweetDream",
   "Mode": "Default",
@@ -4100,6 +4100,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\q14-b3.png"
+    },
+    {
+      "Identity": "D:\\EXE\\Demo\\SweetDream\\SweetDream\\wwwroot\\img\\q15_b3.png",
+      "SourceId": "SweetDream",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\EXE\\Demo\\SweetDream\\SweetDream\\wwwroot\\",
+      "BasePath": "_content/SweetDream",
+      "RelativePath": "img/q15_b3.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\q15_b3.png"
     },
     {
       "Identity": "D:\\EXE\\Demo\\SweetDream\\SweetDream\\wwwroot\\img\\Screenshot 2025-06-03 034114.jpg",

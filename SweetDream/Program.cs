@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using SweetDream.Services;
 using SweetDream.Hubs;
+using SweetDream.Services.VnPay;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +51,10 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("StaffOnly", policy => policy.RequireRole("Staff"));
     options.AddPolicy("CustomerOnly", policy => policy.RequireRole("Customer"));
 });
+
+//Dang ki VnPay
+builder.Services.AddScoped<IVnPayService, VnPayService>();
+
 
 // **8. Xây dựng ứng dụng**
 var app = builder.Build();
