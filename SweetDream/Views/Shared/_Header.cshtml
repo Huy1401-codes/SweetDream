@@ -201,10 +201,7 @@
         <!-- Navigation menu -->
         <ul class="my-nav">
             <li><a href="/">Home</a></li>
-            <li class="my-nav">
-                <a href="/Home/Product">Product</a>
-
-            </li>
+            <li><a href="/Home/Product">Product</a></li>
             <li class="has-dropdown">
                 <a href="#">Pages</a>
                 <div class="my-dropdown">
@@ -214,10 +211,25 @@
                     <a href="elements.html">Elements</a>
                 </div>
             </li>
-            <li class="my-nav">
-                <a href="/Blogs/Index">Blog</a>
-            </li>
-            <li><a href="/Authentication/Login">Login</a></li>
+            <li><a href="/Authentication/Blogs">Blog</a></li>
+
+            @* Thay Login/Logout tùy vào trạng thái đăng nhập *@
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li>
+                    <a href="@Url.Action("Logout", "Authentication")">
+                        <i class="fa fa-sign-out"></i> Logout
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a href="@Url.Action("Login", "Authentication")">
+                        <i class="fa fa-lock"></i> Login
+                    </a>
+                </li>
+            }
         </ul>
 
         <!-- Icons -->
@@ -227,7 +239,7 @@
                     <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none" />
                     <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                 </svg>
-            </a>    
+            </a>
             <a href="ShoppingCart" title="Cart" aria-label="Cart">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path d="M6 6h15l-1.5 9h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
@@ -235,15 +247,21 @@
                     <circle cx="18" cy="21" r="1" fill="currentColor" />
                 </svg>
             </a>
-            <a href="Profiles" title="Profile" aria-label="Profile">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" fill="none" />
-                    <path d="M6 21v-2a6 6 0 0 1 12 0v2" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
-                </svg>
-            </a>
+
+            @* Profile icon chỉ hiện nếu đã đăng nhập *@
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a href="/Profiles" title="Profile" aria-label="Profile">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" fill="none" />
+                        <path d="M6 21v-2a6 6 0 0 1 12 0v2" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                    </svg>
+                </a>
+            }
         </div>
     </div>
 
+    <!-- Search Box -->
     <div id="search_box">
         <form action="#" method="get">
             <input type="text" placeholder="Search here..." name="q" />
@@ -252,6 +270,7 @@
         </form>
     </div>
 
+    <!-- Search JS -->
     <script>
         const searchIcon = document.getElementById('search_icon');
         const searchBox = document.getElementById('search_box');
