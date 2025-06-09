@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Product List";
+
 }
 
 <!-- breadcrumb part start-->
@@ -27,18 +28,27 @@
                 <div class="product_sidebar">
                     <div class="single_sedebar">
                         <form asp-controller="Home" asp-action="Product" method="get">
-                            <input type="text" name="search" class="form-control mb-2" placeholder="Search keyword"
-                                   value="@ViewBag.Search" />
+                            <div class="form-group mb-3">
+                                <input type="text" name="search" class="form-control" placeholder="Search keyword"
+                                       value="@ViewBag.Search" />
+                            </div>
 
-                            <input type="number" name="minPrice" class="form-control mb-2" placeholder="Min Price"
-                                   value="@(ViewBag.MinPrice ?? "")" min="0" />
+                            <div class="form-group mb-3">
+                                <input type="number" name="minPrice" class="form-control" placeholder="Min Price"
+                                       value="@(ViewBag.MinPrice ?? "")" min="0" />
+                            </div>
 
-                            <input type="number" name="maxPrice" class="form-control mb-2" placeholder="Max Price"
-                                   value="@(ViewBag.MaxPrice ?? "")" min="0" />
+                            <div class="form-group mb-3">
+                                <input type="number" name="maxPrice" class="form-control" placeholder="Max Price"
+                                       value="@(ViewBag.MaxPrice ?? "")" min="0" />
+                            </div>
 
-                            <button type="submit" class="btn_3 btn-block">Search</button>
+                            <div class="form-group">
+                                <button type="submit" class="btn_3 w-100">Search</button>
+                            </div>
                         </form>
                     </div>
+
                 </div>
             </div>
 
@@ -51,17 +61,21 @@
                             <div class="col-lg-4 col-sm-6 mb-4 single_product_item" data-title="@item.ProductName.ToLower()">
                                 <div>
                                     <a asp-controller="Home" asp-action="Details" asp-route-id="@item.ProductId">
-                                        @* <img src="~/img/product/@item.Image" alt="@item.ProductName" class="img-fluid" /> *@
                                         <img src="@item.Image" alt="@item.ProductName" class="img-fluid" />
-
                                     </a>
-                                    <h3>
+
+                                    <h3 class="mt-2">
                                         <a asp-controller="Home" asp-action="Details" asp-route-id="@item.ProductId">
                                             @item.ProductName
                                         </a>
                                     </h3>
+
+                                    <p class="mb-1">
+                                        Size: <strong>@item.Size</strong>
+                                    </p>
+
                                     <p>
-                                        From @item.Price
+                                        From @string.Format("{0:N0} ₫", item.Price)
                                         @if (item.Discount.HasValue && item.Discount.Value > 0)
                                         {
                                             <span class="text-danger ml-2">(-@item.Discount%)</span>
@@ -71,6 +85,7 @@
                             </div>
                         }
                     </div>
+
 
                     <!-- Pagination -->
                     <div class="pagination_area text-center mt-4">

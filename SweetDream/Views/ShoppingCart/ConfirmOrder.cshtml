@@ -1,60 +1,79 @@
-﻿@model SweetDream.Models.Order
-
-<h2 class="title text-center">Confirm Your Order</h2>
-
-<form asp-action="Checkout" asp-controller="ShoppingCart" method="post">
-    <div class="mb-3">
-        <label for="ShippingAddress" class="form-label">Shipping Address</label>
-        <input type="text" class="form-control" id="ShippingAddress" name="ShippingAddress" value="@Model.Account.Address" required>
+﻿<!-- breadcrumb part start-->
+<section class="breadcrumb_part">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb_iner">
+                    <h2>Checkout</h2>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="mb-3">
-        <label for="PhoneNumber" class="form-label">Phone Number</label>
-        <input type="text" class="form-control" id="PhoneNumber" name="PhoneNumber" value="@Model.Account.PhoneNumber" required>
+</section>
+<!-- breadcrumb part end-->
+<!--================Checkout Area =================-->
+<section class="checkout_area section_padding">
+    <div class="container">
+        <div class="billing_details">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>Confirm Your Order</h3>
+                    <form class="row contact_form" asp-action="Checkout" asp-controller="ShoppingCart" method="post" novalidate="novalidate">
+                        <div class="col-md-12 form-group mb-3">
+                            <label for="ShippingAddress">Shipping Address</label>
+                            <input type="text" class="form-control" id="ShippingAddress" name="ShippingAddress" value="@Model.Account.Address" required />
+                        </div>
+                        <div class="col-md-12 form-group mb-3">
+                            <label for="PhoneNumber">Phone Number</label>
+                            <input type="text" class="form-control" id="PhoneNumber" name="PhoneNumber" value="@Model.Account.PhoneNumber" required />
+                        </div>
+                        <div class="col-md-12 form-group mb-3">
+                            <label for="CustomerNote">Customer Note</label>
+                            <textarea class="form-control" id="CustomerNote" name="CustomerNote" rows="3" placeholder="Enter your notes here">@Model.CustomerNote</textarea>
+                        </div>
+                        <div class="col-md-12 form-group mb-3">
+                            <h3>Order Products</h3>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Select</th>
+                                        <th>Product</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                @{
+                                    var cultureVN = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+                                }
+                                <tbody>
+                                    @foreach (var item in Model.OrderDetails)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" name="selectedProducts" value="@item.ProductId" checked />
+                                            </td>
+                                            <td>
+                                                <img src="~/img/product/@item.Product.Image" alt="@item.Product.ProductName" class="img-thumbnail" style="width: 80px; height: 80px;" />
+                                                <br />
+                                                @item.Product.ProductName
+                                            </td>
+                                            <td>@item.Price.ToString("C", cultureVN)</td>
+                                            <td>@item.Quantity</td>
+                                            <td>@((item.Quantity * item.Price).ToString("C", cultureVN))</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <button type="submit" class="btn_3">Place Order</button>
+                            <a href="@Url.Action("Index", "ShoppingCart")" class="btn_3">Back to Cart</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="mb-3">
-        <label for="CustomerNote" class="form-label">Customer Note</label>
-        <textarea class="form-control" id="CustomerNote" name="CustomerNote">@Model.CustomerNote</textarea>
-    </div>
-    <hr />
-    <h2 class="title text-center">Order Products</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Select</th>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        @{
-            var cultureVN = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
-        }
-        <tbody>
-            @foreach (var item in Model.OrderDetails)
-            {
-                <tr>
-                    <td>
-                        <input type="checkbox" name="selectedProducts" value="@item.ProductId" checked>
-                    </td>
-                    <td>
-                        <img src="~/img/product/@item.Product.Image" alt="@item.Product.ProductName"
-                             class="img-thumbnail" style="width: 80px; height: 80px;">
-                        <br />
-                        @item.Product.ProductName
-                    </td>
-                    <td>@item.Price.ToString("C", cultureVN)</td>
-                    <td>@item.Quantity</td>
-                    <td>@((item.Quantity * item.Price).ToString("C", cultureVN))</td>
-                </tr>
-            }
-        </tbody>
-
-    </table>
-    <button type="submit" class="btn btn-default get">Place Order</button>
-    <a href="@Url.Action("Index", "ShoppingCart")" class="btn btn-default get">Back to Cart</a>
-</form>
-
-
+</section>
+<!--================End Checkout Area =================-->

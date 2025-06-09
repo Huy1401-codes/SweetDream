@@ -96,7 +96,7 @@ namespace SweetDream.Areas.Admin.Controllers
                 if (ImageFile != null && ImageFile.Length > 0)
                 {
                     var fileName = Path.GetFileName(ImageFile.FileName);
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", fileName);
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/product", fileName);
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await ImageFile.CopyToAsync(stream);
@@ -147,7 +147,7 @@ namespace SweetDream.Areas.Admin.Controllers
                     if (ImageFile != null && ImageFile.Length > 0)
                     {
                         var fileName = Path.GetFileName(ImageFile.FileName);
-                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", fileName);
+                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/product", fileName);
 
                         using (var stream = new FileStream(filePath, FileMode.Create))
                         {
