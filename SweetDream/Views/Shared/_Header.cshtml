@@ -1,6 +1,193 @@
 ﻿<header style="background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
     <style>
-        /* ... Giữ nguyên toàn bộ CSS như bạn đã đưa ... */
+        /* Reset và style container */
+        .my-header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Logo */
+        .my-logo img {
+            width: 200px;
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+            .my-logo img:hover {
+                transform: scale(1.05);
+            }
+
+        /* Nav menu */
+        .my-nav {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+            .my-nav > li {
+                position: relative;
+                margin-left: 30px;
+                cursor: pointer;
+                border-radius: 6px;
+                transition: background-color 0.3s ease;
+            }
+
+                .my-nav > li > a {
+                    text-decoration: none;
+                    color: #444;
+                    font-weight: 600;
+                    padding: 10px 15px;
+                    display: inline-block;
+                    border-radius: 6px;
+                    transition: background-color 0.3s ease, color 0.3s ease;
+                }
+
+                    .my-nav > li:hover,
+                    .my-nav > li > a:hover {
+                        background-color: #007bff;
+                        color: white !important;
+                    }
+
+                .my-nav > li.has-dropdown > a::after {
+                    content: " ▼";
+                    font-size: 0.65em;
+                    margin-left: 5px;
+                    transition: transform 0.3s ease;
+                }
+
+                .my-nav > li.has-dropdown:hover > a::after {
+                    transform: rotate(180deg);
+                }
+
+        /* Dropdown menu */
+        .my-dropdown {
+            position: absolute;
+            top: 52px;
+            left: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            min-width: 190px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            padding: 8px 0;
+            transition: opacity 0.3s ease;
+        }
+
+            .my-dropdown a {
+                padding: 10px 20px;
+                text-decoration: none;
+                color: #444;
+                display: block;
+                white-space: nowrap;
+                transition: background-color 0.25s ease;
+                border-radius: 6px;
+            }
+
+                .my-dropdown a:hover {
+                    background-color: #007bff;
+                    color: white;
+                }
+
+        .my-nav > li.has-dropdown:hover .my-dropdown {
+            display: flex;
+        }
+
+        /* Icon section */
+        .my-icons {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            font-size: 20px;
+            color: #444;
+            user-select: none;
+        }
+
+            .my-icons a {
+                text-decoration: none;
+                color: inherit;
+                cursor: pointer;
+                transition: color 0.3s ease;
+                display: flex;
+                align-items: center;
+            }
+
+                .my-icons a:hover {
+                    color: #007bff;
+                }
+
+            .my-icons svg {
+                width: 22px;
+                height: 22px;
+                fill: currentColor;
+            }
+
+        /* Search box styles */
+        #search_box {
+            display: none;
+            background: #f9f9f9;
+            padding: 10px 20px;
+            border-top: 1px solid #ddd;
+            transition: max-height 0.4s ease;
+            overflow: hidden;
+        }
+
+            #search_box.active {
+                display: block;
+            }
+
+            #search_box form {
+                display: flex;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+            #search_box input[type="text"] {
+                flex: 1;
+                padding: 8px 12px;
+                border: 1px solid #ccc;
+                border-radius: 4px 0 0 4px;
+                font-size: 16px;
+                outline: none;
+            }
+
+            #search_box button {
+                padding: 8px 16px;
+                border: 1px solid #007bff;
+                background-color: #007bff;
+                color: white;
+                border-radius: 0 4px 4px 0;
+                cursor: pointer;
+                font-size: 16px;
+                transition: background-color 0.3s ease;
+                border-left: none;
+            }
+
+                #search_box button:hover {
+                    background-color: #0056b3;
+                }
+
+        #search_close {
+            cursor: pointer;
+            font-size: 22px;
+            color: #999;
+            margin-left: 15px;
+            user-select: none;
+            transition: color 0.3s ease;
+        }
+
+            #search_close:hover {
+                color: #007bff;
+            }
     </style>
 
     <div class="my-header-container">

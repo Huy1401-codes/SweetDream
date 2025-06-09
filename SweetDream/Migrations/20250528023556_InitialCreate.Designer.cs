@@ -12,8 +12,8 @@ using SweetDream.Repositories;
 namespace SweetDream.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250522170731_newdatabase")]
-    partial class newdatabase
+    [Migration("20250528023556_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -289,6 +289,9 @@ namespace SweetDream.Migrations
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
