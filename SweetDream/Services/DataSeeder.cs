@@ -93,6 +93,52 @@ public class DataSeeder
             await _context.SaveChangesAsync();
         }
 
+        if (!_context.BlogCategories.Any())
+        {
+            var blogcate = new List<BlogCategory>
+    {
+        new BlogCategory { Name = "Ngủ Trưa Vàng: Trẻ Phát Triển" },
+        new BlogCategory { Name = "Gối Tự Nhiên: Giấc Ngủ Bé An Toàn" },
+        new BlogCategory { Name = "Tạo Môi Trường Ngủ Trưa Lý Tưởng" },
+        new BlogCategory { Name = "Giấc Ngủ Trẻ: Khoa Học & Lợi Ích" },
+        new BlogCategory { Name = "Bí Quyết Nâng Cao Chất Lượng Giấc Ngủ Trẻ" }
+    };
+
+            _context.BlogCategories.AddRange(blogcate);
+            await _context.SaveChangesAsync();
+        }
+
+        if (!_context.Users.Any(u => u.UserName == "marketing"))
+        {
+            var hasher = new PasswordHasher<Account>();
+
+            var marketingAccount = new Account
+            {
+                UserName = "marketing",
+                NormalizedUserName = "MARKETING",
+                Email = "marketing@sweetdream.com",
+                NormalizedEmail = "MARKETING@SWEETDREAM.COM",
+                EmailConfirmed = true,
+                PhoneNumber = "0123456789",
+                PhoneNumberConfirmed = true,
+                FirstName = "Marketing",
+                LastName = "SweetDream",
+                Address = "123 Đường Giấc Mơ, TP HCM",
+                Gender = "Nữ",
+                AccountImage = "/images/users/marketing.png",
+                Active = true,
+                Description = "Tài khoản chuyên phụ trách mảng marketing",
+                DateOfBirth = "1995-01-01",
+                Disable = false,
+                CreatedAt = DateTime.Now,
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+
+            marketingAccount.PasswordHash = hasher.HashPassword(marketingAccount, "Marketing@123"); // Đặt mật khẩu mặc định
+
+            _context.Users.Add(marketingAccount);
+            await _context.SaveChangesAsync();
+        }
 
         if (!_context.Banner.Any())
         {
