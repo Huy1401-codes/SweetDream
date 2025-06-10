@@ -130,6 +130,7 @@
         <img id="qrImage" alt="QR Code thanh toán" style="max-width: 300px; margin: 20px auto;" />
         <p style="font-weight: bold; color: green;">Số tiền: @totalAmount.ToString("C0", cultureVN)</p>
     </div>
+
         <form method="post" asp-action="OrderSubmitted" asp-controller="Checkout" asp-antiforgery="true">
             <input type="hidden" name="OId" value="@Model.OId" />
             <input type="hidden" name="ShippingAddress" value="@Model.ShippingAddress" />
