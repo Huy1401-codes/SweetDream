@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb_iner">
-                    <h2>Shopping Cart</h2>
+                    <h2>Giỏ hàng</h2>
                 </div>
             </div>
         </div>
@@ -17,7 +17,7 @@
         <div class="billing_details">
             <div class="row">
                 <div class="col-lg-12">
-                    <h3>🛒 Your Shopping Cart</h3>
+                    <h3>🛒 Giỏ hàng của bạn</h3>
                     @model SweetDream.Models.Order
                     @{
                         var cultureVN = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
@@ -30,12 +30,12 @@
                                     <thead>
                                         <tr>
                                             <th>Select</th>
-                                            <th>Product</th>
-                                            <th>Price</th>
-                                            <th>Discount</th>
-                                            <th>Quantity</th>
-                                            <th>Total</th>
-                                            <th>Action</th>
+                                            <th>Sản phẩm</th>
+                                            <th>Giá tiền</th>
+                                            <th>Giảm giá</th>
+                                            <th>Số lượng</th>
+                                            <th>Tổng tiền</th>
+                                            <th>Trạng thái</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -89,20 +89,19 @@
                                 </h5>
                             </div>
                             <div class="d-flex justify-content-between mt-4">
-                                <div>
-                                    <a href="@Url.Action("ClearCart", "ShoppingCart")" class="btn_3">
+                                <div class="d-flex gap-3">
+                                    <a href="@Url.Action("ClearCart", "ShoppingCart")" class="btn_3 btn-custom">
                                         🗑 Clear Cart
                                     </a>
-                                    <a href="@Url.Action("Index", "Home")" class="btn_3">
+                                    <a href="@Url.Action("Index", "Home")" class="btn_3 btn-custom">
                                         🛍 Continue Shopping
                                     </a>
-                                </div>
-                                <div>
-                                    <button type="submit" class="btn_3">
+                                    <button type="submit" class="btn_3 btn-custom">
                                         ✅ Confirm Order
                                     </button>
                                 </div>
                             </div>
+
                         </form>
                     }
                     else
@@ -127,11 +126,15 @@
         padding: 15px;
     }
 
-    .table td,
-    .table th {
-        font-size: 0.95rem;
-        padding: 10px 6px;
+    .table {
+        font-size: 2rem;
     }
+
+        .table td,
+        .table th {
+            font-size: 2rem; /* tăng kích cỡ chữ cho dễ đọc */
+            padding: 10px 12px; /* tăng padding cho bảng to hơn */
+        }
 
     .img-thumbnail {
         border-radius: 8px;
@@ -145,4 +148,25 @@
         background-color: #f1f1f1;
         transition: background-color 0.3s;
     }
+
+    .btn-custom {
+        font-size: 1.05rem;
+        padding: 12px 24px;
+        border-radius: 8px;
+        min-width: 180px;
+        text-align: center;
+    }
+
+    .btn_3 {
+        display: inline-block;
+        background-color: palevioletred;
+        color: #fff;
+        border: none;
+        transition: all 0.3s ease-in-out;
+    }
+
+        .btn_3:hover {
+            background-color:grey;
+            color: #fff;
+        }
 </style>

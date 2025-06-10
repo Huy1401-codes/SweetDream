@@ -14,147 +14,167 @@
 <!--================Order Confirmation Area =================-->
 <section class="checkout_area section_padding">
     <div class="container">
-        @model SweetDream.Models.Order
-        <div class="text-center mb-4">
-            <h3 class="mb-4" style="font-weight: bold;">Order Confirmation</h3>
+        <div class="text-center mt-4">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary px-4 py-2 fs-5">
+                Tiếp tục mua sắm
+            </a>
         </div>
+        @model SweetDream.Models.Order
+
         @if (TempData["Success"] != null)
         {
             <script>
                 document.addEventListener("DOMContentLoaded", function () {
-                  Swal.fire({
-                    title: "Success!",
-                    text: "@TempData["Success"]",
-                    icon: "success",
-                    confirmButtonText: "OK"
+                    Swal.fire({
+                        title: "Success!",
+                        text: "@TempData["Success"]",
+                        icon: "success",
+                        confirmButtonText: "OK"
+                    });
                 });
-            });
-        </script>
-    }
-
-    <div class="card p-4 shadow-sm mb-4">
-        <p class="text-center" style="font-size: 18px; font-weight: bold;">
-            Thank you for your order! We appreciate your support and are processing your order with care.
-            If you need any assistance, feel free to reach out. We hope you enjoy your purchase!
-        </p>
-    </div>
-
-    <div class="card p-4 shadow-sm mb-4">
-        <h2 class="title text-center">Shipping Information</h2>
-        <ul class="list-unstyled">
-            <li><strong>Shipping Address:</strong> @Model.ShippingAddress</li>
-            <li><strong>Phone Number:</strong> @Model.PhoneNumber</li>
-            <li><strong>Customer Note:</strong> @(string.IsNullOrEmpty(Model.CustomerNote) ? "Không có ghi chú" : Model.CustomerNote)</li>
-        </ul>
-    </div>
-
-    <div class="card p-4 shadow-sm">
-        <h2 class="title text-center">Order Products</h2>
-        @{
-           
-            var cultureVN = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+            </script>
         }
-        <table class="table table-hover text-center">
-            <thead class="bg-warning text-white">
-                <tr>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Discount</th>
-                    <th>Total Item Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.OrderDetails)
-                {
+
+        <div class="card p-4 shadow mb-4 border-0">
+            <h2 class="text-center text-primary mb-4">Thông tin đơn hàng</h2>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Địa chỉ nhận hàng:</strong> @Model.ShippingAddress</li>
+                <li class="list-group-item"><strong>Số điện thoại:</strong> @Model.PhoneNumber</li>
+                <li class="list-group-item"><strong>Ghi chú thêm:</strong> @(string.IsNullOrEmpty(Model.CustomerNote) ? "Không có ghi chú" : Model.CustomerNote)</li>
+            </ul>
+        </div>
+
+        <div class="card p-4 shadow border-0">
+            <h2 class="text-center text-primary mb-4">Danh sách sản phẩm</h2>
+            @{
+                var cultureVN = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+            }
+            <table class="table table-bordered align-middle text-center">
+                <thead class="bg-warning text-white">
                     <tr>
-                        <td>
-                            <img src="~/img/product/@item.Product.Image" alt="@item.Product.ProductName"
-                                 class="img-thumbnail" style="width: 80px; height: 80px;">
-                            <br />
-                            @item.Product.ProductName
-                        </td>
-                        <td>@item.Quantity</td>
-                        <td>@item.Price.ToString("C0", cultureVN)</td> 
-                        <td>
-                            @if (item.Discount > 0)
-                            {
-                                @((item.Discount).ToString("C0", cultureVN)) 
-                            }
-                            else
-                            {
-                                <span>0 ₫</span> 
-                            }
-                        </td>
-                        <td>
-                            @((item.Quantity * (item.Price - item.Discount)).ToString("C0", cultureVN)) 
-                        </td>
+                        <th>Sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th>Giá tiền</th>
+                        <th>Giảm giá</th>
+                        <th>Tổng số tiền</th>
                     </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderDetails)
+                    {
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center justify-content-center gap-3">
+                                    <img src="~/img/product/@item.Product.Image" alt="@item.Product.ProductName"
+                                         style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px;" />
+                                    <span>@item.Product.ProductName</span>
+                                </div>
+                            </td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Price.ToString("C0", cultureVN)</td>
+                            <td>@(item.Discount > 0 ? item.Discount.ToString("C0", cultureVN) : "0 ₫")</td>
+                            <td>@((item.Quantity * (item.Price - item.Discount)).ToString("C0", cultureVN))</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-end my-4">
+            @{
+                var totalAmount = Model.OrderDetails.Sum(od => od.Quantity * (od.Price - od.Discount));
+            }
+            <h3 class="fw-bold text-danger">Tổng cộng: @totalAmount.ToString("C0", cultureVN)</h3>
+        </div>
+
+        <!-- Payment Methods Section -->
+        <div class="card p-4 shadow mt-4 border-0">
+            <h2 class="text-center text-primary mb-4">Chọn phương thức thanh toán</h2>
+
+            <div class="d-flex justify-content-center flex-wrap gap-4 mb-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="paymentMethod" id="codOption" value="cod">
+                    <label class="form-check-label fw-semibold" for="codOption">Thanh toán khi nhận hàng</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="paymentMethod" id="qrOption" value="qr">
+                    <label class="form-check-label fw-semibold" for="qrOption">Thanh toán trực tuyến (QR)</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="paymentMethod" id="vnpayOption" value="vnpay">
+                    <label class="form-check-label fw-semibold" for="vnpayOption">Thanh toán qua VNPAY</label>
+                </div>
+            </div>
+
+            <!-- QR Payment -->
+            <div id="qrSection" class="text-center mt-4" style="display: none;">
+                <h4>Quét mã để thanh toán</h4>
+                <img id="qrImage" alt="QR Code thanh toán" class="img-fluid" style="max-width: 300px; margin: 20px auto;" />
+                <p class="fw-bold text-success">Số tiền: @totalAmount.ToString("C0", cultureVN)</p>
+            </div>
+
+            <!-- VNPAY -->
+            <form id="vnpayForm" method="POST" asp-controller="Payment" asp-action="CreatePaymentUrlVnpay" style="display: none;">
+                <input type="hidden" name="Name" value="@User.Identity.Name" />
+                <input type="hidden" name="OrderDescription" value="Thanh toán đơn hàng Sweet Dream" />
+                <input type="hidden" name="Amount" value="@( (int)(totalAmount) )" />
+                <input type="hidden" name="OrderType" value="other" />
+                <button type="submit" class="btn btn-success mt-3 px-4 py-2 fs-5">Thanh toán qua VNPAY</button>
+            </form>
+
+            <!-- Confirm Form -->
+            <form id="confirmForm" method="post" asp-action="OrderSubmitted" asp-controller="Checkout" asp-antiforgery="true" style="display: none;">
+                <input type="hidden" name="OId" value="@Model.OId" />
+                <input type="hidden" name="ShippingAddress" value="@Model.ShippingAddress" />
+                <input type="hidden" name="PhoneNumber" value="@Model.PhoneNumber" />
+                <input type="hidden" name="CustomerNote" value="@Model.CustomerNote" />
+                <button type="submit" class="btn btn-warning mt-3 px-4 py-2 fs-5">
+                    ✅ Tôi đã thanh toán
+                </button>
+            </form>
+        </div>
+
+        @section Scripts {
+            <script>
+                const codOption = document.getElementById("codOption");
+                const qrOption = document.getElementById("qrOption");
+                const vnpayOption = document.getElementById("vnpayOption");
+
+                const qrSection = document.getElementById("qrSection");
+                const vnpayForm = document.getElementById("vnpayForm");
+                const confirmForm = document.getElementById("confirmForm");
+                const qrImage = document.getElementById("qrImage");
+
+                const amount = @totalAmount;
+                const bankCode = "mbbank";
+                const accountNumber = "140112126868";
+                const info = "THANH TOAN DON HANG @Model.OId";
+
+                function hideAll() {
+                    qrSection.style.display = "none";
+                    vnpayForm.style.display = "none";
+                    confirmForm.style.display = "none";
                 }
-            </tbody>
-        </table>
-    </div>
 
-    <div class="text-end my-4">
-        @{
-            var totalAmount = Model.OrderDetails.Sum(od => od.Quantity * (od.Price - od.Discount));
+                codOption.addEventListener("change", function () {
+                    hideAll();
+                    confirmForm.style.display = "block";
+                });
+
+                qrOption.addEventListener("change", function () {
+                    hideAll();
+                    const qrUrl = `https://img.vietqr.io/image/${bankCode}-${accountNumber}-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(info)}`;
+                    qrImage.src = qrUrl;
+                    qrSection.style.display = "block";
+                    confirmForm.style.display = "block";
+                });
+
+                vnpayOption.addEventListener("change", function () {
+                    hideAll();
+                    vnpayForm.style.display = "block";
+                });
+            </script>
         }
-        <h3 class="fw-bold" style="color: #E2171A;">Tổng cộng: @totalAmount.ToString("C0", cultureVN)</h3> 
     </div>
-
-    <div class="text-center mb-4">
-        <a asp-controller="Home" asp-action="Index" class="btn btn-primary" style="border-radius: 5px; font-size: 18px;">
-            Continue Shopping
-        </a>
-    </div>
-
     
-    <form method="POST" asp-controller="Payment" asp-action="CreatePaymentUrlVnpay">
-        <input type="hidden" name="Name" value="@User.Identity.Name" />
-        <input type="hidden" name="OrderDescription" value="Thanh toán đơn hàng Sweet Dream" />
-        <input type="hidden" name="Amount" value="@( (int)(totalAmount) )" />
-        <input type="hidden" name="OrderType" value="other"></input>
-        <button type="submit" class="btn btn-success" style="font-size: 18px; padding: 10px 30px;">
-            Thanh toán qua VNPAY
-        </button>
-    </form>
-
-    <div class="text-center mt-4">
-        <button id="showQrBtn" type="button" class="btn btn-outline-info" style="font-size: 18px; padding: 10px 30px;">
-            Thanh toán trực tuyến
-        </button>
-    </div>
-
-    <div id="qrSection" class="text-center mt-4" style="display: none;">
-        <h4>Quét mã để thanh toán</h4>
-        <img id="qrImage" alt="QR Code thanh toán" style="max-width: 300px; margin: 20px auto;" />
-        <p style="font-weight: bold; color: green;">Số tiền: @totalAmount.ToString("C0", cultureVN)</p>
-    </div>
-
-        <form method="post" asp-action="OrderSubmitted" asp-controller="Checkout" asp-antiforgery="true">
-            <input type="hidden" name="OId" value="@Model.OId" />
-            <input type="hidden" name="ShippingAddress" value="@Model.ShippingAddress" />
-            <input type="hidden" name="PhoneNumber" value="@Model.PhoneNumber" />
-            <input type="hidden" name="CustomerNote" value="@Model.CustomerNote" />
-            <button type="submit" class="btn btn-warning mt-3" style="font-size: 18px; padding: 10px 30px;">
-                ✅ Tôi đã thanh toán
-            </button>
-        </form>
-
-    @section Scripts {
-        <script>
-            document.getElementById("showQrBtn").addEventListener("click", function () {
-                var amount = @totalAmount;
-                var bankCode = "mbbank"; // <-- thay bằng mã ngân hàng của bạn
-                var accountNumber = "140112126868"; // <-- thay bằng số tài khoản của bạn
-                var info = "THANH TOAN DON HANG @Model.OId co ten @Model.OrderDetails"; // Ghi chú thanh toán
-
-                var qrUrl = `https://img.vietqr.io/image/${bankCode}-${accountNumber}-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(info)}`;
-
-                document.getElementById("qrImage").src = qrUrl;
-                document.getElementById("qrSection").style.display = "block";
-            });
-        </script>
-    }
-
-</div>
+</section>
