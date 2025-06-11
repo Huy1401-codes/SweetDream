@@ -40,9 +40,10 @@
 
                                     <div class="blog_details">
                                         <a class="d-inline-block" href="/Blogs/Details/@blog.Id">
-                                            <h2>@blog.Title</h2>
+                                            <h2>@Html.Raw(blog.Title)</h2>
+
                                         </a>
-                                        <p>@(blog.Content.Length > 150 ? blog.Content.Substring(0, 150) + "..." : blog.ShortDescription)</p>
+                                        <p>@Html.Raw(@blog.ShortDescription)</p>
                                         <ul class="blog-info-link">
                                             <li>
                                                 <a href="#"><i class="far fa-user"></i> @blog.Author?.FirstName</a>
