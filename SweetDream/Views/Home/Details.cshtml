@@ -117,7 +117,7 @@
                 {
                     var userImage = !string.IsNullOrEmpty(feedback.Account?.AccountImage)
                     ? $"/img/{feedback.Account.AccountImage}"
-                    : "/img/default-avatar.png";
+                    : "~/wwwroot/img/3.png";
                     <div class="feedback-item border p-3 rounded mb-3">
                         <div class="d-flex align-items-center mb-2">
                             <img src="@userImage" alt="Avatar" class="rounded-circle me-3" style="width:50px; height:50px;" />
