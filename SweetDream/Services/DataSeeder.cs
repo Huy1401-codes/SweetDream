@@ -56,16 +56,16 @@ public class DataSeeder
         {
             var brands = new List<Brand>
             {
-                new Brand { BrandName = "Nike", Description = "No description available" },
-                new Brand { BrandName = "Adidas", Description = "No description available" },
-                new Brand { BrandName = "Puma", Description = "No description available" },
-                new Brand { BrandName = "Reebok", Description = "No description available" },
-                new Brand { BrandName = "Under Armour", Description = "No description available" },
-                new Brand { BrandName = "New Balance", Description = "No description available" },
-                new Brand { BrandName = "Fila", Description = "No description available" },
-                new Brand { BrandName = "ASICS", Description = "No description available" },
-                new Brand { BrandName = "Champion", Description = "No description available" },
-                new Brand { BrandName = "Converse", Description = "No description available" }
+                new Brand { BrandName = "Everon", Description = "Thương hiệu chăn ga gối đệm chất lượng cao" },
+                new Brand { BrandName = "Liên Á", Description = "Chuyên cung cấp nệm và gối cao su thiên nhiên" },
+                new Brand { BrandName = "Vạn Thành", Description = "Đệm và gối Việt Nam uy tín" },
+                new Brand { BrandName = "Kim Cương", Description = "Nệm và gối chất lượng cho gia đình Việt" },
+                new Brand { BrandName = "Hanvico", Description = "Chăn ga gối cao cấp" },
+                new Brand { BrandName = "Sông Hồng", Description = "Thương hiệu quen thuộc với mọi gia đình" },
+                new Brand { BrandName = "Kymdan", Description = "Nệm cao su thiên nhiên nổi tiếng" },
+                new Brand { BrandName = "Therapedic", Description = "Thương hiệu quốc tế với chất lượng vượt trội" },
+                new Brand { BrandName = "Amando", Description = "Chăn ga gối đệm hiện đại" },
+                new Brand { BrandName = "Ru9", Description = "Nệm foam thế hệ mới" }
             };
 
             _context.Brands.AddRange(brands);
@@ -180,29 +180,18 @@ public class DataSeeder
             var categories = await _context.Categories.ToListAsync();
 
             var products = new List<Product>
-            {
-                new Product { ProductName = "Nike Air Max", Quantity = 50, Price = 120, BrandId = brands[0].BrandId, CategoryId = categories[0].CategoryId, Size = "M", Material = "Leather", Image = "P1.jpeg", Discount = 10, Description = "Comfortable running shoes", Status = "Available" },
-                new Product { ProductName = "Adidas Ultraboost", Quantity = 40, Price = 140, BrandId = brands[1].BrandId, CategoryId = categories[0].CategoryId, Size = "L", Material = "Mesh", Image = "P10.png", Discount = 5, Description = "Best for sports", Status = "Available" },
-                new Product { ProductName = "Puma RS-X", Quantity = 30, Price = 110, BrandId = brands[2].BrandId, CategoryId = categories[0].CategoryId, Size = "S", Material = "Synthetic", Image = "P2.jpeg", Discount = 15, Description = "Stylish and modern", Status = "Available" },
-                new Product { ProductName = "Reebok Classic", Quantity = 25, Price = 90, BrandId = brands[3].BrandId, CategoryId = categories[0].CategoryId, Size = "M", Material = "Leather", Image = "P3.jpeg", Discount = 0, Description = "Classic design", Status = "Available" },
-                new Product { ProductName = "Under Armour HOVR", Quantity = 35, Price = 130, BrandId = brands[4].BrandId, CategoryId = categories[0].CategoryId, Size = "L", Material = "Foam", Image = "P4.jpeg", Discount = 20, Description = "Great for training", Status = "Available" },
-                new Product { ProductName = "New Balance 574", Quantity = 20, Price = 100, BrandId = brands[5].BrandId, CategoryId = categories[0].CategoryId, Size = "S", Material = "Suede", Image = "P5.jpeg", Discount = 5, Description = "Casual wear", Status = "Available" },
-                new Product { ProductName = "Fila Disruptor", Quantity = 15, Price = 95, BrandId = brands[6].BrandId, CategoryId = categories[0].CategoryId, Size = "M", Material = "Rubber", Image = "P6.jpeg", Discount = 10, Description = "Chunky sneakers", Status = "Available" },
-                new Product { ProductName = "ASICS Gel-Kayano", Quantity = 28, Price = 150, BrandId = brands[7].BrandId, CategoryId = categories[0].CategoryId, Size = "L", Material = "Gel", Image = "P7.jpeg", Discount = 8, Description = "Top-tier running shoes", Status = "Available" },
-                new Product { ProductName = "Champion Rally Pro", Quantity = 12, Price = 85, BrandId = brands[8].BrandId, CategoryId = categories[0].CategoryId, Size = "M", Material = "Canvas", Image = "P8.jpeg", Discount = 12, Description = "High-top comfort", Status = "Available" },
-                new Product { ProductName = "Converse Chuck Taylor", Quantity = 50, Price = 70, BrandId = brands[9].BrandId, CategoryId = categories[0].CategoryId, Size = "S", Material = "Textile", Image = "P9.jpeg", Discount = 0, Description = "Classic sneaker", Status = "Available" },
-                new Product { ProductName = "Nike ZoomX", Quantity = 50, Price = 135, BrandId = brands[0].BrandId, CategoryId = 1, Size = "L", Material = "Mesh", Image = "product1.jpg", Discount = 15, Description = "Lightweight running shoes", Status = "Available" },
-                new Product { ProductName = "Adidas NMD", Quantity = 45, Price = 150, BrandId = brands[1].BrandId, CategoryId = 2, Size = "M", Material = "Textile", Image = "product2.jpg", Discount = 10, Description = "Urban sneakers", Status = "Available" },
-                new Product { ProductName = "Puma Future Rider", Quantity = 30, Price = 110, BrandId = brands[2].BrandId, CategoryId = 3, Size = "S", Material = "Synthetic", Image = "product3.jpg", Discount = 5, Description = "Casual sneakers", Status = "Available" },
-                new Product { ProductName = "Reebok Nano X", Quantity = 20, Price = 120, BrandId = brands[3].BrandId, CategoryId = 4, Size = "L", Material = "Mesh", Image = "product4.jpeg", Discount = 10, Description = "Training shoes", Status = "Available" },
-                new Product { ProductName = "Under Armour Curry", Quantity = 25, Price = 140, BrandId = brands[4].BrandId, CategoryId = 5, Size = "M", Material = "Leather", Image = "product5.jpeg", Discount = 5, Description = "Basketball shoes", Status = "Available" },
-                new Product { ProductName = "New Balance 990", Quantity = 30, Price = 180, BrandId = brands[5].BrandId, CategoryId = 6, Size = "L", Material = "Suede", Image = "product6.jpeg", Discount = 20, Description = "Premium sneakers", Status = "Available" },
-                new Product { ProductName = "Fila Ray Tracer", Quantity = 18, Price = 110, BrandId = brands[6].BrandId, CategoryId = 7, Size = "S", Material = "Synthetic", Image = "product7.jpeg", Discount = 15, Description = "Sporty look", Status = "Available" },
-                new Product { ProductName = "ASICS Gel-Lyte III", Quantity = 40, Price = 130, BrandId = brands[7].BrandId, CategoryId = 8, Size = "M", Material = "Gel", Image = "product8.jpeg", Discount = 5, Description = "Running shoes with great stability", Status = "Available" },
-                new Product { ProductName = "Champion Reverse Weave", Quantity = 35, Price = 80, BrandId = brands[8].BrandId, CategoryId = 9, Size = "M", Material = "Canvas", Image = "product9.jpeg", Discount = 0, Description = "Classic sweatshirt", Status = "Available" },
-                new Product { ProductName = "Converse All Star", Quantity = 45, Price = 75, BrandId = brands[9].BrandId, CategoryId = 10, Size = "L", Material = "Canvas", Image = "product10.jpeg", Discount = 0, Description = "Iconic sneakers", Status = "Available" }
-            };
-
+{
+    new Product { ProductName = "Chăn lông cừu Everon", Quantity = 30, Price = 1500000, BrandId = brands[0].BrandId, CategoryId = categories[0].CategoryId, Size = "180x200", Material = "Lông cừu", Image = "1.png", Discount = 10, Description = "Chăn lông mềm mại, giữ nhiệt tốt cho mùa đông", Status = "Available" },
+    new Product { ProductName = "Ga trải giường Hanvico Cotton", Quantity = 25, Price = 950000, BrandId = brands[4].BrandId, CategoryId = categories[1].CategoryId, Size = "160x200", Material = "Cotton 100%", Image = "2.png", Discount = 5, Description = "Ga trải giường mềm mịn, thoáng mát", Status = "Available" },
+    new Product { ProductName = "Gối nằm Liên Á cao su thiên nhiên", Quantity = 50, Price = 600000, BrandId = brands[1].BrandId, CategoryId = categories[2].CategoryId, Size = "60x40", Material = "Cao su thiên nhiên", Image = "3.png", Discount = 8, Description = "Gối cao su đàn hồi, hỗ trợ giấc ngủ sâu", Status = "Available" },
+    new Product { ProductName = "Gối ôm Sông Hồng dáng dài", Quantity = 40, Price = 250000, BrandId = brands[5].BrandId, CategoryId = categories[3].CategoryId, Size = "100x30", Material = "Bông mềm", Image = "4.png", Discount = 0, Description = "Gối ôm nhẹ, thoáng khí, dễ vệ sinh", Status = "Available" },
+    new Product { ProductName = "Bộ chăn ga gối Vạn Thành hoa văn", Quantity = 20, Price = 1800000, BrandId = brands[2].BrandId, CategoryId = categories[4].CategoryId, Size = "180x200", Material = "Cotton Poly", Image = "5.png", Discount = 12, Description = "Bộ sản phẩm sang trọng, tiện lợi", Status = "Available" },
+    new Product { ProductName = "Nệm foam Kim Cương 5 Zone", Quantity = 10, Price = 3500000, BrandId = brands[3].BrandId, CategoryId = categories[5].CategoryId, Size = "160x200", Material = "Foam đa tầng", Image = "6.png", Discount = 15, Description = "Nệm nâng đỡ cơ thể, đàn hồi tốt", Status = "Available" },
+    new Product { ProductName = "Mền hè Liên Á siêu nhẹ", Quantity = 35, Price = 520000, BrandId = brands[1].BrandId, CategoryId = categories[6].CategoryId, Size = "180x200", Material = "Microfiber", Image = "7.png", Discount = 5, Description = "Mền thoáng khí, nhẹ nhàng cho mùa hè", Status = "Available" },
+    new Product { ProductName = "Ruột gối Amando kháng khuẩn", Quantity = 60, Price = 280000, BrandId = brands[8].BrandId, CategoryId = categories[7].CategoryId, Size = "60x40", Material = "Bông kháng khuẩn", Image = "8.png", Discount = 7, Description = "Ruột gối mềm, không gây dị ứng", Status = "Available" },
+    new Product { ProductName = "Tấm bảo vệ nệm Everon chống thấm", Quantity = 45, Price = 490000, BrandId = brands[0].BrandId, CategoryId = categories[8].CategoryId, Size = "180x200", Material = "Poly chống thấm", Image = "9.png", Discount = 9, Description = "Bảo vệ nệm khỏi bụi bẩn, ẩm mốc", Status = "Available" },
+    new Product { ProductName = "Bộ phụ kiện giường ngủ Kymdan", Quantity = 15, Price = 1250000, BrandId = brands[6].BrandId, CategoryId = categories[9].CategoryId, Size = "Full Combo", Material = "Đa chất liệu", Image = "10.png", Discount = 10, Description = "Bao gồm gối, ga, mền – đủ dùng cho cả gia đình", Status = "Available" }
+};
 
             _context.Products.AddRange(products);
             await _context.SaveChangesAsync();

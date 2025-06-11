@@ -95,8 +95,8 @@ namespace SweetDream.Areas.Admin.Controllers
                 product.Status = "Available";
                 if (ImageFile != null && ImageFile.Length > 0)
                 {
-                    var fileName = Path.GetFileName(ImageFile.FileName);
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/product", fileName);
+                        var fileName = Path.GetFileName(ImageFile.FileName);
+                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/product", fileName);
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await ImageFile.CopyToAsync(stream);

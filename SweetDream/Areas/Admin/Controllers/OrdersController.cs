@@ -21,7 +21,7 @@ namespace SweetDream.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(DateTime? startDate, DateTime? endDate, string searchName, int page = 1)
         {
-        int pageSize = 5; // Số đơn hàng trên mỗi trang
+        int pageSize = 5; 
 
         var ordersQuery = _context.Orders
             .Where(o => !o.IsCart)
