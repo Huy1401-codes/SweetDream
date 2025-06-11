@@ -12,8 +12,8 @@ using SweetDream.Repositories;
 namespace SweetDream.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250610084436_upateBlogCaegory")]
-    partial class upateBlogCaegory
+    [Migration("20250611023546_SeedData")]
+    partial class SeedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
