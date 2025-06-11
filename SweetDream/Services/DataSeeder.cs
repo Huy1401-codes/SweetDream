@@ -77,16 +77,16 @@ public class DataSeeder
         {
             var categories = new List<Category>
             {
-                new Category { CategoryName = "Shoes", Description = "Footwear for various purposes." },
-                new Category { CategoryName = "Shirts", Description = "Different types of shirts for all occasions." },
-                new Category { CategoryName = "Pants", Description = "Various styles of pants." },
-                new Category { CategoryName = "Jackets", Description = "Outerwear for all seasons." },
-                new Category { CategoryName = "Shorts", Description = "Comfortable wear for warm weather." },
-                new Category { CategoryName = "Socks", Description = "Footwear accessories for comfort." },
-                new Category { CategoryName = "Accessories", Description = "Fashion accessories to complete your look." },
-                new Category { CategoryName = "Hats", Description = "Headwear for fashion or function." },
-                new Category { CategoryName = "Sweatshirts", Description = "Casual wear for comfort." },
-                new Category { CategoryName = "Gloves", Description = "Handwear for warmth and style." }
+                new Category { CategoryName = "Chăn", Description = "Footwear for various purposes." },
+                new Category { CategoryName = "Gối", Description = "Different types of shirts for all occasions." },
+                new Category { CategoryName = "Combo", Description = "Various styles of pants." },
+                new Category { CategoryName = "Chăn", Description = "Outerwear for all seasons." },
+                new Category { CategoryName = "Chăn", Description = "Comfortable wear for warm weather." },
+                new Category { CategoryName = "Gối", Description = "Footwear accessories for comfort." },
+                new Category { CategoryName = "Gối", Description = "Fashion accessories to complete your look." },
+                new Category { CategoryName = "Gối", Description = "Headwear for fashion or function." },
+                new Category { CategoryName = "Gối", Description = "Casual wear for comfort." },
+                new Category { CategoryName = "Gối", Description = "Handwear for warmth and style." }
             };
 
             _context.Categories.AddRange(categories);
@@ -182,7 +182,7 @@ public class DataSeeder
             var products = new List<Product>
 {
     new Product { ProductName = "Chăn lông cừu Everon", Quantity = 30, Price = 1500000, BrandId = brands[0].BrandId, CategoryId = categories[0].CategoryId, Size = "180x200", Material = "Lông cừu", Image = "1.png", Discount = 10, Description = "Chăn lông mềm mại, giữ nhiệt tốt cho mùa đông", Status = "Available" },
-    new Product { ProductName = "Ga trải giường Hanvico Cotton", Quantity = 25, Price = 950000, BrandId = brands[4].BrandId, CategoryId = categories[1].CategoryId, Size = "160x200", Material = "Cotton 100%", Image = "2.png", Discount = 5, Description = "Ga trải giường mềm mịn, thoáng mát", Status = "Available" },
+    new Product { ProductName = "Ga trải giường Hanvico Cotton", Quantity = 25, Price = 950000, BrandId = brands[4].BrandId, CategoryId = categories[1].CategoryId, Size = "160x200", Material = "Cotton 100%", Image = "11.png", Discount = 5, Description = "Ga trải giường mềm mịn, thoáng mát", Status = "Available" },
     new Product { ProductName = "Gối nằm Liên Á cao su thiên nhiên", Quantity = 50, Price = 600000, BrandId = brands[1].BrandId, CategoryId = categories[2].CategoryId, Size = "60x40", Material = "Cao su thiên nhiên", Image = "3.png", Discount = 8, Description = "Gối cao su đàn hồi, hỗ trợ giấc ngủ sâu", Status = "Available" },
     new Product { ProductName = "Gối ôm Sông Hồng dáng dài", Quantity = 40, Price = 250000, BrandId = brands[5].BrandId, CategoryId = categories[3].CategoryId, Size = "100x30", Material = "Bông mềm", Image = "4.png", Discount = 0, Description = "Gối ôm nhẹ, thoáng khí, dễ vệ sinh", Status = "Available" },
     new Product { ProductName = "Bộ chăn ga gối Vạn Thành hoa văn", Quantity = 20, Price = 1800000, BrandId = brands[2].BrandId, CategoryId = categories[4].CategoryId, Size = "180x200", Material = "Cotton Poly", Image = "5.png", Discount = 12, Description = "Bộ sản phẩm sang trọng, tiện lợi", Status = "Available" },
