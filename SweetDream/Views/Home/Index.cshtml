@@ -36,44 +36,77 @@
     }
 
     }
+
+    .single_client_review {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* căn giữa theo chiều ngang */
+        justify-content: center; /* nếu cần căn giữa theo chiều dọc */
+        text-align: center;
+        height: 100%; /* hoặc chiều cao cụ thể nếu cần */
+    }
+
+    .client_img {
+        margin-bottom: 20px;
+    }
+
+        .client_img img {
+            display: block;
+            margin: 0 auto;
+            max-width: 150px; /* chỉnh tùy theo kích thước ảnh mong muốn */
+            height: auto;
+            border-radius: 50%; /* hình tròn nếu muốn */
+        }
+
 </style>
 
 <!-- banner part start -->
-<section class="banner_part">
+<<section class="banner_part">
     <div class="container">
         <div class="row align-items-center">
+            <!-- Text section -->
             <div class="col-md-5">
                 <div class="banner_text">
                     <div class="banner_text_iner">
-                        <h1>
-                            Best quality
-                            pillow
-                        </h1>
-                        <p>
-                            Seamlessly empower fully researched
-                            growth strategies and interoperable internal
+                        <h2 style="margin-left:20px">Chăn Gối 🛏️</h2>
+                        <h2 style="margin-left:140px">🌿 Lá Dứa</h2>
+                        <p style="margin-left:20px">
+                            Chăm sóc giấc ngủ an toàn cho bé yêu – Từ sợi lá thiên nhiên
                         </p>
-                        <a href="product_list.html" class="btn_1">shop now</a>
+                        <a href="/Home/Product" style="margin-left:20px" class="btn_1">Shop now</a>
                     </div>
                 </div>
             </div>
+
+            <!-- Video section -->
             <div class="col-md-7">
-                <div class="banner_img">
-                    <video autoplay muted loop playsinline>
-                        <source src="img/video_banner.mp4" type="video/mp4">
-                        <source src="img/video_banner.webm" type="video/webm">
-                        Your browser does not support the video tag.
-                    </video>
+                <div class="ratio ratio-16x9 w-100">
+                    <iframe src="https://www.youtube.com/embed/C_cLdTqw65Q?autoplay=1&mute=1&loop=1&playlist=C_cLdTqw65Q"
+                            title="YouTube video"
+                            allow="autoplay; encrypted-media"
+                            allowfullscreen width="750px" height="400px">
+                    </iframe>
                 </div>
             </div>
+
         </div>
     </div>
 </section>
+
 <!-- banner part end -->
 <!-- product list start-->
 <section class="single_product_list">
+
+    <h1 class="text-center mb-5 fw-bold">
+        <i class="fas fa-feather-alt text-primary me-2"></i>
+        Vì sao chăn gối lá dứa là lựa chọn an toàn cho con bạn?
+        <i class="fas fa-moon text-warning ms-2"></i>
+    </h1> 
+    <br />
+    <br />
     <div class="container">
         <div class="row">
+
             <div class="col-lg-12">
                 <div class="single_product_iner">
                     <div class="row align-items-center justify-content-between">
@@ -87,12 +120,10 @@
                             <div class="single_product_content">
                                 <h2>
                                     <a href="single-product.html">
-                                        Printed memory foam
-                                        brief modern throw
-                                        pillow case
+                                        Chất liệu tự nhiên  Mềm mại và thoáng khí
                                     </a>
                                 </h2>
-                                <a href="Home/Details/1" class="btn_3">Explore Now</a>
+                                <a href="#" class="btn_3">Tìm Hiểu thêm</a>
                             </div>
                         </div>
                     </div>
@@ -109,12 +140,10 @@
                             <div class="single_product_content">
                                 <h2>
                                     <a href="single-product.html">
-                                        Printed memory foam
-                                        brief modern throw
-                                        pillow case
+                                        Bông gòn cao cấp  Không xẹp, không gây kích ứng
                                     </a>
                                 </h2>
-                                <a href="Home/Details/2" class="btn_3">Explore Now</a>
+                                <a href="#" class="btn_3">Tìm Hiểu thêm</a>
                             </div>
                         </div>
                     </div>
@@ -123,7 +152,7 @@
                     <div class="row align-items-center justify-content-between">
                         <div class="col-lg-6 col-sm-6">
                             <div class="single_product_img">
-                                <img src="img/single_product_3.png" class="img-fluid" alt="#">
+                                <img src="img/3.png" class="img-fluid" alt="#">
                                 <img src="img/product_overlay.png" alt="#" class="product_overlay img-fluid">
                             </div>
                         </div>
@@ -131,12 +160,10 @@
                             <div class="single_product_content">
                                 <h2>
                                     <a href="single-product.html">
-                                        Printed memory foam
-                                        brief modern throw
-                                        pillow case
+                                        Thiết kế nhẹ  dễ gấp gọn mang đến lớp
                                     </a>
                                 </h2>
-                                <a href="product_list.html" class="btn_3">Explore Now</a>
+                                <a href="#" class="btn_3">Tìm Hiểu thêm</a>
                             </div>
                         </div>
                     </div>
@@ -147,7 +174,7 @@
 </section>
 <!-- product list end-->
 <!-- trending item start-->
-<section class="trending_items">
+@* <section class="trending_items">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -213,7 +240,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> *@
 <!-- trending item end-->
 <!-- client review part here -->
 <section class="client_review">
@@ -223,24 +250,41 @@
                 <div class="client_review_slider owl-carousel">
                     <div class="single_client_review">
                         <div class="client_img">
-                            <img src="img/client.png" alt="#">
+                            <img src="~/images/pcm.jpg" alt="#">
                         </div>
-                        <p>"Working in conjunction with humanitarian aid agencies, we have supported programmes to help alleviate human suffering.</p>
-                        <h5>- Micky Mouse</h5>
+                        <p>Không chỉ là gối, đó là vòng tay nhẹ nhàng nâng niu giấc ngủ bé!</p>
+                        <h5>Phạm Cao Minh</h5>
                     </div>
                     <div class="single_client_review">
                         <div class="client_img">
                             <img src="img/client_1.png" alt="#">
                         </div>
-                        <p>"Working in conjunction with humanitarian aid agencies, we have supported programmes to help alleviate human suffering.</p>
-                        <h5>- Micky Mouse</h5>
+                        <p>Sợi lá dứa được xử lý an toàn, mang lại cảm giác nhẹ nhàng, mát mẻ cho làn da nhạy cảm của bé.</p>
+                        <h5>Nguyễn Quang Vũ</h5>
                     </div>
                     <div class="single_client_review">
                         <div class="client_img">
-                            <img src="img/client_2.png" alt="#">
+                            <img src="https://scontent.fhan14-3.fna.fbcdn.net/v/t39.30808-6/480660805_1366064311094710_5093898924175187973_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHbNzAl2qgqK_bbLRY2-8Prk9YFOEMLGJ6T1gU4QwsYnnXXuE1wGvVxZp9Lsvdv8W4dii700ig8usn92UQ1mhkz&_nc_ohc=ToUjggVDwbUQ7kNvwHgMwTx&_nc_oc=AdlDxE6rvt9o5F4N_N9rSWqIN_29oJRLC3-zWStYTYvELz9-44KEvIEglPPQi9P0k98&_nc_zt=23&_nc_ht=scontent.fhan14-3.fna&_nc_gid=cDogTPg9KxBjGN1qK-P8MA&oh=00_AfOcvdmiuVVMJ-P3NcM7wMiffDk11TP_wPwpU9mjxaJHvQ&oe=684EE9BA" alt="#">
                         </div>
-                        <p>"Working in conjunction with humanitarian aid agencies, we have supported programmes to help alleviate human suffering.</p>
-                        <h5>- Micky Mouse</h5>
+                        <p>Kích thước lý tưởng dành cho các bé mẫu giáo, tiểu học – vừa đủ ấm, vừa thoáng.</p>
+                        <h5>Đinh Ngọc Hà</h5>
+                    </div>
+                    <div class="single_client_review">
+                        <div class="client_img">
+                            <img src="~/images/dqh.jpg" alt="#">
+                        </div>
+                        <p>
+                            Màu sắc nhã nhặn – phù hợp với không gian lớp học.
+                            
+                        </p>
+                        <h5>Đỗ Quang Huy</h5>
+                    </div>
+                    <div class="single_client_review">
+                        <div class="client_img">
+                            <img src="img/client_1.png" alt="#">
+                        </div>
+                        <p>Từ thiên nhiên đến giấc mơ – gối sạch lành cho bé ngủ lành.</p>
+                        <h5>Lê ĐỨc Sơn Thành</h5>
                     </div>
                 </div>
             </div>
@@ -249,7 +293,7 @@
 </section>
 <!-- client review part end -->
 <!-- feature part here -->
-<section class="feature_part section_padding">
+@* <section class="feature_part section_padding">
     <div class="container">
         <div class="row justify-content-between">
             <div class="col-lg-6">
@@ -294,10 +338,10 @@
             </div>
         </div>
     </div>
-</section>
+</section> *@
 <!-- feature part end -->
 <!-- subscribe part here -->
-<section class="subscribe_part section_padding">
+@* <section class="subscribe_part section_padding">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8">
@@ -312,5 +356,6 @@
             </div>
         </div>
     </div>
-</section>
+</section> *@
 <!-- subscribe part end -->
+
