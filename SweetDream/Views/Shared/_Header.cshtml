@@ -201,16 +201,16 @@
 
         <!-- Navigation menu -->
         <ul class="my-nav">
-            <li><a href="/">Home</a></li>
-            <li><a href="/Home/Product">Product</a></li>
+            <li><a href="/">Trang Chủ</a></li>
+            <li><a href="/Home/Product">Sản Phẩm</a></li>
             <li><a href="/Blogs">Blog</a></li>
 
-            @* Thay Login/Logout tùy vào trạng thái đăng nhập *@
+            @* Thay Đăng Nhập/Đăng Xuất tùy vào trạng thái đăng nhập *@
             @if (User.Identity.IsAuthenticated)
             {
                 <li>
                     <a href="@Url.Action("Logout", "Authentication")">
-                        <i class="fa fa-sign-out"></i> Logout
+                        <i class="fa fa-sign-out"></i> Đăng Xuất
                     </a>
                 </li>
             }
@@ -218,7 +218,7 @@
             {
                 <li>
                     <a href="@Url.Action("Login", "Authentication")">
-                        <i class="fa fa-lock"></i> Login
+                        <i class="fa fa-lock"></i> Đăng Nhập
                     </a>
                 </li>
             }
@@ -226,13 +226,13 @@
 
         <!-- Icons -->
         <div class="my-icons">
-            <a href="javascript:void(0)" id="search_icon" title="Search" aria-label="Search">
+            <a href="javascript:void(0)" id="search_icon" title="Tìm Kiếm" aria-label="Tìm Kiếm">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none" />
                     <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                 </svg>
             </a>
-            <a href="ShoppingCart" title="Cart" aria-label="Cart">
+            <a href="@Url.Action("Index", "ShoppingCart")" title="Giỏ Hàng" aria-label="Giỏ Hàng">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path d="M6 6h15l-1.5 9h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
                     <circle cx="9" cy="21" r="1" fill="currentColor" />
@@ -240,10 +240,10 @@
                 </svg>
             </a>
 
-            @* Profile icon chỉ hiện nếu đã đăng nhập *@
+            @* Icon hồ sơ chỉ hiện nếu đã đăng nhập *@
             @if (User.Identity.IsAuthenticated)
             {
-                <a href="/Profiles" title="Profile" aria-label="Profile">
+                <a href="/Profiles" title="Hồ Sơ" aria-label="Hồ Sơ">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" fill="none" />
                         <path d="M6 21v-2a6 6 0 0 1 12 0v2" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
@@ -256,9 +256,9 @@
     <!-- Search Box -->
     <div id="search_box">
         <form action="#" method="get">
-            <input type="text" placeholder="Search here..." name="q" />
-            <button type="submit">Search</button>
-            <span id="search_close" title="Close Search">×</span>
+            <input type="text" placeholder="Tìm kiếm tại đây..." name="q" />
+            <button type="submit">Tìm Kiếm</button>
+            <span id="search_close" title="Đóng Tìm Kiếm">×</span>
         </form>
     </div>
 
