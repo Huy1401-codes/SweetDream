@@ -10,9 +10,9 @@
 {
     <div class="alert alert-success text-center" id="successAlert">@ViewBag.Success</div>
 }
-
 <div class="container">
     <div class="row">
+        <!-- Cột ảnh đại diện -->
         <div class="col-md-4 text-center">
             <div class="card shadow-lg border-0 rounded-4 p-4">
                 <form asp-controller="Profiles" asp-action="UpdateProfileImage" method="post" enctype="multipart/form-data">
@@ -23,16 +23,17 @@
                                  src="@(string.IsNullOrEmpty(Model.AccountImage) ? "/images/default.png" : "/images/" + Model.AccountImage)"
                                  class="img-fluid rounded-circle shadow"
                                  style="width: 200px; height: 200px; object-fit: cover; cursor: pointer; transition: transform 0.3s;"
-                                 alt="Profile Image"
-                                 title="Click to change profile picture" />
+                                 alt="Ảnh đại diện"
+                                 title="Nhấn để thay đổi ảnh" />
                         </label>
                         <input type="file" name="profileImage" id="profileImageInput" class="d-none" accept="image/*" />
                     </div>
-                    <button type="submit" class="btn btn-default get">Update Image</button>
+                    <button type="submit" class="btn btn-default get">Cập nhật ảnh</button>
                 </form>
             </div>
         </div>
 
+        <!-- Cột thông tin cá nhân -->
         <div class="col-md-8">
             <form asp-controller="Profiles" asp-action="UpdateProfile" method="post" class="card shadow-lg border-0 rounded-4 p-4">
                 <input type="hidden" asp-for="Id" />
@@ -40,57 +41,58 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label asp-for="FirstName" class="fw-bold" style="color: #B08EAD;"></label>
+                            <label class="fw-bold" style="color: #B08EAD;">Họ</label>
                             <input asp-for="FirstName" class="form-control rounded-3 border-primary" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label asp-for="LastName" class="fw-bold" style="color: #B08EAD;"></label>
+                            <label class="fw-bold" style="color: #B08EAD;">Tên</label>
                             <input asp-for="LastName" class="form-control rounded-3 border-primary" />
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group mt-3">
-                    <label asp-for="Email" class="fw-bold" style="color: #B08EAD;"></label>
+                    <label class="fw-bold" style="color: #B08EAD;">Email</label>
                     <input asp-for="Email" class="form-control rounded-3 border-primary bg-light" readonly />
                 </div>
 
                 <div class="form-group mt-3">
-                    <label asp-for="PhoneNumber" class="fw-bold" style="color: #B08EAD;"></label>
+                    <label class="fw-bold" style="color: #B08EAD;">Số điện thoại</label>
                     <input asp-for="PhoneNumber" class="form-control rounded-3 border-primary" />
                 </div>
 
                 <div class="form-group mt-3">
-                    <label asp-for="Address" class="fw-bold" style="color: #B08EAD;"></label>
+                    <label class="fw-bold" style="color: #B08EAD;">Địa chỉ</label>
                     <input asp-for="Address" class="form-control rounded-3 border-primary" />
                 </div>
 
                 <div class="row mt-3">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input asp-for="Gender" placeholder="Enter gender (e.g. Male, Female)" class="form-control rounded-3 border-primary" />
-
+                            <label class="fw-bold" style="color: #B08EAD;">Giới tính</label>
+                            <input asp-for="Gender" class="form-control rounded-3 border-primary" placeholder="Nam / Nữ" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label asp-for="DateOfBirth" class="fw-bold" style="color: #B08EAD;"></label>
+                            <label class="fw-bold" style="color: #B08EAD;">Ngày sinh</label>
                             <input asp-for="DateOfBirth" type="date" class="form-control rounded-3 border-primary" />
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group mt-3">
-                    <label asp-for="Description" class="fw-bold" style="color: #B08EAD;"></label>
+                    <label class="fw-bold" style="color: #B08EAD;">Giới thiệu</label>
                     <textarea asp-for="Description" class="form-control rounded-3 border-primary" rows="3"></textarea>
                 </div>
 
                 <div class="text-end mt-4">
-                    <button type="submit" class="btn btn-default get">Save Changes</button>
+                    <button type="submit" class="btn btn-default get">Lưu thay đổi</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+<br />

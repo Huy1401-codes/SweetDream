@@ -56,15 +56,15 @@
                                                 </td>
                                                 <td>@item.Price.ToString("C", cultureVN)</td>
                                                 <td class="text-danger">
-                                                    @(item.Discount > 0 ? $"-{item.Discount.ToString("C", cultureVN)}" : "No Discount")
+                                                    @(item.Discount > 0 ? $"-{item.Discount.ToString("C", cultureVN)}" : "Không giảm giá")
                                                 </td>
                                                 <td style="min-width: 100px;">
-                                                    <label for="quantity_@item.ProductId" class="form-label">Quantity</label>
+                                                    <label for="quantity_@item.ProductId" class="form-label"></label>
                                                     <input type="number" class="form-control quantity-input"
                                                            id="quantity_@item.ProductId"
                                                            data-product-id="@item.ProductId"
                                                            value="@item.Quantity" min="1" max="@item.Product.Quantity"
-                                                           style="width: 70px; margin: auto;" />
+                                                           style="width: 50px; margin: auto;" />
                                                 </td>
                                                 <td class="total-price fw-bold text-success" data-product-id="@item.ProductId">
                                                     @((item.Quantity * (item.Price - item.Discount)).ToString("C", cultureVN))
@@ -72,7 +72,7 @@
                                                 <td>
                                                     <a href="@Url.Action("RemoveFromCart", "ShoppingCart", new { productId = item.ProductId })"
                                                        class="btn_3 btn-sm">
-                                                        <i class="ti-trash"></i> Remove
+                                                        <i class="ti-trash"></i> Xóa khỏi giỏ hàng
                                                     </a>
                                                 </td>
                                             </tr>
@@ -91,13 +91,13 @@
                             <div class="d-flex justify-content-between mt-4">
                                 <div class="d-flex gap-3">
                                     <a href="@Url.Action("ClearCart", "ShoppingCart")" class="btn_3 btn-custom">
-                                        🗑 Clear Cart
+                                        🗑 Xóa giỏ hàng
                                     </a>
                                     <a href="@Url.Action("Index", "Home")" class="btn_3 btn-custom">
-                                        🛍 Continue Shopping
+                                        🛍 Tiếp tục mua sắm
                                     </a>
                                     <button type="submit" class="btn_3 btn-custom">
-                                        ✅ Confirm Order
+                                        ✅ Xác nhận đơn hàng
                                     </button>
                                 </div>
                             </div>
@@ -109,7 +109,7 @@
                         <div class="text-center mt-5">
                             <img src="~/images/EmptyCart.png" alt="Empty Cart" class="img-fluid mb-3" style="max-width: 300px;" />
                             <h4 class="mb-3">Your cart is empty.</h4>
-                            <a href="@Url.Action("Index", "Home")" class="btn_3">🛍 Shopping Now</a>
+                            <a href="@Url.Action("Index", "Home")" class="btn_3">🛍 Tiếp tục mua sắm</a>
                         </div>
                     }
                 </div>

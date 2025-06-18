@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb_iner">
-                    <h2>Checkout</h2>
+                    <h2>Thanh toán</h2>
                 </div>
             </div>
         </div>
@@ -17,30 +17,30 @@
         <div class="billing_details">
             <div class="row">
                 <div class="col-lg-12">
-                    <h3>Confirm Your Order</h3>
+                    <h1>Xác nhận đơn hàng của bạn</h1>
                     <form class="row contact_form" asp-action="Checkout" asp-controller="ShoppingCart" method="post" novalidate="novalidate">
                         <div class="col-md-12 form-group mb-3">
-                            <label for="ShippingAddress">Shipping Address</label>
+                            <label for="ShippingAddress">Địa chỉ giao hàng</label>
                             <input type="text" class="form-control" id="ShippingAddress" name="ShippingAddress" value="@Model.Account.Address" required />
                         </div>
                         <div class="col-md-12 form-group mb-3">
-                            <label for="PhoneNumber">Phone Number</label>
+                            <label for="PhoneNumber">Số điện thoại</label>
                             <input type="text" class="form-control" id="PhoneNumber" name="PhoneNumber" value="@Model.Account.PhoneNumber" required />
                         </div>
                         <div class="col-md-12 form-group mb-3">
-                            <label for="CustomerNote">Customer Note</label>
-                            <textarea class="form-control" id="CustomerNote" name="CustomerNote" rows="3" placeholder="Enter your notes here">@Model.CustomerNote</textarea>
+                            <label for="CustomerNote">Ghi chú của khách hàng</label>
+                            <textarea class="form-control" id="CustomerNote" name="CustomerNote" rows="3" placeholder="Nhập ghi chú của bạn vào đây......">@Model.CustomerNote</textarea>
                         </div>
                         <div class="col-md-12 form-group mb-3">
-                            <h3>Order Products</h3>
+                            <h3>Đặt hàng sản phẩm</h3>
                             <table class="table">
                                 <thead>
                                     <tr>
                                         <th>Select</th>
-                                        <th>Product</th>
-                                        <th>Price</th>
-                                        <th>Quantity</th>
-                                        <th>Total</th>
+                                        <th>Sản phẩm</th>
+                                        <th>Giá tiền</th>
+                                        <th>Số lượng</th>
+                                        <th>Tổng tiền</th>
                                     </tr>
                                 </thead>
                                 @{
@@ -67,8 +67,8 @@
                             </table>
                         </div>
                         <div class="col-md-12 form-group">
-                            <button type="submit" class="btn_3">Place Order</button>
-                            <a href="@Url.Action("Index", "ShoppingCart")" class="btn_3">Back to Cart</a>
+                            <button type="submit" class="btn_3">Đặt hàng</button>
+                            <a href="@Url.Action("Index", "ShoppingCart")" class="btn_3">Trở lại giỏ hàng</a>
                         </div>
                     </form>
                 </div>

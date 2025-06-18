@@ -123,8 +123,8 @@
 
 <div class="centered-wrapper">
     <form asp-action="Register" method="post" class="register-form" novalidate>
-        <h2>Register Account</h2>
-        <p class="subtitle">Fill in the details below to create your account.</p>
+        <h2>Đăng ký tài khoản</h2>
+        <p class="subtitle">Điền thông tin bên dưới để tạo tài khoản của bạn.</p>
 
         @if (ViewData["Message"] != null)
         {
@@ -133,8 +133,8 @@
 
         <div class="form-row">
             <div class="form-col">
-                <label asp-for="UserName"></label>
-                <input asp-for="UserName" placeholder="Enter username" />
+                <label asp-for="UserName"> Nhập tên đăng nhập</label>
+                <input asp-for="UserName" placeholder="Nhập tên người dùng" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
             <div class="form-col">
@@ -146,12 +146,12 @@
 
         <div class="form-row">
             <div class="form-col">
-                <label asp-for="FirstName"></label>
+                <label asp-for="FirstName">Tên đệm</label>
                 <input asp-for="FirstName" placeholder="First name" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-col">
-                <label asp-for="LastName"></label>
+                <label asp-for="LastName">Họ</label>
                 <input asp-for="LastName" placeholder="Last name" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
@@ -159,12 +159,12 @@
 
         <div class="form-row">
             <div class="form-col">
-                <label asp-for="PhoneNumber"></label>
+                <label asp-for="PhoneNumber">Số điện thoại</label>
                 <input asp-for="PhoneNumber" placeholder="Phone number" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-col">
-                <label asp-for="DateOfBirth"></label>
+                <label asp-for="DateOfBirth">Ngày sinh</label>
                 <input asp-for="DateOfBirth" type="date" />
                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
@@ -172,21 +172,21 @@
 
         <div class="form-row">
             <div class="form-col">
-                <label asp-for="Address"></label>
+                <label asp-for="Address">Địa chỉ</label>
                 <input asp-for="Address" placeholder="Address" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="form-col">
-                <label asp-for="PasswordHash">Password</label>
+                <label asp-for="PasswordHash">Mật khẩu</label>
                 <input asp-for="PasswordHash" type="password" placeholder="Strong password" />
-                <div class="password-hint">Min 8 chars, incl. uppercase, number, symbol.</div>
+                <div class="password-hint">Tối thiểu 8 ký tự, bao gồm chữ hoa, số, ký hiệu.</div>
                 <span asp-validation-for="PasswordHash" class="text-danger"></span>
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-col">
-                <label>Confirm Password</label>
+                <label>Xác nhận mật khẩu</label>
                 <input type="password" name="ConfirmPassword" placeholder="Repeat password" />
                 <span class="text-danger">@ViewData["ConfirmPasswordError"]</span>
             </div>
@@ -194,13 +194,57 @@
 
         <input type="hidden" name="roleName" value="CUSTOMER" />
 
-        <button type="submit">Register</button>
-        <a asp-action="Login" class="cancel-link">Cancel</a>
+        <button type="submit">Đăng ký</button>
+        <a asp-action="Login" class="cancel-link">Hủy</a>
     </form>
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector(".register-form");
+            const passwordInput = form.querySelector("input[name='PasswordHash']");
+            const confirmPasswordInput = form.querySelector("input[name='ConfirmPassword']");
+
+            // Tạo vùng hiển thị lỗi nếu chưa có
+            let passwordError = document.createElement("span");
+            passwordError.className = "text-danger password-error";
+            passwordInput.insertAdjacentElement('afterend', passwordError);
+
+            let confirmError = document.createElement("span");
+            confirmError.className = "text-danger confirm-error";
+            confirmPasswordInput.insertAdjacentElement('afterend', confirmError);
+
+            form.addEventListener("submit", function (e) {
+                // Reset lỗi
+                passwordError.textContent = "";
+                confirmError.textContent = "";
+
+                const password = passwordInput.value;
+                const confirmPassword = confirmPasswordInput.value;
+
+                // Regex: ít nhất 8 ký tự, 1 chữ hoa, 1 số, 1 ký tự đặc biệt
+                const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+
+                let valid = true;
+
+                if (!passwordRegex.test(password)) {
+                    passwordError.textContent = "Mật khẩu phải ≥ 8 ký tự, có chữ hoa, số và ký tự đặc biệt.";
+                    valid = false;
+                }
+
+                if (password !== confirmPassword) {
+                    confirmError.textContent = "Mật khẩu xác nhận không khớp.";
+                    valid = false;
+                }
+
+                if (!valid) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
 }
+

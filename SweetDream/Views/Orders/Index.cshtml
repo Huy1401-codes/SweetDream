@@ -1,21 +1,21 @@
 ﻿@model X.PagedList.IPagedList<SweetDream.Models.Order>
 @using X.PagedList.Mvc.Core
 
-<h2 class="title text-center">Order List</h2>
+<h2 class="title text-center">Danh sách đơn hàng</h2>
 
 <form method="get" asp-action="Index" class="mb-3">
     <div class="row">
         <div class="col-md-3">
-            <label for="searchName">Customer Name</label>
+            <label for="searchName">Tên khách hàng</label>
             <input type="text" name="searchName" class="form-control"
-                   value="@Context.Request.Query["searchName"]" placeholder="Enter customer name" />
+                   value="@Context.Request.Query["searchName"]" placeholder="Nhập tên khách hàng" />
         </div>
         <div class="col-md-3">
-            <label for="startDate">Start Date</label>
+            <label for="startDate">Từ ngày</label>
             <input type="date" name="startDate" class="form-control" value="@Context.Request.Query["startDate"]" />
         </div>
         <div class="col-md-3">
-            <label for="endDate">End Date</label>
+            <label for="endDate">Đến ngày</label>
             <input type="date" name="endDate" class="form-control" value="@Context.Request.Query["endDate"]" />
         </div>
         <style>
@@ -37,21 +37,20 @@
 
         <div class="col-md-3 d-flex align-items-end">
             <button type="submit" class="btn btn-float">
-                <i class="fas fa-search"></i> Search
+                <i class="fas fa-search"></i> Tìm kiếm
             </button>
         </div>
-
     </div>
 </form>
 
 <table class="table">
     <thead>
         <tr>
-            <th>Order ID</th>
-            <th>Customer</th>
-            <th>Order Date</th>
-            <th>Total Amount</th>
-            <th>Actions</th>
+            <th>Mã đơn</th>
+            <th>Khách hàng</th>
+            <th>Ngày đặt</th>
+            <th>Tổng tiền</th>
+            <th>Thao tác</th>
         </tr>
     </thead>
     <tbody>
@@ -64,10 +63,10 @@
             <tr>
                 <td>@order.OId</td>
                 <td style="display: flex; align-items: center;">
-                    <img src="@imagePath" alt="Profile Picture" width="40" height="40"
+                    <img src="@imagePath" alt="Ảnh đại diện" width="40" height="40"
                          style="border-radius: 50%; object-fit: cover; margin-right: 10px;" />
                     <span>
-                        @(order.Account != null ? $"{order.Account.FirstName} {order.Account.LastName}" : "Unknown")
+                        @(order.Account != null ? $"{order.Account.FirstName} {order.Account.LastName}" : "Không rõ")
                     </span>
                 </td>
                 <td>
@@ -76,13 +75,13 @@
                         ? order.OrderDetails.Min(od => od.OrderDate)
                         : DateTime.MinValue;
                     }
-                    @(orderDate != DateTime.MinValue ? orderDate.ToString("dd/MM/yyyy HH:mm") : "No Order Date")
+                    @(orderDate != DateTime.MinValue ? orderDate.ToString("dd/MM/yyyy HH:mm") : "Không có ngày")
                 </td>
                 <td>
-                    $@(order.OrderDetails.Sum(d => d.Price * d.Quantity * (1 - d.Discount / 100.0)))
+                    @((order.OrderDetails.Sum(d => d.Price * d.Quantity * (1 - d.Discount / 100.0))).ToString("N0")) đ
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@order.OId" class="btn btn-info">View Details</a>
+                    <a asp-action="Details" asp-route-id="@order.OId" class="btn btn-info">Xem chi tiết</a>
                 </td>
             </tr>
         }
@@ -91,5 +90,11 @@
 
 <!-- Hiển thị phân trang -->
 <div class="pagination-container">
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchName = Context.Request.Query["searchName"], startDate = Context.Request.Query["startDate"], endDate = Context.Request.Query["endDate"] }))
+    @Html.PagedListPager(Model, page => Url.Action("Index", new
+        {
+            page,
+            searchName = Context.Request.Query["searchName"],
+            startDate = Context.Request.Query["startDate"],
+            endDate = Context.Request.Query["endDate"]
+        }))
 </div>

@@ -4,25 +4,25 @@
     ViewData["Title"] = "Order Details";
 }
 
-<h2 class ="title text-center">Order Details #@Model.OId</h2>
+<h2 class="title text-center">Chi tiết đơn hàng #@Model.OId</h2>
 
-<p><strong>Customer:</strong> @(Model.Account != null ? $"{Model.Account.FirstName} {Model.Account.LastName}" : "Unknown")</p>
-<p><strong>Email:</strong> @(Model.Account?.Email ?? "No email")</p>
-<p><strong>Phone Number:</strong> @(Model.Account?.PhoneNumber ?? "No phone number")</p>
+<p><strong>Khách hàng:</strong> @(Model.Account != null ? $"{Model.Account.FirstName} {Model.Account.LastName}" : "Không xác định")</p>
+<p><strong>Email:</strong> @(Model.Account?.Email ?? "Không có email")</p>
+<p><strong>Số điện thoại:</strong> @(Model.Account?.PhoneNumber ?? "Không có số điện thoại")</p>
 
-<h2 class="title text-center">Ordered products</h2>
+<h2 class="title text-center">Sản phẩm đã đặt</h2>
 <table class="table">
     <thead>
         <tr>
-            <th>Image</th> 
-            <th>Product Name</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Discount</th>
-            <th>Total</th>
-            <th>Status</th>
-            <th>Order Date</th>
-            <th>Receive Date</th>
+            <th>Hình ảnh</th>
+            <th>Tên sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Giá</th>
+            <th>Giảm giá</th>
+            <th>Thành tiền</th>
+            <th>Trạng thái</th>
+            <th>Ngày đặt</th>
+            <th>Ngày nhận</th>
         </tr>
     </thead>
     <tbody>
@@ -31,31 +31,30 @@
             <tr>
                 <td>
                     <img src="~/images/@(detail.Product?.Image ?? "default.png")"
-                         alt="Product Image" width="50" height="50" class="img-thumbnail" />
+                         alt="Hình sản phẩm" width="50" height="50" class="img-thumbnail" />
                 </td>
                 <td>@detail.Product?.ProductName</td>
                 <td>@detail.Quantity</td>
-                <td>@detail.Price</td>
+                <td>@detail.Price.ToString("N0") đ</td>
                 <td>@detail.Discount%</td>
-                <td>@((detail.Price * detail.Quantity) * (1 - detail.Discount / 100.0))</td>
+                <td>@((detail.Price * detail.Quantity) * (1 - detail.Discount / 100.0)).ToString("N0") đ</td>
                 <td>
                     <form asp-action="UpdateStatus" method="post">
                         <input type="hidden" name="detailId" value="@detail.DetailId" />
                         <select name="status" class="form-control" onchange="this.form.submit()"
                         @(detail.Status == "Success" || detail.Status == "Disable" ? "disabled" : "")>
-                            <option value="Processing" selected="@(detail.Status == "Processing" ? "selected" : null)">Processing</option>
-                            <option value="Delivering" selected="@(detail.Status == "Delivering" ? "selected" : null)">Delivering</option>
-                            <option value="Success" selected="@(detail.Status == "Success" ? "selected" : null)">Success</option>
-                            <option value="Disable" selected="@(detail.Status == "Disable" ? "selected" : null)">Disable</option>
+                            <option value="Processing" selected="@(detail.Status == "Processing" ? "selected" : null)">Đang xử lý</option>
+                            <option value="Delivering" selected="@(detail.Status == "Delivering" ? "selected" : null)">Đang giao</option>
+                            <option value="Success" selected="@(detail.Status == "Success" ? "selected" : null)">Thành công</option>
+                            <option value="Disable" selected="@(detail.Status == "Disable" ? "selected" : null)">Hủy</option>
                         </select>
                     </form>
                 </td>
                 <td>@detail.OrderDate.ToString("dd/MM/yyyy")</td>
-                <td>@(detail.ReceiveDate?.ToString("dd/MM/yyyy") ?? "Not received yet")</td>
+                <td>@(detail.ReceiveDate?.ToString("dd/MM/yyyy") ?? "Chưa nhận")</td>
             </tr>
         }
     </tbody>
 </table>
 
-
-<a asp-action="Index" class="btn btn-secondary">Back</a>
+<a asp-action="Index" class="btn btn-secondary">Quay lại</a>

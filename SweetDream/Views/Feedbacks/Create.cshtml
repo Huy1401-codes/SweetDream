@@ -26,14 +26,14 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label fw-bold">Your Review</label>
-                <textarea asp-for="Content" class="form-control" rows="4" placeholder="Write your review here..." required></textarea>
+                <label class="form-label fw-bold">Đánh giá của bạn</label>
+                <textarea asp-for="Content" class="form-control" rows="4" placeholder="Viết đánh giá của bạn ở đây..." required></textarea>
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
 
             <div class="text-center">
-                <button type="submit" class="btn btn-default get">Submit Review</button>
-                <a href="@Url.Action("OrderDetails", "Profiles")" class="btn btn-default get">Cancel</a>
+                <button type="submit" class="btn btn-default get">Gửi Đánh giá</button>
+                <a href="@Url.Action("OrderDetails", "Profiles")" class="btn btn-default get">Hủy bỏ</a>
             </div>
         </form>
     </div>

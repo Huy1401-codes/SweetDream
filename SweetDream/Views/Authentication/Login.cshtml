@@ -8,16 +8,16 @@
             <div class="col-lg-6 col-md-6">
                 <div class="login_part_text text-center">
                     <div class="login_part_text_iner">
-                        <h2>New to our Shop?</h2>
-                        <p>There are advances being made in science and technology everyday.</p>
-                        <a asp-action="Register" asp-controller="Authentication" class="btn_3">Create an Account</a>
+                        <h2>Bạn mới đến Cửa hàng của chúng tôi?</h2>
+                       
+                        <a asp-action="Register" asp-controller="Authentication" class="btn_3">Tạo một tài khoản</a>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6">
                 <div class="login_part_form">
                     <div class="login_part_form_iner">
-                        <h3>Welcome Back! <br>Please Sign in now</h3>
+                        <h3>Chào mừng bạn trở lại! <br>Vui lòng Đăng nhập ngay</h3>
 
                         @if (ViewBag.Error != null)
                         {
@@ -34,10 +34,10 @@
                             <div class="col-md-12 form-group">
                                 <div class="creat_account d-flex align-items-center">
                                     <input type="checkbox" id="f-option" name="remember">
-                                    <label for="f-option">Remember me</label>
+                                    <label for="f-option">Ghi nhớ tài khoản</label>
                                 </div>
-                                <button type="submit" class="btn_3">Log In</button>
-                                <a class="lost_pass" asp-action="ForgotPassword" asp-controller="Authentication">Forget password?</a>
+                                <button type="submit" class="btn_3">Đăng nhập</button>
+                                <a class="lost_pass" asp-action="ForgotPassword" asp-controller="Authentication">Quên mật khẩu?</a>
                             </div>
                         </form>
 

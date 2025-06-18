@@ -1,6 +1,6 @@
 
 .breadcrumb_part {
-	height: 350px;
+	height: 150px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -11,7 +11,7 @@
 			font-size: 50px;
 			line-height: 1.2;
 			color: $white;
-			font-weight: 500;
+			font-weight: 300;
 			text-transform: capitalize;
 			@media #{$tab}{
 				font-size: 30px;

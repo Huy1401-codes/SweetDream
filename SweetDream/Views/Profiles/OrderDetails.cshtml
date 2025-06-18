@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb_iner">
-                    <h2>Order Details</h2>
+                    <h2>Chi tiết đơn hàng</h2>
                 </div>
             </div>
         </div>
@@ -19,7 +19,7 @@
             ViewData["Title"] = "Order Details";
         }
         <partial name="_ProfileNavigation" />
-        <h3 class="mb-4">Order Details</h3>
+        <h3 class="mb-4">Chi tiết đơn hàng</h3>
         @if (TempData["Success"] != null)
         {
             <div class="alert alert-success">@TempData["Success"]</div>
@@ -34,7 +34,7 @@
                 <div class="col-md-6 col-lg-4 mb-4">
                     <div class="card_area shadow">
                         <div class="card-header bg-dark text-white text-center">
-                            <strong>Order ID: @detail.OId</strong>
+                            <strong>Chi tiết đơn hàng ID: @detail.OId</strong>
                         </div>
                         <div class="card-body">
                             <!-- Product Image -->
@@ -46,13 +46,13 @@
                             </div>
                             <!-- Product Information -->
                             <h5 class="card-title text-center">@detail.Product.ProductName</h5>
-                            <p class="text-center text-muted">Price: <strong>$@detail.Price</strong></p>
-                            <p class="text-center">Quantity: <strong>@detail.Quantity</strong></p>
-                            <p class="text-center">Discount: <strong>@detail.Discount%</strong></p>
+                            <p class="text-center text-muted">Giá: <strong>$@detail.Price</strong></p>
+                            <p class="text-center">Số lượng: <strong>@detail.Quantity</strong></p>
+                            <p class="text-center">Giảm giá: <strong>@detail.Discount%</strong></p>
                             <p class="text-center text-success">
-                                Total: <strong>$@(detail.Price * detail.Quantity * (1 - detail.Discount / 100.0))</strong>
+                                Tổng : <strong>$@(detail.Price * detail.Quantity * (1 - detail.Discount / 100.0))</strong>
                             </p>
-                            <p class="text-center">Receive Date: <strong>@(detail.ReceiveDate?.ToString("yyyy-MM-dd HH:mm:ss") ?? "Not received")</strong></p>
+                            <p class="text-center">Ngày nhận: <strong>@(detail.ReceiveDate?.ToString("yyyy-MM-dd HH:mm:ss") ?? "Không nhận được")</strong></p>
                             <!-- Order Status -->
                             <div class="text-center mb-3">
                                 <span class="badge @(detail.Status == "Processing" ? "bg-primary" : detail.Status == "Success" ? "bg-success" : detail.Status == "Disabled" ? "bg-danger" : "bg-warning text-dark")">
@@ -67,13 +67,13 @@
                                     <form id="cancelOrderForm-@detail.DetailId" asp-action="CancelOrder" method="post" class="d-inline">
                                         <input type="hidden" name="detailId" value="@detail.DetailId" />
                                         <button type="button" class="btn_3 btn-sm" onclick="confirmCancel(@detail.DetailId)">
-                                            <i class="ti-trash"></i> Cancel
+                                            <i class="ti-trash"></i> Hủy bỏ
                                         </button>
                                     </form>
                                 }
                                 else if (detail.Status == "Disabled")
                                 {
-                                    <p class="text-muted">Cancelled</p>
+                                    <p class="text-muted">Hủy bỏ</p>
                                 }
                                 <!-- Review Button -->
                                 @if (detail.Status == "Success")
@@ -82,21 +82,21 @@
                                     {
                                         <a href="@Url.Action("Create", "Feedbacks", new { detailId = detail.DetailId })"
                                            class="btn_3 btn-sm">
-                                            <i class="ti-comment"></i> Leave Feedback
+                                            <i class="ti-comment"></i> Để lại phản hồi
                                         </a>
                                     }
                                     else
                                     {
                                         <a href="@Url.Action("Feedback", "Feedbacks", new { detailId = detail.DetailId })"
                                            class="btn_3 btn-sm">
-                                            <i class="ti-eye"></i> View Review
+                                            <i class="ti-eye"></i> Xem Đánh giá
                                         </a>
                                     }
                                 }
                                 else
                                 {
                                     <button class="btn_3 btn-sm" disabled>
-                                        <i class="ti-clock"></i> Waiting for Delivery
+                                        <i class="ti-clock"></i> Đang chờ giao hàng
                                     </button>
                                 }
                             </div>

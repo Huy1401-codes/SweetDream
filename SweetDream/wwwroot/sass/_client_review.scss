@@ -1,42 +1,52 @@
-.client_review{
-    padding: 100px 0;
+﻿/*.client_review {
+    max-width: 1200px; // hoặc giá trị phù hợp với thiết kế
+    margin: 0 auto; // căn giữa khối theo chiều ngang
+    padding: 80px 15px;
     text-align: center;
     background-color: #B08EAD;
     position: relative;
+
     @media #{$tab} {
-        padding: 70px 0;
+        padding: 70px 15px;
     }
+
     @media #{$medium_device} {
-        padding: 80px 0;
+        padding: 60px 15px;
     }
-    img{
-       width: 100%;
-       border-radius: 50%;
+
+    img {
+        width: 50%;
+        border-radius: 40%;
     }
-    p{
-        font-size: 24px;
-        line-height: 1.5;
+
+    p {
+        font-size: 20px;
+        line-height: 1.2;
         color: $white;
+
         @media #{$tab} {
             font-size: 18px;
         }
+
         @media #{$medium_device} {
-            font-size: 20px;
+            font-size: 17px;
         }
     }
-    h5{
+
+    h5 {
         font-size: 16px;
-        margin-top: 25px;
+        margin-top: 20px;
         color: $white;
         margin-bottom: 0;
-
     }
-    .client_img{
-        max-width: 105px;
+
+    .client_img {
+        max-width: 80px;
         margin: 0 auto;
         margin-bottom: 35px;
         position: relative;
-        &:after{
+
+        &:after {
             position: absolute;
             content: "";
             right: -8px;
@@ -52,28 +62,30 @@
             color: $white;
         }
     }
-    .owl-nav{
-        button.owl-prev, button.owl-next{
+
+    .owl-nav {
+        display: flex;
+        justify-content: center;
+        gap: 20px; // khoảng cách giữa 2 nút
+        margin-top: 30px;
+
+        button.owl-prev,
+        button.owl-next {
+            position: static; // bỏ định vị tuyệt đối
             width: 40px;
             height: 40px;
-            font-size: 14px;
+            font-size: 140px;
             line-height: 40px;
             border-radius: 50%;
             border: 1px solid $text-color;
             color: $text-color;
-            position: absolute;
-            left: -26%;
-            top: 48%;
             @include transform_time(.5s);
-            &:hover{
+
+            &:hover {
                 background-color: $text-color;
                 color: $white;
             }
         }
-        button.owl-next{
-            text-indent: 2px;
-            left: auto;
-            right: -26%
-        }
     }
 }
+*/

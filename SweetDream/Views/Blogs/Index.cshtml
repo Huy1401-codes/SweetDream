@@ -31,8 +31,8 @@
                             {
                                 <article class="blog_item">
                                     <div class="blog_item_img">
-                                        <img class="card-img rounded-0" src="@(blog.ImageUrl ?? "~/img/default.jpg")" alt="">
-                                        <a href="#" class="blog_item_date">
+                                        <img class="card-img rounded-0" href="/Blogs/Details/@blog.Id" src="@(blog.ImageUrl ?? "~/img/default.jpg")" alt="" style="width:75%;height:40%">
+                                        <a href="/Blogs/Details/@blog.Id" class="blog_item_date" >
                                             <h3>@blog.CreatedAt.Day</h3>
                                             <p>@blog.CreatedAt.ToString("MMM")</p>
                                         </a>
@@ -60,7 +60,7 @@
                     }
                     else
                     {
-                        <p>No blog posts found.</p>
+                        <p>Không có blog nào ! .</p>
                     }
 
 
@@ -70,12 +70,12 @@
                                     @if (Model.HasPreviousPage)
                                     {
                                         <li class="page-item">
-                                            <a class="page-link" href="@Url.Action("Index", "Blogs", new { page = Model.PageNumber - 1, search = ViewBag.Search })">Previous</a>
+                                            <a class="page-link" href="@Url.Action("Index", "Blogs", new { page = Model.PageNumber - 1, search = ViewBag.Search })">Trước</a>
                                         </li>
                                     }
                                     else
                                     {
-                                        <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                                        <li class="page-item disabled"><span class="page-link">Trước</span></li>
                                     }
 
                                     @for (int i = 1; i <= Model.PageCount; i++)
@@ -95,12 +95,12 @@
                                     @if (Model.HasNextPage)
                                     {
                                         <li class="page-item">
-                                            <a class="page-link" href="@Url.Action("Index", "Blogs", new { page = Model.PageNumber + 1, search = ViewBag.Search })">Next</a>
+                                            <a class="page-link" href="@Url.Action("Index", "Blogs", new { page = Model.PageNumber + 1, search = ViewBag.Search })">Tiếp theo</a>
                                         </li>
                                     }
                                     else
                                     {
-                                        <li class="page-item disabled"><span class="page-link">Next</span></li>
+                                        <li class="page-item disabled"><span class="page-link">Tiếp theo</span></li>
                                     }
                                 </ul>
                             </nav>
@@ -160,7 +160,7 @@
                             <form method="get" asp-controller="Blogs" asp-action="Index">
                                 <div class="search-box">
                                     <input type="text" name="searchString"
-                                           placeholder="Search blog..."
+                                           placeholder="Tìm kiếm blog..."
                                            value="@ViewBag.Search" />
                                     <button type="submit"><i class="ti-search"></i></button>
                                 </div>
@@ -173,7 +173,7 @@
 
 
                         <aside class="single_sidebar_widget post_category_widget">
-                            <h4 class="widget_title">Category</h4>
+                            <h4 class="widget_title">Danh mục Blog</h4>
                             <ul class="list cat-list">
                                 @foreach (var category in ViewBag.Categories)
                                 {
@@ -206,28 +206,10 @@
                                     </div>
                                 </div>
                             }
-                        </aside>
-
-                        
-
-
-
-
-                        <aside class="single_sidebar_widget newsletter_widget">
-                            <h4 class="widget_title">Newsletter</h4>
-
-                            <form action="#">
-                                <div class="form-group">
-                                    <input type="email" class="form-control" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email'" placeholder="Enter email" required="">
-                                </div>
-                                <button class="button rounded-0 primary-bg text-white w-100 btn_1" type="submit">Subscribe</button>
-                            </form>
-                        </aside>
+                        </aside>                                             
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <!--================Blog Area =================-->
-   
+    </section>   
 </body>

@@ -1,5 +1,5 @@
 ﻿@model SweetDream.Models.Order
-<h2 class="title text-center">Checkout</h2>
+<h2 class="title text-center">Thanh toán</h2>
 
 @if (TempData["Error"] != null)
 {
@@ -40,5 +40,5 @@
     <input type="hidden" name="PhoneNumber" value="@Model.PhoneNumber" />
     <input type="hidden" name="CustomerNote" value="@Model.CustomerNote" />
 
-    <button type="submit" class="btn btn-success">Confirm Order</button>
+    <button type="submit" class="btn btn-success">Xác nhận đơn hàng</button>
 </form>
