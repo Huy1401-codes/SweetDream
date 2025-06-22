@@ -12,8 +12,8 @@ using SweetDream.Repositories;
 namespace SweetDream.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250611023546_SeedData")]
-    partial class SeedData
+    [Migration("20250622131934_newdb")]
+    partial class newdb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -531,8 +531,7 @@ namespace SweetDream.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Disable")
                         .HasColumnType("bit");

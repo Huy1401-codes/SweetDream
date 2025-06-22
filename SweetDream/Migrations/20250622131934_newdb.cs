@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SweetDream.Migrations
 {
     /// <inheritdoc />
-    public partial class SeedData : Migration
+    public partial class newdb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -326,7 +326,7 @@ namespace SweetDream.Migrations
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     Size = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     Discount = table.Column<int>(type: "int", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Disable = table.Column<bool>(type: "bit", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
                 },

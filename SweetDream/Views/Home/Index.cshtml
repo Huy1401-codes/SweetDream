@@ -1,357 +1,642 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-<style>
-    .banner_part {
-        position: relative;
-        overflow: hidden; /* Ngăn các phần tử tràn ra ngoài */
-    }
-
-    .banner_text {
-        z-index: 10; /* Đảm bảo phần chữ nằm trên video */
-        position: relative;
-    }
-
-    .banner_img {
-        z-index: 1; /* Video nằm dưới phần chữ */
-    }
-
-        .banner_img video {
-            width: 130%; /* Tăng kích thước video để lấp đầy chiều rộng */
-            height: auto; /* Giữ tỷ lệ khung hình */
-            border: 5px solid #B08EAD; /* Giữ viền khung */
-            border-radius: 10px; /* Giữ bo góc khung */
-            display: block; /* Đảm bảo video là block */
-            margin: 20px auto; /* Căn giữa video, giữ khoảng cách trên/dưới */
-            object-fit: cover; /* Đảm bảo video lấp đầy khung */
-        }
-    
-    {
-        text-align: center; /* Căn giữa chữ trên mobile */
-        padding: 200px; /* Thêm khoảng cách trên mobile */
-    }
-
-    .banner_img video {
-        max-height: 1500px; /* Tăng chiều cao tối đa trên mobile */
-    }
-
-    #client-review {
-        padding: 15px 0;
-        background-color: #f9f9f9;
-        text-align: center;
-    }
-
-        #client-review img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            display: block;
+﻿<main>
+    <style>
+        .intro-section {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+            flex-wrap: wrap;
         }
 
-        #client-review p {
-            font-size: 16px;
-            color: #555;
-            margin-bottom: 10px;
+        .intro-slider {
+            flex: 1;
+            max-width: 700px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
         }
 
-        #client-review h5 {
+            .intro-slider img {
+                width: 100%;
+                height: 60%;
+                display: none;
+                border-radius: 30px;
+            }
+
+                .intro-slider img.active {
+                    display: block;
+                }
+
+        .intro-text {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.125rem;
+            line-height: 1.8;
             color: #333;
-            font-weight: bold;
+            text-align: left;
+            font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+            padding: 0 20px;
         }
 
-    .client-review-slider > div {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 30px 20px;
-        background-color: #fff;
-        border-radius: 12px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-    }
+            .intro-text strong {
+                color: #f68b42;
+                font-weight: 600;
+            }
 
-    /* Dot navigation */
-    .slick-dots {
-        display: flex !important;
-        justify-content: center;
-        margin-top: 20px;
-        padding: 0;
-        list-style: none;
-    }
+            .intro-text em {
+                font-style: italic;
+                color: #777;
+            }
 
-        .slick-dots li button {
-            font-size: 0; /* Ẩn số */
-            width: 12px;
-            height: 12px;
-            background-color: #ccc;
-            border-radius: 50%;
-            border: none;
-            margin: 0 5px;
+            .intro-text .slogan {
+                display: block;
+                margin-top: 20px;
+                font-size: 1.8rem;
+                font-weight: bold;
+                color: #e66a1f;
+                letter-spacing: 0.5px;
+            }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 100px;
+            margin: 80px auto;
+            max-width: 1100px;
+            text-align: center;
+        }
+
+        .feature {
+            padding: 1px 20px;
+        }
+
+            .feature img {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 10px;
+            }
+
+            .feature p {
+                margin: 0;
+                font-weight: 600;
+            }
+
+        .category-bar {
+            background: linear-gradient(to right, #fff1eb, #ace0f9);
+            padding: 18px;
+            font-weight: bold;
+            font-size: 20px;
+            text-align: center;
+            color: #333;
+            margin-top: 50px;
+            border-radius: 8px;
+        }
+        .categories {
+            display: flex;
+            margin-top : 15px;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .category {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 140px;
+            transition: all 0.3s ease;
             cursor: pointer;
         }
 
-        .slick-dots li.slick-active button {
-            background-color: #B08EAD;
+        .category-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%; /* tạo hình tròn */
+            overflow: hidden; /* cắt ảnh vừa khuôn tròn */
+            border: 3px solid #f2f2f2;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
-    .single_product_list {
-        background-color: #fefefe;
-        padding: 60px 0;
-    }
-
-        .single_product_list h1 {
-            font-size: 2rem;
-            color: #333;
-        }
-
-    .single_product_iner {
-        background: #ffffff;
-        border-radius: 12px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-        padding: 30px 20px;
-        margin-bottom: 40px;
-        transition: transform 0.3s ease;
-        min-height: 360px; /* ✅ Chiều cao tối thiểu để đồng đều */
-        display: flex;
-        align-items: center;
-    }
-
-        .single_product_iner:hover {
-            transform: translateY(-5px);
-        }
-
-    .single_product_img {
-        position: relative;
-        overflow: hidden;
-        border-radius: 10px;
-    }
-
-        .single_product_img img:first-child {
-            width: 100%;
-            height: 230px; /* ✅ Chiều cao cố định */
-            object-fit: cover; /* ✅ Ảnh không bị méo */
-            border-radius: 10px;
-            transition: transform 0.4s ease;
-        }
-
-        .single_product_img:hover img:first-child {
-            transform: scale(1.05);
-        }
-
-    .product_overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0.1;
-        object-fit: cover;
-        border-radius: 10px;
-    }
-
-    .single_product_content {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        height: 100%;
-    }
-
-        .single_product_content h2 {
-            font-size: 0.8rem;
-            color: #222;
-            margin-bottom: 15px;
-        }
-
-            .single_product_content h2 a {
-                color: inherit;
-                text-decoration: none;
-                transition: color 0.3s ease;
+            .category-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover; /* ảnh phủ vừa khung, không méo */
+                display: block;
             }
 
-                .single_product_content h2 a:hover {
-                    color: #B08EAD;
-                }
-
-    .btn_3 {
-        display: inline-block;
-        background-color: #B08EAD;
-        color: #fff;
-        padding: 10px 20px;
-        font-weight: 500;
-        border-radius: 30px;
-        transition: background-color 0.3s ease;
-        text-decoration: none;
-    }
-
-        .btn_3:hover {
-            background-color: #a26c9b;
+        .category-icon {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #f2f2f2;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            display: block;
+        }
+      
+        .category p {
+            margin-top: 12px;
+            font-weight: 600;
+            color: #333;
+            font-size: 15px;
+            line-height: 1.4;
+            transition: color 0.3s;
         }
 
-    .row.gx-4 {
-        row-gap: 30px;
-    }
+        /* Hover effect */
+        .category:hover .category-icon {
+            transform: scale(1.06);
+            transition: transform 0.3s ease;
+        }
 
-</style>
 
-<!-- banner part start -->
-<section class="banner_part">
-    <div class="container">
-        <div class="row align-items-center">
-            <!-- Text section -->
-            <div class="col-md-5">
-                <div class="banner_text">
-                    <div class="banner_text_iner">
-                        <h2 style="margin-left:20px">Chăn Gối 🛏️</h2>
-                        <h2 style="margin-left:140px">🌿 Lá Dứa</h2>
-                        <p style="margin-left:20px">
-                            Chăm sóc giấc ngủ an toàn  <br />
-                        <p style="margin-left:150px"> cho bé yêu từ sợi lá thiên nhiên !</p>
-                        </p>
-                        <a href="/Home/Product" style="margin-left:20px" class="btn_1">Shop now</a>
-                    </div>
-                </div>
+        .category:hover p {
+            color: #f29559;
+        }
+
+ 
+
+
+        .video-section {
+            max-width: 800px;
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        .video-placeholder iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .cta-button {
+            display: block;
+            margin: 30px auto;
+            background: #000;
+            color: #fff;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+            .cta-button:hover {
+                background: #ff6f61;
+            }
+
+
+        .testimonials {
+            background-color: #fdfaf6;
+            padding: 40px 20px;
+            font-family: 'Segoe UI', sans-serif;
+            text-align: center;
+        }
+
+            .testimonials h2 {
+                font-size: 2.2em;
+                margin-bottom: 40px;
+                color: #333;
+            }
+
+        .testimonial-slider-wrapper {
+            overflow: hidden;
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .testimonial-list {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            will-change: transform;
+        }
+
+        .testimonial {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin: 10px;
+            padding: 25px;
+            flex: 0 0 auto;
+            box-sizing: border-box;
+            text-align: left;
+            transition: transform 0.3s;
+        }
+
+            .testimonial:hover {
+                transform: translateY(-5px);
+            }
+
+        .testimonial-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+            .testimonial-circle img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+
+        .testimonial p {
+            margin: 10px 0;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .testimonial strong {
+            color: #111;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .stars i {
+            color: #ffbb33;
+            font-size: 18px;
+        }
+
+
+        #prevBtn, #nextBtn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #fff;
+            border: 1px solid #ddd;
+            font-size: 26px;
+            padding: 12px;
+            cursor: pointer;
+            z-index: 2;
+            border-radius: 50%;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+            #prevBtn:hover, #nextBtn:hover {
+                background-color: #f7c59f;
+                color: white;
+                border-color: #f7c59f;
+            }
+
+        #prevBtn {
+            left: 10px;
+        }
+
+        #nextBtn {
+            right: 10px;
+        }
+
+        .category-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 140px;
+            text-decoration: none; /* bỏ gạch chân */
+            color: inherit; /* giữ màu chữ mặc định */
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+            .category-link:hover .category-icon {
+                transform: scale(1.06);
+                border-color: #f29559;
+                transition: transform 0.3s ease, border-color 0.3s ease;
+            }
+
+            .category-link p {
+                margin-top: 8px; /* khoảng cách từ ảnh tới chữ */
+                font-weight: 600;
+                color: #f29559; /* màu cam đẹp, bạn có thể thay đổi */
+                font-size: 15px;
+                line-height: 1.4;
+                transition: color 0.3s;
+            }
+
+    </style>
+
+    <section class="intro-section">
+        <div class="intro-text">
+            @*             <h2 id="animated-heading" class="typewriter-heading"></h2>
+            *@
+            <h2 id="animated-heading">Chào mừng đến với Sweet Dream...</h2>
+            <div class="intro-text">
+               
+                @*                 <p id="animated-slogan" class="slogan typewriter-slogan"></p>
+                *@
+                <p id="animated-slogan" class="slogan typewriter-slogan"></p>
             </div>
 
-            <!-- Video section -->
-            <div class="col-md-7">
-                <div class="ratio ratio-16x9 w-100">
-                    <iframe src="https://www.youtube.com/embed/C_cLdTqw65Q?autoplay=1&mute=1&loop=1&playlist=C_cLdTqw65Q"
-                            title="YouTube video"
-                            allow="autoplay; encrypted-media"
-                            allowfullscreen width="750px" height="400px">
-                    </iframe>
-                </div>
-            </div>
+
 
         </div>
-    </div>
-</section>
-
-<!-- product list start-->
-<section class="single_product_list">
-    <h1 class="text-center mb-5 fw-bold" style="font-size: 5rem;">
-        <i class="fas fa-feather-alt text-primary me-2"></i>
-        Vì sao chăn gối lá dứa là lựa chọn an toàn cho con bạn ?
-        <i class="fas fa-moon text-warning ms-2"></i>
-    </h1>
-
-
-    <div class="container">
-        <div class="row gx-4 gy-4">
-
-            <!-- Hai sản phẩm trên -->
-            <div class="col-lg-6">
-                <div class="single_product_iner">
-                    <div class="row align-items-center">
-                        <div class="col-sm-6">
-                            <div class="single_product_img">
-                                <img src="img/1.png" class="img-fluid">
-                                <img src="img/product_overlay.png" class="product_overlay img-fluid">
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="single_product_content">
-                                <h2><a href="#">Chất liệu mềm mại và thoáng khí</a></h2>
-                                <a href="#" class="btn_3">Tìm Hiểu thêm</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="single_product_iner">
-                    <div class="row align-items-center">
-                        <div class="col-sm-6">
-                            <div class="single_product_img">
-                                <img src="img/2.png" class="img-fluid">
-                                <img src="img/product_overlay.png" class="product_overlay img-fluid">
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="single_product_content">
-                                <h2><a href="#">Bông gòn cao cấp không xẹp </a></h2>
-                                <a href="#" class="btn_3">Tìm Hiểu thêm</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Một sản phẩm dưới -->
-            <div class="col-lg-12">
-                <div class="single_product_iner">
-                    <div class="row align-items-center">
-                        <div class="col-lg-6">
-                            <div class="single_product_img">
-                                <img src="img/3.png" class="img-fluid">
-                                <img src="img/product_overlay.png" class="product_overlay img-fluid">
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="single_product_content">
-                                <h2><a href="#">Thiết kế nhẹ dễ gấp gọn mang đến lớp</a></h2>
-                                <a href="#" class="btn_3">Tìm Hiểu thêm</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+        <div class="intro-slider">
+            <img class="active" src="~/img/product/6.png" alt="Slide 1">
+            <img src="~/img/product/4.png" alt="Slide 2">
+            <img src="~/img/product/3.png" alt="Slide 3">
+            <img src="~/img/product/10.png" alt="Slide 4">
+            <img src="~/img/product/8.png" alt="Slide 4">
         </div>
-    </div>
-</section>
+    </section>
 
-<section id="client-review">
-    <div class="container">
-        <div class="client-review-slider">
-            <div>
-                <img src="~/images/pcm.jpg" alt="#">
-                <p>Hangd chất lượng !</p>
-                <h5>Cảm nhận của khách hàng : Lê thị mai</h5>
-            </div>
-            <div>
-                <img src="~/images/pcm.jpg" alt="#">
-                <p>Sợi lá dứa được xử lý an toàn, mang lại cảm giác nhẹ nhàng, mát mẻ cho làn da nhạy cảm của bé.</p>
-                <h5>Leader: Phạm Cao Minh</h5>
-            </div>
-            <div>
-                <img src="~/images/pcm.jpg" alt="#">
-                <p>Kích thước lý tưởng dành cho các bé mẫu giáo, tiểu học – vừa đủ ấm, vừa thoáng.</p>
-                <h5>Leader: Phạm Cao Minh</h5>
-            </div>
-            <div>
-                <img src="~/images/pcm.jpg" alt="#">
-                <p>Màu sắc nhã nhặn – phù hợp với không gian lớp học.</p>
-                <h5>Leader: Phạm Cao Minh</h5>
-            </div>
-            <div>
-                <img src="~/images/pcm.jpg" alt="#">
-                <p>Từ thiên nhiên đến giấc mơ – gối sạch lành cho bé ngủ lành.</p>
-                <h5>Leader: Phạm Cao Minh</h5>
-            </div>
+    <section class="features">
+        <div class="feature">
+            <img src="https://cdn-icons-png.flaticon.com/512/891/891462.png" alt="Free ship">
+            <p>Miễn phí giao hàng</p>
         </div>
+        <div class="feature">
+            <img src="https://cdn-icons-png.flaticon.com/512/747/747376.png" alt="Support 24/7" />
+            <p>Phục vụ 24/7</p>
+        </div>
+        <div class="feature">
+            <img src="https://cdn-icons-png.flaticon.com/512/3602/3602123.png" alt="48h delivery">
+            <p>Đổi trả trong 48h</p>
+        </div>
+    </section>
+
+    <div class="category-bar">Bạn đang tìm gì hôm nay?</div>
+    <div class="categories">
+        <a href="/Home/Details/2" class="category-link">
+            <img src="/img/3.png" alt="Gối lá dứa" class="category-icon" />
+            <p>Gối lá dứa</p>
+        </a>
+        <a href="/Home/Details/2" class="category-link">
+            <img src="/img/product/Lá dứa 1.png" alt="Chăn lá dứa" class="category-icon" />
+            <p>Chăn lá dứa</p>
+        </a>
+
+        <a href="/Home/Details/2" class="category-link">
+            <img src="/img/icons/gau-bong.png" alt="Gấu bông Sợi Tre" class="category-icon" />
+            <p>Gấu bông Sợi Tre</p>
+        </a>
+
+        <a href="/Home/Details/2" class="category-link">
+            <img src="/img/icons/goi-om.png" alt="Gối ôm Sợi Tre" class="category-icon" />
+            <p>Gối ôm Sợi Tre</p>
+        </a>
+
     </div>
-</section>
-<!-- CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 
-<!-- JS: jQuery & Slick -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
-<!-- JS: Khởi tạo slider -->
-<script>
-    $(document).ready(function () {
-        $('.client-review-slider').slick({
-            infinite: true,
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            autoplay: true,
-            autoplaySpeed: 3000,
-            arrows: false,
-            dots: true
+    <section class="video-section">
+        <div class="video-placeholder">
+            <iframe src="https://www.youtube.com/embed/C_cLdTqw65Q?autoplay=1&mute=1&loop=1&playlist=C_cLdTqw65Q" allowfullscreen></iframe>
+        </div>
+    </section>
+
+    <button class="cta-button" onclick="window.location.href='@Url.Action("Product", "Home")'">
+        NHẬN MÃ GIẢM GIÁ 30% HÔM NAY
+    </button>
+
+    <!-- truncated content before testimonials -->
+    <section class="testimonials">
+        <h2>Khách hàng nói gì về Sweet Dream ?</h2>
+        <div class="testimonial-slider-wrapper">
+            <div class="testimonial-list" id="testimonialSlider">
+                <div class="testimonial">
+                    <div class="testimonial-circle">
+                        <img src="~/img//author/avt1).png" alt="Avatar" />
+                    </div>
+                    <p><strong>Chị Mai Linh – Mẹ bé Gấu 5 tuổi</strong></p>
+                    <p>
+                        "Từ khi dùng bộ chăn gối lá dứa,
+                        con mình không còn bị đổ mồ hôi lưng hay
+                        ngứa ngáy mỗi khi ngủ trưa ở lớp. Nhìn con ngủ ngon là mình an tâm lắm!"
+                    </p>
+                    <p class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </p>
+
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-circle">
+                        <img src="~/img//author/avt2).png" alt="Avatar" />
+                    </div>
+                    <p>"Gối ôm sợi tre mềm mại, mùi thơm tự nhiên khiến bé nhà mình rất thích ôm ngủ. Bé ngủ sâu hơn hẳn so với trước kia."</p>
+                    <p class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </p>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-circle">
+                        <img src="~/img//author/avt3).png" alt="Avatar" />
+                    </div>
+                    <p><strong>Anh Quốc Huy – Bố bé Su</strong></p>
+                    <p>"Chất lượng vượt mong đợi! Chăn rất nhẹ nhưng lại giữ ấm tốt, an toàn cho làn da nhạy cảm của bé."</p>
+                    <p class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </p>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-circle">
+                        <img src="~/img//author/avt4).png" alt="Avatar" />
+                    </div>
+                    <p><strong>Chị Ngân Hà – Mẹ bé Cún</strong></p>
+                    <p>"Con mình thường hay quấy khóc đêm, từ khi dùng sản phẩm Sweet Dream thì bé ngủ liền mạch và ngon giấc hơn nhiều."</p>
+                    <p class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </p>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-circle">
+                        <img src="~/img//author/avt5).png" alt="Avatar" />
+                    </div>
+                    <p><strong>Chị Hồng Nhung – Mẹ bé Bắp</strong></p>
+                    <p>"Mình rất ấn tượng với cách đóng gói sản phẩm – sạch sẽ, chỉn chu, lại còn có mùi hương thảo dược dịu nhẹ."</p>
+                    <p class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </p>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-circle">
+                        <img src="~/img//author/avt6).png" alt="Avatar" />
+                    </div>
+                    <p><strong>Chị Thanh Trúc – Mẹ bé Mít</strong></p>
+                    <p>"Combo gối chăn rất xinh xắn, chất liệu an toàn cho da em bé. Mình đã mua làm quà tặng sinh nhật cho cháu gái, ai cũng khen."</p>
+                    <p class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </p>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-circle">
+                        <img src="~/img//author/avt7).png" alt="Avatar" />
+                    </div>
+                    <p><strong>Chị Diễm My – Mẹ bé Na</strong></p>
+                    <p>"Dịch vụ hỗ trợ cực tốt, tư vấn nhiệt tình. Đặt hàng hôm trước hôm sau đã có hàng, rất tiện lợi!"</p>
+                    <p class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </p>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-circle">
+                        <img src="~/img//author/avt8).png" alt="Avatar" />
+                    </div>
+                    <p><strong>Chị Kim Anh – Mẹ bé Tin</strong></p>
+                    <p>"Bé nhà mình mê mẩn chiếc gối ô vuông. Cứ ôm là ngủ, không cần ru nhiều như trước nữa. Cảm ơn Sweet Dream rất nhiều!"</p>
+                    <p class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </p>
+                </div>
+            </div>
+            <button id="prevBtn">‹</button>
+            <button id="nextBtn">›</button>
+        </div>
+
+
+
+    </section>
+    <script>
+        const slider = document.getElementById("testimonialSlider");
+        const testimonials = document.querySelectorAll(".testimonial");
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+
+        let currentIndex = 0;
+        let itemsPerView = 1;
+
+        function calculateItemsPerView() {
+            const containerWidth = document.querySelector('.testimonial-slider-wrapper').offsetWidth;
+            const cardMinWidth = 300;
+            itemsPerView = Math.floor(containerWidth / cardMinWidth) || 1;
+            testimonials.forEach(item => {
+                item.style.width = `${100 / itemsPerView}%`;
+            });
+        }
+
+        function updateSlider() {
+            const offset = -currentIndex * (100 / itemsPerView);
+            slider.style.transform = `translateX(${offset}%)`;
+        }
+
+        nextBtn.addEventListener("click", () => {
+            const maxIndex = testimonials.length - itemsPerView;
+            if (currentIndex < maxIndex) {
+                currentIndex++;
+            } else {
+                currentIndex = 0; // Reset về đầu
+            }
+            updateSlider();
         });
-    });
-</script>
 
+        prevBtn.addEventListener("click", () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+            } else {
+                currentIndex = testimonials.length - itemsPerView; // Chạy về cuối
+            }
+            updateSlider();
+        });
+
+        window.addEventListener('resize', () => {
+            calculateItemsPerView();
+            updateSlider();
+        });
+
+        // Auto slide
+        setInterval(() => {
+            const maxIndex = testimonials.length - itemsPerView;
+            if (currentIndex < maxIndex) {
+                currentIndex++;
+            } else {
+                currentIndex = 0;
+            }
+            updateSlider();
+        }, 5000);
+
+        // Initial setup
+        calculateItemsPerView();
+        updateSlider();
+    </script>
+
+
+
+    <script>
+        // --- Image slider ---
+        const sliders = document.querySelectorAll('.intro-slider img');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            sliders.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+        }
+
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % sliders.length;
+            showSlide(currentSlide);
+        }, 4000);
+
+
+
+    </script>
+
+    <script>
+        const sloganText = "✨ Giấc ngủ ngon mỗi ngày – Lớn khôn từng giấc !";
+        const sloganEl = document.getElementById("animated-slogan");
+
+        function startTypingLoop() {
+            sloganEl.textContent = ""; // Xóa nội dung cũ
+            let j = 0;
+
+            function typeSlogan() {
+                if (j < sloganText.length) {
+                    sloganEl.textContent += sloganText.charAt(j);
+                    j++;
+                    setTimeout(typeSlogan, 50); // tốc độ gõ
+                } else {
+                    setTimeout(startTypingLoop, 5000); // chờ 5s rồi gõ lại
+                }
+            }
+
+            typeSlogan(); // Đừng quên gọi hàm gõ!
+        }
+
+        startTypingLoop();
+    </script>
+
+</main>

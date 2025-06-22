@@ -37,7 +37,7 @@ namespace SweetDream.Models
         [Range(0, 100, ErrorMessage = "Discount must be between 0 and 100%.")]
         public int? Discount { get; set; }
 
-        [StringLength(500, ErrorMessage = "Description cannot exceed 500 characters.")]
+        [Column(TypeName = "nvarchar(max)")]
         public string Description { get; set; } = string.Empty;
 
         public bool Disable { get; set; } = false;

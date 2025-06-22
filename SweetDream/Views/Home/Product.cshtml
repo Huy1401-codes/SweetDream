@@ -3,10 +3,71 @@
 
 @{
     ViewData["Title"] = "Product List";
-
 }
 
-<!-- breadcrumb part start-->
+<style>
+    #product_grid {
+
+        gap: 20px; /* khoảng cách giữa các item */
+    }
+    /* Sản phẩm đơn lẻ */
+    .single_product_item {
+        background: #fff;
+        border: 1px solid #eee;
+        padding: 10px;
+        border-radius: 8px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+        /* Ảnh sản phẩm */
+        .single_product_item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        /* Hover hiệu ứng */
+        .single_product_item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Tên sản phẩm */
+        .single_product_item h3 {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        /* Thông tin chi tiết */
+        .single_product_item p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        /* Link sản phẩm */
+        .single_product_item a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+            .single_product_item a:hover {
+                text-decoration: underline;
+            }
+
+    /* Khoảng cách giữa các sản phẩm */
+    #product_grid > .col-lg-4 {
+        margin-bottom: 30px;
+    }
+</style>
+
 <section class="breadcrumb_part">
     <div class="container">
         <div class="row">
@@ -18,13 +79,12 @@
         </div>
     </div>
 </section>
-<!-- breadcrumb part end-->
-<!-- product list part start-->
+
 <section class="product_list section_padding">
     <div class="container">
         <div class="row">
             <!-- Sidebar -->
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="product_sidebar">
                     <div class="single_sedebar">
                         <form asp-controller="Home" asp-action="Product" method="get">
@@ -48,95 +108,88 @@
                             </div>
                         </form>
                     </div>
-
                 </div>
             </div>
 
             <!-- Product List -->
-            <div class="col-md-8">
-                <div class="product_list">
-                    <div class="row" id="product_grid">
-                        @foreach (var item in Model)
-                        {
-                            <div class="col-lg-4 col-sm-6 mb-4 single_product_item" data-title="@item.ProductName.ToLower()">
-                                <div>
-                                    <a asp-controller="Home" asp-action="Details" asp-route-id="@item.ProductId">
-                                        <img src="@Url.Content("~/img/product/" + item.Image)" alt="@item.ProductName" class="img-fluid" />
-                                    </a>
+            <div class="col-md-9">
+                <div class="row" id="product_grid">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-lg-4 col-md-6 single_product_item" data-title="@item.ProductName.ToLower()">
+                            <a asp-controller="Home" asp-action="Details" asp-route-id="@item.ProductId">
+                                <img src="@Url.Content("~/img/product/" + item.Image)" alt="@item.ProductName" class="img-fluid" />
+                            </a>
 
-                                    <h3 class="mt-2">
-                                        <a asp-controller="Home" asp-action="Details" asp-route-id="@item.ProductId">
-                                            @item.ProductName
-                                        </a>
-                                    </h3>
+                            <h3 class="mt-2">
+                                <a asp-controller="Home" asp-action="Details" asp-route-id="@item.ProductId">
+                                    @item.ProductName
+                                </a>
+                            </h3>
 
-                                    <p class="mb-1">
-                                        Kíck thước: <strong>@item.Size</strong>
-                                    </p>
+                            <p class="mb-1">
+                                Kích thước: <strong>@item.Size</strong>
+                            </p>
 
-                                    <p>
-                                        Giá tiền : @string.Format("{0:N0} ₫", item.Price)
-                                        @if (item.Discount.HasValue && item.Discount.Value > 0)
-                                        {
-                                            <span class="text-danger ml-2">(-@item.Discount%)</span>
-                                        }
-                                    </p>
-                                </div>
-                            </div>
-                        }
-                    </div>
-
-
-                    <!-- Pagination -->
-                    <div class="pagination_area text-center mt-4">
-                        <nav>
-                            <ul class="pagination justify-content-center">
-                                @if (Model.HasPreviousPage)
+                            <p>
+                                Giá tiền: @string.Format("{0:N0} ₫", item.Price)
+                                @if (item.Discount.HasValue && item.Discount.Value > 0)
                                 {
-                                    <li class="page-item">
-                                        <a class="page-link" href="@Url.Action("Product", new { page = Model.PageNumber - 1, search = ViewBag.Search })">Trước</a>
+                                    <span class="text-danger ml-2">(-@item.Discount%)</span>
+                                }
+                            </p>
+                        </div>
+                    }
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination_area text-center mt-4">
+                    <nav>
+                        <ul class="pagination justify-content-center">
+                            @if (Model.HasPreviousPage)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Product", new { page = Model.PageNumber - 1, search = ViewBag.Search })">Trước</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item disabled"><span class="page-link">Trước</span></li>
+                            }
+
+                            @for (int i = 1; i <= Model.PageCount; i++)
+                            {
+                                if (i == Model.PageNumber)
+                                {
+                                    <li class="page-item active">
+                                        <span class="page-link">@i</span>
                                     </li>
                                 }
                                 else
                                 {
-                                    <li class="page-item disabled"><span class="page-link">Trước</span></li>
-                                }
-
-                                @for (int i = 1; i <= Model.PageCount; i++)
-                                {
-                                    if (i == Model.PageNumber)
-                                    {
-                                        <li class="page-item active">
-                                            <span class="page-link">@i</span>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        <li class="page-item">
-                                            <a class="page-link" href="@Url.Action("Product", new { page = i, search = ViewBag.Search })">@i</a>
-                                        </li>   
-                                    }
-                                }
-
-                                @if (Model.HasNextPage)
-                                {
                                     <li class="page-item">
-                                        <a class="page-link" href="@Url.Action("Product", new { page = Model.PageNumber + 1, search = ViewBag.Search })">Tiếp theo</a>
+                                        <a class="page-link" href="@Url.Action("Product", new { page = i, search = ViewBag.Search })">@i</a>
                                     </li>
                                 }
-                                else
-                                {
-                                    <li class="page-item disabled"><span class="page-link">Tiếp theo</span></li>
-                                }
-                            </ul>
-                        </nav>
-                    </div>
+                            }
+
+                            @if (Model.HasNextPage)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Product", new { page = Model.PageNumber + 1, search = ViewBag.Search })">Tiếp theo</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item disabled"><span class="page-link">Tiếp theo</span></li>
+                            }
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<!-- product list part end-->
 
 <script>
     function filterProducts() {

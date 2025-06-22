@@ -1,35 +1,32 @@
-﻿<!--::footer_part start::-->
-<footer class="footer_part">
-   @*  <div class="footer_iner">
-        <div class="container">
-            <div class="row justify-content-between align-items-center">
-                <div class="col-lg-8">
-                    <div class="footer_menu">
-                        <div class="footer_logo">
-                            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                                <img src="~/img/logo123.png" alt="logo" style="width: 200px; height: auto;" />
-                            </a>
-                        </div>
-                        <div class="footer_menu_item">
-                            <a href="/Home">Home</a>
-                            <a href="about.html">About</a>
-                            <a href="product_list.html">Products</a>
-                            <a href="blog.html">Blog</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="social_icon">
-                        <a href="https://www.facebook.com/profile.php?id=61576980456718"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-google-plus-g"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> *@
+﻿<style>
+    .footer_info {
+        font-size: 16px;
+        color: #444;
+        max-width: 500px;
+    }
 
+    .footer_item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 8px;
+    }
+
+    .footer_icon {
+        width: 28px; /* cố định chiều rộng cho icon để text luôn thẳng hàng */
+        margin-right: 10px;
+        font-size: 20px;
+        line-height: 1.2;
+        flex-shrink: 0;
+    }
+
+    .footer_item p {
+        margin: 0;
+    }
+
+
+</style>
+<!--::footer_part start::-->
+<footer class="footer_part">
     <div class="copyright_part footer_iner">
         <div class="container">
             <div class="row ">
@@ -42,10 +39,20 @@
                                 </a>
                             </div>
                             <div class="footer_info">
-                                <p style="margin: 4px 0;"><strong>📞 Liên hệ tư vấn nhanh:</strong> 0977 662 111 (Mr. Cao Minh)</p>
-                                <p style="margin: 4px 0;"><strong>📍 Địa chỉ:</strong> Trường Đại học FPT</p>
-                                <p style="margin: 4px 0;">Khu Công nghệ cao Hòa Lạc, Km29 Đại lộ Thăng Long, huyện Thạch Thất, Hà Nội</p>
+                                <div class="footer_item">
+                                    <span class="footer_icon">📞</span>
+                                    <p><strong>Liên hệ tư vấn nhanh:</strong> 0977 662 111 (Mr. Cao Minh)</p>
+                                </div>
+                                <div class="footer_item">
+                                    <span class="footer_icon">📍</span>
+                                    <p><strong>Địa chỉ:</strong> Trường Đại học FPT -
+                                    Khu Công nghệ cao Hòa Lạc, Km29 Đại lộ Thăng Long, huyện Thạch Thất, Hà Nội</p>
+
+                                </div>
+                             
                             </div>
+
+
                         </div>
                     </div>
 
@@ -55,7 +62,7 @@
                             <a href="https://www.facebook.com/profile.php?id=61576980456718" target="_blank">
                                 <i class="fab fa-facebook-f"></i>
                             </a>
-                            <a href="https://shopee.vn/tenshopcuaban" target="_blank" class="shopee-icon">S</a>
+                            <a href="https://shopee.vn/ngocha2205?categoryId=100632&entryPoint=ShopByPDP&itemId=40953825714" target="_blank" class="shopee-icon">S</a>
                         </div>
                     </div>
 

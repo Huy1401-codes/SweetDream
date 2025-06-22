@@ -2,7 +2,156 @@
 @{
     ViewData["Title"] = "Product Details";
 }
+<style>
+    .single_product_area {
+        padding: 60px 0;
+        background-color: #fafafa;
+    }
 
+    .s_product_img img {
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .s_product_text h3 {
+        font-size: 28px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .s_product_text h2 {
+        font-size: 26px;
+        margin-bottom: 25px;
+    }
+
+    .s_product_text ul.list {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 25px;
+    }
+
+        .s_product_text ul.list li {
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #444;
+        }
+
+            .s_product_text ul.list li span {
+                font-weight: 600;
+                color: #222;
+                margin-right: 5px;
+            }
+
+    .product_count_area {
+        margin-bottom: 20px;
+    }
+
+    .product_count {
+        display: flex;
+        align-items: center;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        overflow: hidden;
+        width: fit-content;
+    }
+
+    .product_count_item {
+        padding: 10px 15px;
+        cursor: pointer;
+        font-size: 18px;
+        background-color: #fff;
+        border-right: 1px solid #ddd;
+    }
+
+    .product_count input {
+        border: none;
+        width: 60px;
+        text-align: center;
+        font-size: 16px;
+        outline: none;
+    }
+
+    .btn_3 {
+        background-color: #ff8b3d;
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        font-size: 16px;
+        border-radius: 6px;
+        transition: background 0.3s ease;
+        margin-right: 10px;
+    }
+
+        .btn_3:hover {
+            background-color: #ff6a00;
+            color: white;
+            text-decoration: none;
+        }
+
+    .s_product_text p {
+        font-size: 15px;
+        line-height: 1.7;
+        color: #555;
+        margin-top: 20px;
+
+
+
+    }
+
+    .button-group {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+        .button-group .btn_3 {
+            flex: 1 1 auto;
+            min-width: 150px;
+            text-align: center;
+        }
+
+    .quantity-label {
+        font-weight: 600;
+        color: #333;
+        white-space: nowrap;
+    }
+
+    .quantity-control {
+        display: flex;
+        align-items: center;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: #fff;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .qty-btn {
+        background-color: #f2f2f2;
+        border: none;
+        padding: 10px 16px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+        .qty-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+    .qty-input {
+        width: 60px;
+        height: 42px;
+        text-align: center;
+        border: none;
+        font-size: 16px;
+        outline: none;
+    }
+
+</style>
 <!-- breadcrumb part start-->
 <section class="breadcrumb_part">
     <div class="container">
@@ -44,7 +193,7 @@
                         <li><span>Giảm giá</span>: @(Model.Discount.HasValue ? Model.Discount + "%" : "No Discount")</li>
                         <li><span>Số lượng sản phẩm</span>: @Model.Quantity</li>
                     </ul>
-                    <p>@Model.Description</p>
+
 
                     <!-- Add to cart area -->
                     <div class="card_area">
@@ -52,32 +201,40 @@
                             <input type="hidden" name="productId" value="@Model.ProductId" />
                             <input type="hidden" name="redirectToCart" value="true" />
 
-                            <div class="product_count_area">
-                                <p>Số lượng mua</p>
-                                <div class="product_count d-inline-block">
-                                    <span class="product_count_item inumber-decrement">
-                                        <i class="ti-minus"></i>
-                                    </span>
-                                    <input class="product_count_item input-number" type="text" name="quantity" value="1" min="1" max="@Model.Quantity">
-                                    <span class="product_count_item number-increment">
-                                        <i class="ti-plus"></i>
-                                    </span>
+                            <div class="product_count_area ">
+                                <label>Số lượng mua: </label>
+                                <div class="quantity-control">
+                                    <button type="button" class="qty-btn qty-minus">−</button>
+                                    <input type="number" name="quantity" class="qty-input" value="1" min="1" max="@Model.Quantity" />
+                                    <button type="button" class="qty-btn qty-plus">+</button>
                                 </div>
                             </div>
 
-                            <div class="add_to_cart">
+
+                            <div class="button-group mt-4 d-flex gap-3 flex-wrap">
+                                <!-- Nút Mua luôn -->
                                 <button type="submit" class="btn_3">Mua luôn</button>
+
+                                <!-- Nút Thêm vào giỏ hàng -->
+                                <button type="submit" class="btn_3" formaction="@Url.Action("AddToCart", "ShoppingCart")" formmethod="post">Thêm vào giỏ hàng</button>
+
+                                <!-- Nút Trở về -->
+                                <a asp-controller="Home" asp-action="Product" class="btn_3">Trở về</a>
                             </div>
-                            <div class="mt-4">
-                                <a asp-controller="Home" asp-action="Index" class="btn_3">Trở về</a>
-                            </div>
+
                         </form>
                     </div>
+                   
                 </div>
             </div>
 
         </div>
+        <hr />
+        <h4 class="mt-4">Mô tả sản phẩm</h4>
+        <p>@Html.Raw(Model.Description)</p>
+
     </div>
+
 </section>
 
 <!--================ Feedback Section =================-->
@@ -152,9 +309,23 @@
 
 <!-- Custom CSS -->
 <link rel="stylesheet" href="~/css/product-details.css" asp-append-version="true" />
+<script>
+    document.querySelector('.qty-minus').addEventListener('click', function () {
+        const input = document.querySelector('.qty-input');
+        let value = parseInt(input.value);
+        if (value > 1) input.value = value - 1;
+    });
+
+    document.querySelector('.qty-plus').addEventListener('click', function () {
+        const input = document.querySelector('.qty-input');
+        let value = parseInt(input.value);
+        const max = parseInt(input.max);
+        if (value < max) input.value = value + 1;
+    });
+</script>
 
 <!-- Quantity increment/decrement script -->
-<script>
+@* <script>
     document.addEventListener("DOMContentLoaded", function () {
         const decrementBtn = document.querySelector(".inumber-decrement");
         const incrementBtn = document.querySelector(".number-increment");
@@ -171,4 +342,4 @@
             if (val < max) quantityInput.value = val + 1;
         });
     });
-</script>
+</script> *@
