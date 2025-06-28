@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SweetDream.Models;
 using SweetDream.Services;
 
@@ -108,6 +109,16 @@ namespace SweetDream.Controllers
 
             return View(account);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> CheckUsername(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            bool exists = user != null;
+            return Json(new { exists });
+        }
+
+
 
         public async Task<IActionResult> Logout()
         {

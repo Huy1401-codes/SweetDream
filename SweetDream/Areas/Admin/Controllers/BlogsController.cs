@@ -24,7 +24,7 @@ namespace SweetDream.Areas.Admin.Controllers
             _context = context;
             _hubContext = hubContext;
         }
-        //Get Blog
+
         public async Task<IActionResult> Index(int? page, string searchString, BlogStatus? statusFilter)
         {
             int pageSize = 5;
@@ -35,19 +35,16 @@ namespace SweetDream.Areas.Admin.Controllers
                 .Include(b => b.BlogCategory)
                 .AsQueryable();
 
-            // Tìm kiếm theo tiêu đề
             if (!string.IsNullOrEmpty(searchString))
             {
                 blogs = blogs.Where(b => b.Title.Contains(searchString));
             }
 
-            // Lọc theo trạng thái
             if (statusFilter.HasValue)
             {
                 blogs = blogs.Where(b => b.Status == statusFilter.Value);
             }
 
-            // Sắp xếp & phân trang
             var pagedList = await blogs
                 .OrderByDescending(b => b.CreatedAt)
                 .ToPagedListAsync(pageNumber, pageSize);
@@ -58,17 +55,19 @@ namespace SweetDream.Areas.Admin.Controllers
             return View(pagedList);
         }
 
-
-        //Create Blog
         public IActionResult Create()
         {
-            // Phương thức Create (GET)
-            ViewData["AuthorId"] = new SelectList(_context.Accounts, "Id", "FirstName");
+            var adminRoleId = _context.Roles.FirstOrDefault(r => r.Name.ToLower() == "admin")?.Id;
+
+            var adminAccounts = _context.Users
+                .Where(u => _context.UserRoles.Any(ur => ur.UserId == u.Id && ur.RoleId == adminRoleId))
+                .ToList();
+
+            ViewData["AuthorId"] = new SelectList(adminAccounts, "Id", "FirstName");
             ViewData["BlogCategoryId"] = new SelectList(_context.BlogCategories, "Id", "Name");
 
             return View();
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -90,7 +89,6 @@ namespace SweetDream.Areas.Admin.Controllers
             {
                 blog.CreatedAt = DateTime.Now;
 
-                // Image
                 if (ImageFile != null && ImageFile.Length > 0)
                 {
                     var fileName = Path.GetFileName(ImageFile.FileName);
@@ -108,20 +106,22 @@ namespace SweetDream.Areas.Admin.Controllers
 
                 _context.Add(blog);
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Blog Create successfully!";
+                TempData["SuccessMessage"] = "Blog created successfully!";
 
                 await _hubContext.Clients.All.SendAsync("ReceiveBlogUpdate");
                 return RedirectToAction(nameof(Index));
             }
 
-            // Load lại dropdown khi có lỗi
-            ViewData["AuthorId"] = new SelectList(_context.Accounts, "Id", "FirstName", blog.AuthorId);
-            ViewData["BlogCategoryId"] = new SelectList(_context.BlogCategories, "Id", "Name", blog.BlogCategoryId);
+            var adminRoleIdReload = _context.Roles.FirstOrDefault(r => r.Name.ToLower() == "admin")?.Id;
+            var adminAccountsReload = _context.Users
+                .Where(u => _context.UserRoles.Any(ur => ur.UserId == u.Id && ur.RoleId == adminRoleIdReload))
+                .ToList();
 
+            ViewData["AuthorId"] = new SelectList(adminAccountsReload, "Id", "FirstName", blog.AuthorId);
+            ViewData["BlogCategoryId"] = new SelectList(_context.BlogCategories, "Id", "Name", blog.BlogCategoryId);
 
             return View(blog);
         }
-
 
         public async Task<IActionResult> Edit(int? id)
         {
@@ -129,26 +129,22 @@ namespace SweetDream.Areas.Admin.Controllers
             var blog = await _context.Blogs.FindAsync(id);
             if (blog == null) return NotFound();
 
-            // Phương thức Edit (GET)
             ViewData["AuthorId"] = new SelectList(_context.Accounts, "Id", "FirstName");
             ViewData["BlogCategoryId"] = new SelectList(_context.BlogCategories, "Id", "Name");
 
             return View(blog);
         }
 
-        // POST: Blogs/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Blog model, string? status, IFormFile? ImageFile, string ExistingImageUrl)
         {
-            if (id != model.Id)
-                return NotFound();
+            if (id != model.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
                 if (ImageFile != null && ImageFile.Length > 0)
                 {
-                    // Upload ảnh mới
                     var fileName = Path.GetFileName(ImageFile.FileName);
                     var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", fileName);
                     using (var stream = new FileStream(filePath, FileMode.Create))
@@ -159,15 +155,14 @@ namespace SweetDream.Areas.Admin.Controllers
                 }
                 else
                 {
-                    // Giữ lại ảnh cũ nếu không upload ảnh mới
                     model.ImageUrl = ExistingImageUrl;
                 }
             }
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    // Chuyển string status (từ dropdown) về enum
                     if (!string.IsNullOrEmpty(status) && Enum.TryParse<BlogStatus>(status, out var statusEnum))
                     {
                         model.Status = statusEnum;
@@ -175,30 +170,26 @@ namespace SweetDream.Areas.Admin.Controllers
                     else
                     {
                         ModelState.AddModelError("Status", "Trạng thái không hợp lệ");
-                        // Chuẩn bị lại dữ liệu viewbag nếu lỗi
                         PrepareViewBagForEdit(model);
                         return View(model);
                     }
 
-                    // Cập nhật thời gian chỉnh sửa
                     model.UpdatedAt = DateTime.Now;
 
                     _context.Update(model);
                     await _context.SaveChangesAsync();
-                    TempData["SuccessMessage"] = "Blog Update successfully!";
+                    TempData["SuccessMessage"] = "Blog updated successfully!";
                     await _hubContext.Clients.All.SendAsync("ReceiveBlogUpdate");
-
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BlogExists(model.Id))
-                        return NotFound();
-                    else
-                        throw;
+                    if (!BlogExists(model.Id)) return NotFound();
+                    else throw;
                 }
 
                 return RedirectToAction(nameof(Index));
             }
+
             PrepareViewBagForEdit(model);
             return View(model);
         }
@@ -211,45 +202,37 @@ namespace SweetDream.Areas.Admin.Controllers
         private void PrepareViewBagForEdit(Blog model)
         {
             ViewBag.StatusList = Enum.GetValues(typeof(BlogStatus))
-                                    .Cast<BlogStatus>()
-                                    .Select(s => new SelectListItem
-                                    {
-                                        Text = s.ToString(),
-                                        Value = s.ToString(),
-                                        Selected = (s == model.Status)
-                                    }).ToList();
+                .Cast<BlogStatus>()
+                .Select(s => new SelectListItem
+                {
+                    Text = s.ToString(),
+                    Value = s.ToString(),
+                    Selected = (s == model.Status)
+                }).ToList();
 
             ViewBag.BlogCategoryList = _context.BlogCategories
-                                            .Select(c => new SelectListItem
-                                            {
-                                                Text = c.Name,
-                                                Value = c.Id.ToString(),
-                                                Selected = (c.Id == model.BlogCategoryId)
-                                            }).ToList();
+                .Select(c => new SelectListItem
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString(),
+                    Selected = (c.Id == model.BlogCategoryId)
+                }).ToList();
         }
 
-        //Detail Blog
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var blog = await _context.Blogs
                 .Include(b => b.Author)
                 .Include(b => b.BlogCategory)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (blog == null)
-            {
-                return NotFound();
-            }
+            if (blog == null) return NotFound();
 
             return View(blog);
         }
 
-        //Delete BLog
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
@@ -263,7 +246,6 @@ namespace SweetDream.Areas.Admin.Controllers
                     await _context.SaveChangesAsync();
                     TempData["SuccessMessage"] = "Blog deleted successfully!";
                     await _hubContext.Clients.All.SendAsync("ReceiveBlogUpdate");
-
                 }
                 else
                 {
@@ -273,7 +255,5 @@ namespace SweetDream.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
     }
-
 }

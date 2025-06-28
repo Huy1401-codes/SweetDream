@@ -158,42 +158,98 @@
     @await Html.PartialAsync("_ValidationScriptsPartial")
 
     <script>
+        let isUsernameTaken = false; // Biến toàn cục
+
         document.addEventListener("DOMContentLoaded", function () {
             const form = document.querySelector("form");
             const passwordInput = form.querySelector("input[name='PasswordHash']");
             const confirmPasswordInput = form.querySelector("input[name='ConfirmPassword']");
+            const usernameInput = document.querySelector("input[name='UserName']");
+            const submitButton = form.querySelector("button[type='submit']");
+            const phoneInput = document.querySelector("input[name='PhoneNumber']");
 
+            phoneInput.addEventListener("input", function () {
+                this.value = this.value.replace(/\D/g, "");
+            });
+
+            // Thêm span lỗi cho mật khẩu
             let passwordError = document.createElement("span");
             passwordError.className = "text-danger password-error";
             passwordInput.insertAdjacentElement('afterend', passwordError);
 
+            // Thêm span lỗi cho xác nhận mật khẩu
             let confirmError = document.createElement("span");
             confirmError.className = "text-danger confirm-error";
             confirmPasswordInput.insertAdjacentElement('afterend', confirmError);
 
+            // Thêm span lỗi cho username
+            let usernameError = document.createElement("span");
+            usernameError.className = "text-danger";
+            usernameInput.insertAdjacentElement("afterend", usernameError);
+
+            // Kiểm tra username trùng bằng fetch
+            let timeoutId;
+            usernameInput.addEventListener("input", function () {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => {
+                    const username = usernameInput.value.trim();
+                    if (username.length === 0) {
+                        usernameError.textContent = "";
+                        isUsernameTaken = false;
+                        return;
+                    }
+
+                    fetch(`/Authentication/CheckUsername?username=${encodeURIComponent(username)}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.exists) {
+                                usernameError.textContent = "Tên đăng nhập đã tồn tại.";
+                                isUsernameTaken = true;
+                            } else {
+                                usernameError.textContent = "";
+                                isUsernameTaken = false;
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Lỗi kiểm tra username:", error);
+                            usernameError.textContent = "Không thể kiểm tra username.";
+                            isUsernameTaken = true;
+                        });
+                }, 400);
+            });
+
+            // Validate toàn bộ form khi submit
             form.addEventListener("submit", function (e) {
                 passwordError.textContent = "";
                 confirmError.textContent = "";
+                usernameError.textContent = "";
 
                 const password = passwordInput.value;
                 const confirmPassword = confirmPasswordInput.value;
-
                 const passwordRegex = /^[A-Z](?=.*\d)(?=.*[\W_]).{6,}[\W_]$/;
 
                 let valid = true;
 
+                // Validate mật khẩu
                 if (!passwordRegex.test(password)) {
                     passwordError.textContent = "Mật khẩu phải bắt đầu bằng chữ in hoa, ≥ 8 ký tự, chứa số và kết thúc bằng ký tự đặc biệt.";
                     valid = false;
                 }
 
+                // Validate xác nhận mật khẩu
                 if (password !== confirmPassword) {
                     confirmError.textContent = "Mật khẩu xác nhận không khớp.";
                     valid = false;
                 }
 
+                // Kiểm tra username đã bị trùng chưa
+                if (isUsernameTaken) {
+                    usernameError.textContent = "Tên đăng nhập đã tồn tại.";
+                    valid = false;
+                }
+
                 if (!valid) {
-                    e.preventDefault();
+                    e.preventDefault(); // chặn submit
                 }
             });
         });
